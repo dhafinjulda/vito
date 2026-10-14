@@ -5,15 +5,15 @@ Framework-independent browser glasses try-on. Camera/face/hand processing stays 
 ## Install a local release candidate
 
 ```sh
-pnpm add /absolute/path/dhafin-julda-sdk-0.1.0.tgz
+pnpm add /absolute/path/vito-sdk-0.1.0.tgz
 ```
 
-The package is not yet published to npm. `@dhafin-julda` is the selected account scope.
+The package is not yet published to npm. Its unscoped name is `vito-sdk`.
 Publication is a separate owner action. Original code is
 licensed CPAL-1.0; see LICENSE and NOTICE included in this package.
 
 ```ts
-import { createVirtualTryOn } from '@dhafin-julda/sdk';
+import { createVirtualTryOn } from 'vito-sdk';
 const tryOn = createVirtualTryOn({ container, glassesUrl: '/glasses.glb' });
 // Give container an explicit size. Start from a user action:
 await tryOn.start();

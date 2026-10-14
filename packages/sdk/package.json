@@ -1,5 +1,5 @@
 {
-  "name": "@dhafin-julda/sdk",
+  "name": "vito-sdk",
   "version": "0.1.0",
   "type": "module",
   "private": false,

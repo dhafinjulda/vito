@@ -1,5 +1,5 @@
 {
-  "name": "@dhafin-julda/asset-generator",
+  "name": "vito-asset-generator",
   "version": "0.1.0",
   "private": false,
   "type": "module",

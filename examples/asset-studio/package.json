@@ -9,8 +9,8 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@dhafin-julda/asset-generator": "workspace:*",
-    "@dhafin-julda/sdk": "workspace:*",
+    "vito-asset-generator": "workspace:*",
+    "vito-sdk": "workspace:*",
     "three": "0.176.0"
   },
   "devDependencies": {

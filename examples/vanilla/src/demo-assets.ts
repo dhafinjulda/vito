@@ -7,7 +7,7 @@
  * Third-party portions retain their licenses; see THIRD_PARTY_NOTICES.md.
  */
 import manifest from './glasses-manifest.json';
-import type { GlassesAsset, GlassesFit } from '@dhafin-julda/sdk';
+import type { GlassesAsset, GlassesFit } from 'vito-sdk';
 
 export const demoGlassesManifest = manifest;
 

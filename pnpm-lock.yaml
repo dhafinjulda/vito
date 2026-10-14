@@ -26,15 +26,15 @@ importers:
 
   examples/asset-studio:
     dependencies:
-      '@dhafin-julda/asset-generator':
-        specifier: workspace:*
-        version: link:../../packages/asset-generator
-      '@dhafin-julda/sdk':
-        specifier: workspace:*
-        version: link:../../packages/sdk
       three:
         specifier: 0.176.0
         version: 0.176.0
+      vito-asset-generator:
+        specifier: workspace:*
+        version: link:../../packages/asset-generator
+      vito-sdk:
+        specifier: workspace:*
+        version: link:../../packages/sdk
     devDependencies:
       '@types/three':
         specifier: 0.176.0
@@ -42,7 +42,7 @@ importers:
 
   examples/vanilla:
     dependencies:
-      '@dhafin-julda/sdk':
+      vito-sdk:
         specifier: workspace:*
         version: link:../../packages/sdk
     devDependencies:

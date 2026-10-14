@@ -53,11 +53,13 @@ were disabled or CI stages skipped to obtain this successful result.
 
 ## npm scope / publication
 
-Owner reported `npm whoami` as **dhafin-julda** on 14 October. Selected account
-scope: **@dhafin-julda**, using @dhafin-julda/sdk and
-@dhafin-julda/asset-generator. The Vito brand and repository URL are unchanged.
+Owner reported `npm whoami` as **dhafin-julda** on 14 October, then selected the
+unscoped names **vito-sdk** and **vito-asset-generator**. The account remains the
+publisher identity; no organization scope is needed for these names. Both public
+registry lookups returned HTTP404 on 14 October. This is not a name reservation
+or proof that a real publish will succeed. The Vito brand/repository are unchanged.
 Package names, example imports/workspace dependencies, filters and current
-readmes use this scope; historical evidence retains its original package names.
+readmes use these names; historical evidence retains its original package names.
 Both packages now have private:false and public publishConfig so they can be
 published when requested. Root/examples remain private. No actual npm publish
 has been performed; interactive authentication/2FA and registry version checks
@@ -73,7 +75,7 @@ pnpm test
 pnpm --dir packages/sdk pack --pack-destination ../../.benchmarks/packages
 pnpm --dir packages/asset-generator pack --pack-destination ../../.benchmarks/packages
 # In a separate consumer project:
-pnpm add /absolute/path/dhafin-julda-sdk-0.1.0.tgz /absolute/path/dhafin-julda-asset-generator-0.1.0.tgz
+pnpm add /absolute/path/vito-sdk-0.1.0.tgz /absolute/path/vito-asset-generator-0.1.0.tgz
 ```
 
 From the repository root, inspect the npm candidates without publication:

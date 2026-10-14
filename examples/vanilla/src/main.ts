@@ -6,7 +6,7 @@
  * Initial Developer: Dhafin Julda Riyanto. Provided AS IS, without warranty.
  * Third-party portions retain their licenses; see THIRD_PARTY_NOTICES.md.
  */
-import { createVirtualTryOn, type SessionStatus, type GlassesAsset } from '@dhafin-julda/sdk';
+import { createVirtualTryOn, type SessionStatus, type GlassesAsset } from 'vito-sdk';
 import { demoGlassesManifest, getDemoFit, getDemoGlassesAssets } from './demo-assets';
 import { registerOfflineExample } from './offline';
 import './style.css';

@@ -9,7 +9,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@dhafin-julda/sdk": "workspace:*"
+    "vito-sdk": "workspace:*"
   },
   "devDependencies": {
     "@types/three": "0.176.0"

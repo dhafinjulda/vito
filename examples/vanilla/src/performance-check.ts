@@ -6,7 +6,7 @@
  * Initial Developer: Dhafin Julda Riyanto. Provided AS IS, without warranty.
  * Third-party portions retain their licenses; see THIRD_PARTY_NOTICES.md.
  */
-import type {VirtualTryOn,TrackingHealth} from '@dhafin-julda/sdk';
+import type {VirtualTryOn,TrackingHealth} from 'vito-sdk';
 import './style.css';
 
 interface BenchmarkConfig {sdkUrl:string;durationMs?:number;repeats?:number;warmupMs?:number;presentation?:'direct'|'interpolated'|'predicted';adaptiveQuality?:boolean}
@@ -22,7 +22,7 @@ async function benchmark(config:BenchmarkConfig) {
   if(running)throw new Error('Benchmark already running.');
   const url=new URL(config.sdkUrl,location.href);
   if(url.origin!==location.origin||!url.pathname.endsWith('/vto-sdk.js'))throw new Error('Use a same-origin built SDK URL.');
-  const sdk=await import(/* @vite-ignore */url.href) as typeof import('@dhafin-julda/sdk');
+  const sdk=await import(/* @vite-ignore */url.href) as typeof import('vito-sdk');
   running=true;cancelled=false;state.phase='running';state.runs=[];state.error=null;start.disabled=true;cancel.disabled=false;
   const originalWorker=window.Worker,originalGum=navigator.mediaDevices.getUserMedia;
   let worker:Worker|null=null,completionCount=0,activateHands=false,nativeHandsReady=false,handResolve:(()=>void)|null=null,handReject:((error:Error)=>void)|null=null;

@@ -1,0 +1,44 @@
+
+> vito-asset-generator@0.1.0 prepack
+> pnpm run build
+
+
+> vito-asset-generator@0.1.0 build C:\Projects\VTO\packages\asset-generator
+> vite build && tsc -p tsconfig.build.json --emitDeclarationOnly --declaration --noEmit false --outDir dist/types && node ../../scripts/copy-generator-notices.mjs && node ../../scripts/copy-project-license.mjs asset-generator
+
+vite v6.3.7 building for production...
+transforming...
+✓ 7 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/asset-generator.js  92.15 kB │ gzip: 26.60 kB │ map: 248.27 kB
+✓ built in 403ms
+npm notice
+npm notice 📦  vito-asset-generator@0.1.0
+npm notice Tarball Contents
+npm notice 27.7kB LICENSE
+npm notice 1.7kB NOTICE
+npm notice 1.6kB README.md
+npm notice 92.2kB dist/asset-generator.js
+npm notice 248.3kB dist/asset-generator.js.map
+npm notice 1.1kB dist/licenses/Three.txt
+npm notice 381B dist/THIRD_PARTY_NOTICES.md
+npm notice 817B dist/types/description.d.ts
+npm notice 458B dist/types/export.d.ts
+npm notice 2.7kB dist/types/generate.d.ts
+npm notice 2.7kB dist/types/geometry.d.ts
+npm notice 1.1kB dist/types/index.d.ts
+npm notice 1.8kB dist/types/recipe.d.ts
+npm notice 1.5kB package.json
+npm notice Tarball Details
+npm notice name: vito-asset-generator
+npm notice version: 0.1.0
+npm notice filename: vito-asset-generator-0.1.0.tgz
+npm notice package size: 104.4 kB
+npm notice unpacked size: 383.8 kB
+npm notice shasum: a7dee0ac643c26b2d232806947472b5cb5235517
+npm notice integrity: sha512-wscbVW4rFr38n[...]bkWNGZgUz07wg==
+npm notice total files: 14
+npm notice
+npm notice Publishing to https://registry.npmjs.org/ with tag latest and public access (dry-run)
++ vito-asset-generator@0.1.0

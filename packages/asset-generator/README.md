@@ -5,15 +5,15 @@ Creates round, rectangle and cat-eye glasses GLBs locally from a description
 or recipe; supports solid acetate/metal presets. Geometry is an approximation.
 
 ```sh
-pnpm add /absolute/path/dhafin-julda-asset-generator-0.1.0.tgz
+pnpm add /absolute/path/vito-asset-generator-0.1.0.tgz
 ```
 
-Not yet published. Selected npm account scope: @dhafin-julda. Original code
+Not yet published. Its unscoped npm name is `vito-asset-generator`. Original code
 is licensed CPAL-1.0; LICENSE and NOTICE are included. Preserve the attribution
 and source/network obligations defined there; upstream code retains its license.
 
 ```ts
-import { generateGlassesAsset } from '@dhafin-julda/asset-generator';
+import { generateGlassesAsset } from 'vito-asset-generator';
 const asset = await generateGlassesAsset({
   description: 'Kacamata bulat acetate hitam, lensa bening, 52-18-140',
 });

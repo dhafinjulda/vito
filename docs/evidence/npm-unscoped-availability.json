@@ -1,0 +1,11 @@
+{
+  "date": "2026-10-14",
+  "registry": "https://registry.npmjs.org/",
+  "packages": [
+    {"name": "vito-sdk", "status": 404, "error": "Not found"},
+    {"name": "vito-asset-generator", "status": 404, "error": "Not found"}
+  ],
+  "account": "dhafin-julda (owner-provided npm whoami)",
+  "publicationPerformed": false,
+  "limitation": "No publicly visible package found at check time. Names are not reserved and real publication permissions are not established by lookup or dry-run."
+}
