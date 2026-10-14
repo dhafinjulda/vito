@@ -35,12 +35,20 @@ importers:
       three:
         specifier: 0.176.0
         version: 0.176.0
+    devDependencies:
+      '@types/three':
+        specifier: 0.176.0
+        version: 0.176.0
 
   examples/vanilla:
     dependencies:
       '@vto/sdk':
         specifier: workspace:*
         version: link:../../packages/sdk
+    devDependencies:
+      '@types/three':
+        specifier: 0.176.0
+        version: 0.176.0
 
   packages/asset-generator:
     dependencies:

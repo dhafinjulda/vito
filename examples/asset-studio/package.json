@@ -2,6 +2,18 @@
   "name": "asset-studio-example",
   "private": true,
   "type": "module",
-  "scripts": { "dev": "vite --host 0.0.0.0", "build": "vite build", "preview": "vite preview --host 0.0.0.0 --port 4174 --strictPort", "typecheck": "tsc --noEmit" },
-  "dependencies": { "@vto/asset-generator": "workspace:*", "@vto/sdk": "workspace:*", "three": "0.176.0" }
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "build": "vite build",
+    "preview": "vite preview --host 0.0.0.0 --port 4174 --strictPort",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@vto/asset-generator": "workspace:*",
+    "@vto/sdk": "workspace:*",
+    "three": "0.176.0"
+  },
+  "devDependencies": {
+    "@types/three": "0.176.0"
+  }
 }
