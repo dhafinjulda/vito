@@ -13,6 +13,7 @@
     "preview:studio": "pnpm --filter asset-studio-example preview"
   },
   "devDependencies": {
+    "three": "0.176.0",
     "jsdom": "26.1.0",
     "typescript": "~5.8.3",
     "vite": "~6.3.5",

@@ -35,19 +35,26 @@ Updated 14 October 2026 (Asia/Jakarta). Product direction: browser SDK first; we
 - [x] Two tarballs packed and installed via pnpm; public imports pass.
 - [x] Owner-approved CPAL-1.0 / Dhafin Julda Riyanto attribution and repository URL.
 - [x] Public repository created: https://github.com/dhafinjulda/vito.
-- [ ] Initial source push and remote commit confirmation.
+- [x] Initial source pushed to main and confirmed: `76684a19ec7cd064694535ed9e3ae6894742c210`.
 - [ ] Owned npm scope / explicitly authorized registry release.
 
 See [PUBLIC_RELEASE_PLAN.md](docs/PUBLIC_RELEASE_PLAN.md). Packages remain
 CPAL-1.0 package metadata adopted on 14 October; packages stay private pending
 registry scope ownership and explicit npm publication request. Initial push
-is in progress; personal portrait/env/build artifacts are excluded.
+is complete; personal portrait/env/build artifacts are excluded.
 
 14 October release checks: workspace build/typecheck exited0; both fresh pnpm
 tarballs packed with CPAL LICENSE/NOTICE, SDK worker and public declaration type
 dependencies. Logs: `docs/evidence/github-public-*.txt`. First restricted pnpm
 attempt hit sandbox EPERM; approved retry succeeded. No npm publication or new
 real-camera/device acceptance. GitHub CI will verify the pushed source separately.
+
+Initial Git push rejected missing OAuth workflow scope. GitHub integration created
+the CI workflow successfully; its commit was merged before the source push.
+First source CI run `38526219434` failed at build on clean Ubuntu: root asset
+scripts imported Three.js without a root dependency (Windows had an incidental
+local symlink). Added pinned root devDependency and refreshed lockfile. CI result
+for the correction remains pending; no false remote acceptance is claimed.
 
 Owner requires Vito brand retention and requested @vito/sdk / @vito/asset-generator.
 13 October anonymous registry checks returned404 for both packages; @vito scope

@@ -1,7 +1,8 @@
 # Public repository and package preparation
 
 Updated 14 October 2026. Repository: https://github.com/dhafinjulda/vito.
-Public repository created; initial source push in progress. No npm publication.
+Public repository and initial source push confirmed, main at `76684a19ec7cd064694535ed9e3ae6894742c210`.
+No npm publication.
 
 ## Adopted license
 

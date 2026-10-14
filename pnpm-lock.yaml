@@ -11,6 +11,9 @@ importers:
       jsdom:
         specifier: 26.1.0
         version: 26.1.0
+      three:
+        specifier: 0.176.0
+        version: 0.176.0
       typescript:
         specifier: ~5.8.3
         version: 5.8.3

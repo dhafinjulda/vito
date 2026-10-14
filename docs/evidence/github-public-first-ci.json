@@ -1,0 +1,14 @@
+{
+  "date": "2026-10-14",
+  "repository": "dhafinjulda/vito",
+  "commit": "76684a19ec7cd064694535ed9e3ae6894742c210",
+  "workflowRun": 38526219434,
+  "job": 115727071611,
+  "result": "failure",
+  "stage": "pnpm build",
+  "install": "pnpm install --frozen-lockfile succeeded",
+  "error": "ERR_MODULE_NOT_FOUND: Cannot find package three imported from scripts/build-demo-glasses.mjs",
+  "cause": "Root build scripts lacked a declared root Three.js dependency; local environment had an incidental symlink.",
+  "correction": "Pin three 0.176.0 in root devDependencies and refresh lockfile.",
+  "url": "https://github.com/dhafinjulda/vito/actions/runs/38526219434"
+}
