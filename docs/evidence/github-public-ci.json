@@ -1,0 +1,16 @@
+{
+  "date": "2026-10-14",
+  "repository": "https://github.com/dhafinjulda/vito",
+  "visibility": "public",
+  "branch": "main",
+  "sourceCommit": "b37e102ee382c301a78d206ba4f15022a6e5de54",
+  "workflowRun": 38526776394,
+  "job": 115728883705,
+  "url": "https://github.com/dhafinjulda/vito/actions/runs/38526776394",
+  "result": "success",
+  "steps": ["checkout", "frozen pnpm install", "workspace build", "workspace typecheck", "tests", "SDK pack", "generator pack", "artifact upload"],
+  "license": "CPAL-1.0",
+  "copyrightHolder": "Dhafin Julda Riyanto",
+  "packagePublication": "not performed",
+  "limitations": "CI uses clean Ubuntu and synthetic fixtures, not a physical camera or verified supplier SKU. npm scope ownership remains unresolved."
+}

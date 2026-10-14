@@ -56,6 +56,15 @@ scripts imported Three.js without a root dependency (Windows had an incidental
 local symlink). Added pinned root devDependency and refreshed lockfile. CI result
 for the correction remains pending; no false remote acceptance is claimed.
 
+**Remote acceptance — 14 October:** source commit
+`b37e102ee382c301a78d206ba4f15022a6e5de54` passed Ubuntu CI run
+`38526776394`: frozen install, build, all workspace typechecks, tests, two
+package builds and uploaded tarball artifact. A second clean-checkout issue
+required direct @types/three devDependencies in both examples; fixed before
+this successful run. Evidence: `docs/evidence/github-public-ci.json`.
+Working source is public under approved CPAL-1.0. npm remains unpublished;
+real-camera/device/SKU qualification is separate from CI.
+
 Owner requires Vito brand retention and requested @vito/sdk / @vito/asset-generator.
 13 October anonymous registry checks returned404 for both packages; @vito scope
 ownership could not be verified (user endpoint401 / npm website403); owner has

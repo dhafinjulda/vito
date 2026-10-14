@@ -1,7 +1,9 @@
 # Public repository and package preparation
 
 Updated 14 October 2026. Repository: https://github.com/dhafinjulda/vito.
-Public repository and initial source push confirmed, main at `76684a19ec7cd064694535ed9e3ae6894742c210`.
+Public repository and source push confirmed. Initial main commit
+`76684a19ec7cd064694535ed9e3ae6894742c210`; corrected source
+`b37e102ee382c301a78d206ba4f15022a6e5de54` passed complete Ubuntu CI.
 No npm publication.
 
 ## Adopted license
@@ -40,6 +42,18 @@ Standard text source: https://github.com/spdx/license-list-data/blob/main/text/C
   still open. No new live-camera acceptance is claimed by Git publication.
 
 ## Remaining registry gate
+
+## Remote CI evidence
+
+[Run 38526776394](https://github.com/dhafinjulda/vito/actions/runs/38526776394)
+completed successfully: frozen pnpm install, build, typecheck, tests, both pack
+commands and artifact upload. Clean Ubuntu revealed missing root Three.js and
+direct example types that the local environment had masked; both are corrected.
+Git push initially lacked workflow OAuth scope; the connected GitHub integration
+created CI, and its commit was merged before pushing source. No permissions
+were disabled or CI stages skipped to obtain this successful result.
+
+## npm scope / publication
 
 Candidate names: @vito/sdk and @vito/asset-generator. Anonymous registry checks
 on 13 October returned404 for both; this does not establish scope availability
