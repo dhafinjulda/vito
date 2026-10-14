@@ -1,6 +1,6 @@
 {
   "name": "vito-sdk",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "type": "module",
   "private": false,
   "exports": {
@@ -38,7 +38,11 @@
     "glasses",
     "browser",
     "typescript",
-    "threejs"
+    "threejs",
+    "webar",
+    "mediapipe",
+    "face-tracking",
+    "sdk"
   ],
   "publishConfig": {
     "access": "public"
@@ -49,7 +53,7 @@
     "url": "git+https://github.com/dhafinjulda/vito.git",
     "directory": "packages/sdk"
   },
-  "homepage": "https://github.com/dhafinjulda/vito#readme",
+  "homepage": "https://github.com/dhafinjulda/vito/tree/main/packages/sdk#readme",
   "bugs": {
     "url": "https://github.com/dhafinjulda/vito/issues"
   }

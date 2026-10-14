@@ -27,6 +27,30 @@ Updated 14 October 2026 (Asia/Jakarta). Product direction: browser SDK first; we
 
 ## Milestones and acceptance criteria
 
+### M14 — npm package page documentation
+
+- [x] Inspect the live npm page and public registry metadata.
+- [x] Replace the SDK's local-release stub with installation, complete camera quick start, asset generation/calibration, typed API, options, self-hosting, troubleshooting, privacy and CPAL attribution guidance.
+- [x] Prepare SDK version0.1.1 with package-specific homepage and discovery keywords.
+- [x] Workspace typecheck and SDK prepack/build/publish dry-run pass (exit0).
+- [ ] Publish version0.1.1 after explicit owner authorization and verify the live README.
+
+14 October observation: registry latest is0.1.0 for both vito-sdk and
+vito-asset-generator. The SDK registry README still said “not yet published”.
+The npm browser page showed0.0.0-stage / “Temporary Holding Version” even
+after reload. This registry/frontend discrepancy is recorded without assuming
+its cause or claiming stage approval is complete. Evidence:
+`docs/evidence/npm-page-audit.json`.
+
+Prepared README is included in the0.1.1 dry-run tarball (11.7kB;46files,
+289.6kB compressed). Logs: `docs/evidence/npm-page-sdk-dry-run.txt` and
+`docs/evidence/npm-page-typecheck.txt`. No runtime algorithms changed, local
+test suite or camera/device check ran, or npm publication was performed by
+the agent in this update. npm updates its displayed README on a new version
+publication: https://docs.npmjs.com/about-package-readme-files/.
+For the displayed staging placeholder, see
+https://docs.npmjs.com/staged-publishing/; publishing/approval remains an owner action.
+
 ### M13 — Public repository / pnpm package preparation
 
 - [x] Package metadata/readmes, fresh prepack builds, typed ESM exports.
@@ -64,7 +88,7 @@ for the correction remains pending; no false remote acceptance is claimed.
 package builds and uploaded tarball artifact. A second clean-checkout issue
 required direct @types/three devDependencies in both examples; fixed before
 this successful run. Evidence: `docs/evidence/github-public-ci.json`.
-Working source is public under approved CPAL-1.0. npm remains unpublished;
+Working source is public under approved CPAL-1.0. npm was unpublished at that checkpoint (later registry observation is in M14);
 real-camera/device/SKU qualification is separate from CI.
 
 **npm account scope — 14 October:** owner supplied `npm whoami: dhafin-julda`.

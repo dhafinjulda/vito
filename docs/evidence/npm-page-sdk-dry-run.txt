@@ -1,0 +1,78 @@
+
+> vito-sdk@0.1.1 prepack
+> pnpm run build
+
+
+> vito-sdk@0.1.1 build C:\Projects\VTO\packages\sdk
+> vite build && tsc -p tsconfig.build.json --emitDeclarationOnly --declaration --noEmit false --outDir dist/types && node ../../scripts/copy-sdk-notices.mjs && node ../../scripts/copy-project-license.mjs sdk
+
+vite v6.3.7 building for production...
+transforming...
+✓ 31 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/assets/face-worker-CZkKssiX.js  179.52 kB
+dist/vto-sdk.js                      128.50 kB │ gzip: 37.13 kB │ map: 342.14 kB
+✓ built in 1.11s
+Included third-party notices and license texts in SDK distribution.
+npm notice
+npm notice 📦  vito-sdk@0.1.1
+npm notice Tarball Contents
+npm notice 27.7kB LICENSE
+npm notice 1.7kB NOTICE
+npm notice 11.7kB README.md
+npm notice 179.5kB dist/assets/face-worker-CZkKssiX.js
+npm notice 390.4kB dist/assets/face-worker-CZkKssiX.js.map
+npm notice 12.3kB dist/licenses/MediaPipe.txt
+npm notice 1.1kB dist/licenses/Three.txt
+npm notice 1.1kB dist/licenses/WebAR.rocks.face-MIT.txt
+npm notice 957B dist/THIRD_PARTY_NOTICES.md
+npm notice 496B dist/types/assets/AssetReadiness.d.ts
+npm notice 251B dist/types/branding/CameraBrandmark.d.ts
+npm notice 775B dist/types/diagnostics/FeaturePolicy.d.ts
+npm notice 773B dist/types/diagnostics/QualityGovernor.d.ts
+npm notice 720B dist/types/diagnostics/RuntimeMetrics.d.ts
+npm notice 613B dist/types/glasses/asset-metadata.d.ts
+npm notice 735B dist/types/glasses/calibration.d.ts
+npm notice 339B dist/types/glasses/coordinates.d.ts
+npm notice 638B dist/types/glasses/face-topology.d.ts
+npm notice 1.7kB dist/types/glasses/fitting.d.ts
+npm notice 504B dist/types/glasses/pose.d.ts
+npm notice 1.2kB dist/types/glasses/PosePresentation.d.ts
+npm notice 513B dist/types/glasses/PoseSmoother.d.ts
+npm notice 652B dist/types/index.d.ts
+npm notice 1.4kB dist/types/interaction/GlassesInteraction.d.ts
+npm notice 3.0kB dist/types/interaction/HandGrip.d.ts
+npm notice 673B dist/types/interaction/HandIdentity.d.ts
+npm notice 310B dist/types/interaction/placement.d.ts
+npm notice 464B dist/types/rendering/CameraBackground.d.ts
+npm notice 5.2kB dist/types/rendering/GlassesRenderer.d.ts
+npm notice 971B dist/types/rendering/HairMask.d.ts
+npm notice 854B dist/types/rendering/HandOccluder.d.ts
+npm notice 581B dist/types/rendering/HeadOccluder.d.ts
+npm notice 501B dist/types/rendering/LensOptics.d.ts
+npm notice 1.1kB dist/types/rendering/LocalAmbientEstimator.d.ts
+npm notice 1.0kB dist/types/rendering/TempleEffects.d.ts
+npm notice 11B dist/types/tracking/face.worker.d.ts
+npm notice 467B dist/types/tracking/FrameClock.d.ts
+npm notice 640B dist/types/tracking/HairTracker.d.ts
+npm notice 877B dist/types/tracking/HandCadence.d.ts
+npm notice 2.1kB dist/types/tracking/protocol.d.ts
+npm notice 770B dist/types/tracking/runtime-assets.d.ts
+npm notice 645B dist/types/tracking/SourceGeometry.d.ts
+npm notice 8.3kB dist/types/types.d.ts
+npm notice 128.5kB dist/vto-sdk.js
+npm notice 342.1kB dist/vto-sdk.js.map
+npm notice 1.5kB package.json
+npm notice Tarball Details
+npm notice name: vito-sdk
+npm notice version: 0.1.1
+npm notice filename: vito-sdk-0.1.1.tgz
+npm notice package size: 289.6 kB
+npm notice unpacked size: 1.1 MB
+npm notice shasum: 641b52c70f75695aebd30d5f1589ceeaae2e1532
+npm notice integrity: sha512-zR04BRtGBEiME[...]AtXl5KBu7pmdA==
+npm notice total files: 46
+npm notice
+npm notice Publishing to https://registry.npmjs.org/ with tag latest and public access (dry-run)
++ vito-sdk@0.1.1

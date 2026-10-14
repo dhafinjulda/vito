@@ -1,38 +1,228 @@
-# VTO browser SDK
+# Vito SDK
 
-Framework-independent browser glasses try-on. Camera/face/hand processing stays on-device. TypeScript types and a self-contained MediaPipe worker are included.
+**3D glasses virtual try-on for the browser.** A framework-independent JavaScript/TypeScript SDK with local face tracking, Three.js rendering, and optional hand interaction.
 
-## Install a local release candidate
+[![npm version](https://img.shields.io/npm/v/vito-sdk)](https://www.npmjs.com/package/vito-sdk)
+[![License: CPAL-1.0](https://img.shields.io/badge/license-CPAL--1.0-blue)](https://github.com/dhafinjulda/vito/blob/main/LICENSE)
+
+[Source](https://github.com/dhafinjulda/vito) · [Vanilla example](https://github.com/dhafinjulda/vito/tree/main/examples/vanilla) · [Asset Studio](https://github.com/dhafinjulda/vito/tree/main/examples/asset-studio) · [Report an issue](https://github.com/dhafinjulda/vito/issues)
+
+## Features
+
+- Fits a GLB glasses model to face position, rotation, and apparent size as the user moves.
+- Face/head occlusion, temporal smoothing, local lighting estimation, and semantic lens/temple effects.
+- Opt-in hand tracking for grabbing, moving, and placing glasses on the face or head.
+- Typed lifecycle methods and status callbacks. No React dependency.
+- On-device processing: the SDK does not upload or persist camera frames, landmarks, poses, or snapshots.
+
+This is visual try-on, not a prescription, face measurement, or guaranteed physical fit. Distance estimates depend on camera and face-size assumptions. Device performance, extreme poses, hand contact, and each retail SKU need qualification.
+
+## Install
 
 ```sh
-pnpm add /absolute/path/vito-sdk-0.1.0.tgz
+npm install vito-sdk
+# or
+pnpm add vito-sdk
 ```
 
-The package is not yet published to npm. Its unscoped name is `vito-sdk`.
-Publication is a separate owner action. Original code is
-licensed CPAL-1.0; see LICENSE and NOTICE included in this package.
+The package is ESM and includes TypeScript declarations and the tracking worker. Use a browser bundler such as Vite. Node.js 20.19+ is the package tooling requirement; camera tracking runs in the browser.
+
+## Quick start
+
+Give the camera host an explicit size. Serve a compatible glasses GLB at `/assets/glasses.glb` (see [Assets and fitting](#assets-and-fitting)); the SDK does not bundle a retail glasses catalog.
+
+```html
+<div id="try-on" style="position:relative;width:100%;height:480px"></div>
+<button id="start" type="button">Start camera</button>
+<button id="stop" type="button">Stop camera</button>
+<p id="status" role="status">Camera is off</p>
+```
 
 ```ts
 import { createVirtualTryOn } from 'vito-sdk';
-const tryOn = createVirtualTryOn({ container, glassesUrl: '/glasses.glb' });
-// Give container an explicit size. Start from a user action:
-await tryOn.start();
-await tryOn.setGlasses('/another.glb');
-tryOn.stop();
-tryOn.dispose();
+
+const container = document.querySelector<HTMLElement>('#try-on');
+const startButton = document.querySelector<HTMLButtonElement>('#start');
+const stopButton = document.querySelector<HTMLButtonElement>('#stop');
+const status = document.querySelector<HTMLElement>('#status');
+if (!container || !startButton || !stopButton || !status) {
+  throw new Error('Missing try-on elements');
+}
+
+const tryOn = createVirtualTryOn({
+  container,
+  glassesUrl: '/assets/glasses.glb',
+  onStatusChange(state, message) { status.textContent = message || state; },
+  onError(error) { status.textContent = error.message; },
+});
+
+startButton.addEventListener('click', async () => {
+  startButton.disabled = true;
+  try {
+    await tryOn.start();
+  } catch (error) {
+    status.textContent = error instanceof Error ? error.message : 'Camera failed';
+  } finally {
+    startButton.disabled = false;
+  }
+});
+stopButton.addEventListener('click', () => tryOn.stop());
+
+// When removing this integration (for example, on a route unmount):
+// tryOn.dispose();
 ```
 
-Use HTTPS or localhost, WebGL2, camera permissions, Workers and ImageBitmap.
-Models/WASM download from pinned URLs unless self-hosted via options.
-Generated GLBs embed fit; ordinary models need their own calibration. Keep
-blob URLs alive until replacement/disposal and allow blob: in CSP connect-src.
-`start()` requests audio:false. Stop/dispose releases camera tracks. Optional
-hand interaction requires `handInteraction:{}`. Physical SKU/device accuracy
-requires qualification. License notices are in dist/THIRD_PARTY_NOTICES.md.
+Creating the instance loads the glasses asset but does not request camera access. Only `start()` requests the camera, with `audio: false`. The SDK stops camera tracks when the page becomes hidden; returning to the page requires another `start()`.
 
-The SDK displays a small Vito wordmark at the bottom-right of its camera host
-after local video starts. It remains during tracker loading/search/tracking,
-disappears when the camera stops/fails, and is removed by dispose(). It is
-noninteractive, does not mirror with video and downloads no branding assets.
-No branding disable option is provided. CPAL-1.0 Exhibit B defines attribution;
-covered modifications remain subject to CPAL source/network obligations.
+## Assets and fitting
+
+For automatic fitting, use a GLB generated by the optional [vito-asset-generator](https://github.com/dhafinjulda/vito/tree/main/packages/asset-generator). Its embedded, versioned fit contract is read by the SDK. The core SDK does not depend on the generator.
+
+```sh
+pnpm add vito-asset-generator
+```
+
+```ts
+import { generateGlassesAsset } from 'vito-asset-generator';
+
+const asset = await generateGlassesAsset({
+  description: 'Kacamata bulat acetate hitam, lensa bening, 52-18-140',
+});
+const assetUrl = URL.createObjectURL(asset.blob);
+try {
+  await tryOn.setGlasses(assetUrl);
+} catch (error) {
+  URL.revokeObjectURL(assetUrl);
+  throw error;
+}
+// Keep the URL alive while the SDK uses it. At integration teardown:
+// tryOn.dispose();
+// URL.revokeObjectURL(assetUrl);
+```
+
+Generation runs locally by default. Generated designs and dimensions are approximations, not supplier measurements. Save the GLB and host it as a static asset if you do not need runtime generation.
+
+An ordinary GLB needs asset-specific calibration:
+
+```ts
+await tryOn.setGlasses({
+  url: '/assets/calibrated-glasses.glb',
+  fit: {
+    referenceEyeSpan: 0.09, // EXAMPLE only: outer-eye span in this GLB's units
+    scale: 1,
+    offset: [0, 0, 0],
+    rotation: [0, 0, 0], // radians
+  },
+});
+```
+
+Use a nose-bridge pivot and model axes `+X` right, `+Y` up, `+Z` toward the viewer. `referenceEyeSpan` is the intended outer-eye span, **not** total frame width or pupillary distance. The value above is illustrative; determine it for your asset. Explicit fit overrides take precedence over embedded metadata. Semantic lens/temple meshes are required for their corresponding effects.
+
+See the [asset generation contract](https://github.com/dhafinjulda/vito/blob/main/docs/ASSET_GENERATION_PLAN.md) and [reference asset integration](https://github.com/dhafinjulda/vito/tree/main/examples/vanilla/src).
+
+## API
+
+| Method / property | Purpose |
+| --- | --- |
+| `createVirtualTryOn(options)` | Create the host, renderer, and initial asset load. |
+| `start(): Promise<void>` | Start camera and tracker from a user action; handle rejection. |
+| `stop(): void` | Release camera tracks; the instance can be restarted. |
+| `setGlasses(urlOrAsset): Promise<void>` | Load another GLB; await completion and handle errors. |
+| `setFit(partialFit): void` | Adjust asset fitting. |
+| `setPlacement('face' \| 'head'): void` | Choose where glasses are worn. |
+| `dispose(): void` | Release tracks, worker, renderer, listeners, and SDK DOM. Do not reuse the instance. |
+| `status`, `video`, `canvas` | Current status and SDK-owned rendering elements. |
+
+Status values: `idle`, `requesting-camera`, `loading-tracker`, `searching`, `tracking`, `paused`, `error`, `disposed`.
+
+### Selected options
+
+| Option | Default / meaning |
+| --- | --- |
+| `container`, `glassesUrl` | Required host element and initial GLB URL. |
+| `mirror` | `true`; mirrors the camera preview. |
+| `fit` | Partial asset calibration override. |
+| `faceOcclusion`, `smoothing`, `ambientLighting` | Enabled by default. |
+| `presentation` | `'auto'`; also `'direct'`, `'interpolated'`, `'predicted'`. |
+| `adaptiveQuality` | `true`; adjusts input/rendering cost. |
+| `handInteraction` | Omitted by default; pass `{}` to enable local hand tracking. |
+| `hairOcclusion` | Automatic on eligible devices/assets; `false` disables it. |
+| `lensOptics` | Semantic lens rendering with camera compositing; `false` disables it. Not prescription simulation. |
+| `wasmRoot`, `modelAssetPath` | Override face runtime/model locations. |
+| `cacheRuntimeAssets` | `false`; optional approved runtime/model cache, never camera data. |
+| `cameraCalibration` | Optional calibrated source-video intrinsics. |
+| `onStatusChange`, `onError` | Lifecycle and failure feedback. |
+| `onFitStateChange`, `onInteractionChange`, `onTrackingHealthChange` | Transient fit, interaction, and diagnostic updates. |
+
+The package exports `VirtualTryOnOptions`, `GlassesAsset`, `GlassesFit`, and other public types. See the [typed API](https://github.com/dhafinjulda/vito/blob/main/packages/sdk/src/types.ts) for complete fields.
+
+### Optional hand interaction
+
+```ts
+const tryOn = createVirtualTryOn({
+  container,
+  glassesUrl: '/assets/glasses.glb',
+  handInteraction: {},
+  onInteractionChange(state) {
+    console.log(state.phase, state.grippingHands);
+  },
+});
+```
+
+Hands share the existing camera and worker, adding model download and inference cost. Contact/depth are inferred from a single camera, not physical force sensing. Read the [interaction guide](https://github.com/dhafinjulda/vito/blob/main/docs/HAND_INTERACTION.md).
+
+## Browser requirements and deployment
+
+- HTTPS or `localhost`, camera permission, WebGL2, Web Workers, and `ImageBitmap`.
+- A visible host with nonzero width/height and accessible GLB URLs.
+- A bundler/deployment that preserves the emitted worker in `dist/assets` beside the SDK bundle.
+- CORS permission for externally hosted GLBs and models.
+
+Pinned MediaPipe WASM files and models download from jsDelivr and Google storage by default. These are resource downloads; the SDK sends no camera frames to those services. To self-host:
+
+```ts
+const tryOn = createVirtualTryOn({
+  container,
+  glassesUrl: '/assets/glasses.glb',
+  wasmRoot: '/mediapipe/wasm',
+  modelAssetPath: '/mediapipe/face_landmarker.task',
+  handInteraction: { modelAssetPath: '/mediapipe/hand_landmarker.task' },
+  hairOcclusion: false,
+});
+```
+
+Copy the WASM directory from `@mediapipe/tasks-vision@0.10.22-rc.20250304`, including loader scripts. Obtain the corresponding models and check their licenses before redistribution. The [runtime source](https://github.com/dhafinjulda/vito/blob/main/packages/sdk/src/tracking/runtime-assets.ts) records pinned face URLs. Self-hosting optional hair segmentation requires its own model override.
+
+Configure CSP for the worker, WASM execution, resource fetches, and actual hosting origins. Blob GLBs also need `blob:` in `connect-src`. Verify the production CSP and deployment path; the [Vanilla example](https://github.com/dhafinjulda/vito/tree/main/examples/vanilla) provides a reference.
+
+## Run the examples locally
+
+```sh
+git clone https://github.com/dhafinjulda/vito.git
+cd vito
+pnpm install --frozen-lockfile
+pnpm dev
+```
+
+Open the local URL printed by Vite (normally `http://localhost:5173`). Run `pnpm dev:studio` for the description-to-GLB authoring example (normally port `5174`). These are local examples, not a hosted public demo.
+
+## Troubleshooting
+
+| Symptom | Check |
+| --- | --- |
+| Camera does not start | Secure context, permission, another app using camera; inspect `onError`. |
+| Video but no glasses | GLB fetch errors, host size, model pivot/units/calibration, and `searching` versus `tracking` status. |
+| First start takes time | Model downloads and initialization; show `loading-tracker` feedback. |
+| Incorrect fit | Use the generator contract or calibrate that GLB; do not reuse example dimensions blindly. |
+| Camera stopped after switching tabs | Call `start()` again from a user action. Page-hide cleanup is intentional. |
+| Worker/WASM fails in production | Worker output paths, CORS, CSP, and model URLs. |
+
+Dispose before removing the host or replacing the integration. Revoke caller-owned blob URLs after replacement/disposal. For issues, include browser/device, version, status, and error text; do not send personal frames or landmark recordings.
+
+## License and attribution
+
+Original Vito code is licensed under **[CPAL-1.0](https://github.com/dhafinjulda/vito/blob/main/LICENSE)**, copyright Dhafin Julda Riyanto. CPAL includes attribution and covered-source obligations for distribution/network use. Read the full license, including Exhibit B, before integrating or modifying the SDK.
+
+The SDK shows a small **vito** wordmark at the bottom-right of the camera host while the camera is active. No branding-disable option is provided. The mark is a local DOM element and makes no branding network request.
+
+Third-party code/models retain their licenses. Notices and bundled license texts are included in `dist/THIRD_PARTY_NOTICES.md` and `dist/licenses/`; see the [project notices](https://github.com/dhafinjulda/vito/blob/main/THIRD_PARTY_NOTICES.md).
