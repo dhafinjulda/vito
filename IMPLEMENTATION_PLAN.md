@@ -36,11 +36,13 @@ Updated 14 October 2026 (Asia/Jakarta). Product direction: browser SDK first; we
 - [x] Owner-approved CPAL-1.0 / Dhafin Julda Riyanto attribution and repository URL.
 - [x] Public repository created: https://github.com/dhafinjulda/vito.
 - [x] Initial source pushed to main and confirmed: `76684a19ec7cd064694535ed9e3ae6894742c210`.
-- [ ] Owned npm scope / explicitly authorized registry release.
+- [x] Account scope selected: @dhafin-julda from owner's npm whoami output.
+- [ ] Explicitly authorized npm registry publication.
 
 See [PUBLIC_RELEASE_PLAN.md](docs/PUBLIC_RELEASE_PLAN.md). Packages remain
-CPAL-1.0 package metadata adopted on 14 October; packages stay private pending
-registry scope ownership and explicit npm publication request. Initial push
+CPAL-1.0 package metadata adopted on 14 October; @dhafin-julda package scope
+selected from owner's npm whoami output. Packages are publishable (private:false);
+root/examples stay private. Actual npm publication requires explicit request. Initial push
 is complete; personal portrait/env/build artifacts are excluded.
 
 14 October release checks: workspace build/typecheck exited0; both fresh pnpm
@@ -64,6 +66,15 @@ required direct @types/three devDependencies in both examples; fixed before
 this successful run. Evidence: `docs/evidence/github-public-ci.json`.
 Working source is public under approved CPAL-1.0. npm remains unpublished;
 real-camera/device/SKU qualification is separate from CI.
+
+**npm account scope — 14 October:** owner supplied `npm whoami: dhafin-julda`.
+Renamed SDK/generator to `@dhafin-julda/sdk` and
+`@dhafin-julda/asset-generator`, updated workspace dependencies/imports/filters,
+lockfile and current readmes. Vito branding and CPAL are preserved. Both packages
+are private:false with public publishConfig; root/examples remain private.
+Workspace install/build/typecheck and both npm publish **dry-runs** exited0
+(`docs/evidence/npm-scope-*.txt`); no actual npm publication occurred. No local
+test suite or new live-camera/device check was run for this namespace change.
 
 Owner requires Vito brand retention and requested @vito/sdk / @vito/asset-generator.
 13 October anonymous registry checks returned404 for both packages; @vito scope

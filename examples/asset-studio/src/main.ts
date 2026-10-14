@@ -8,10 +8,10 @@
  */
 import * as THREE from 'three';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
-import { createVirtualTryOn } from '@vto/sdk';
-import type { VirtualTryOn, SessionStatus } from '@vto/sdk';
-import { buildParametricGlasses, disposeGeneratedGlasses, generateGlassesAsset, GlassesGenerationError, validateGlassesRecipe } from '@vto/asset-generator';
-import type { GeneratedGlasses, GeneratedGlassesAsset, GenerateGlassesAssetOptions, GlassesRecipe } from '@vto/asset-generator';
+import { createVirtualTryOn } from '@dhafin-julda/sdk';
+import type { VirtualTryOn, SessionStatus } from '@dhafin-julda/sdk';
+import { buildParametricGlasses, disposeGeneratedGlasses, generateGlassesAsset, GlassesGenerationError, validateGlassesRecipe } from '@dhafin-julda/asset-generator';
+import type { GeneratedGlasses, GeneratedGlassesAsset, GenerateGlassesAssetOptions, GlassesRecipe } from '@dhafin-julda/asset-generator';
 import './style.css';
 
 const el = <T extends HTMLElement>(selector: string) => document.querySelector<T>(selector)!;

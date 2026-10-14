@@ -1,0 +1,20 @@
+
+> virtual-try-on-sdk-workspace@ typecheck C:\Projects\VTO
+> pnpm --filter @dhafin-julda/sdk typecheck && pnpm --filter @dhafin-julda/asset-generator typecheck && pnpm --filter vanilla-example typecheck && pnpm --filter asset-studio-example typecheck
+
+
+> @dhafin-julda/sdk@0.1.0 typecheck C:\Projects\VTO\packages\sdk
+> tsc --noEmit
+
+
+> @dhafin-julda/asset-generator@0.1.0 typecheck C:\Projects\VTO\packages\asset-generator
+> tsc --noEmit
+
+
+> vanilla-example@ typecheck C:\Projects\VTO\examples\vanilla
+> tsc --noEmit
+
+
+> asset-studio-example@ typecheck C:\Projects\VTO\examples\asset-studio
+> tsc --noEmit
+

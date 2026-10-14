@@ -26,10 +26,10 @@ importers:
 
   examples/asset-studio:
     dependencies:
-      '@vto/asset-generator':
+      '@dhafin-julda/asset-generator':
         specifier: workspace:*
         version: link:../../packages/asset-generator
-      '@vto/sdk':
+      '@dhafin-julda/sdk':
         specifier: workspace:*
         version: link:../../packages/sdk
       three:
@@ -42,7 +42,7 @@ importers:
 
   examples/vanilla:
     dependencies:
-      '@vto/sdk':
+      '@dhafin-julda/sdk':
         specifier: workspace:*
         version: link:../../packages/sdk
     devDependencies:

@@ -9,7 +9,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@vto/sdk": "workspace:*"
+    "@dhafin-julda/sdk": "workspace:*"
   },
   "devDependencies": {
     "@types/three": "0.176.0"

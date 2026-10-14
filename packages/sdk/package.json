@@ -1,8 +1,8 @@
 {
-  "name": "@vto/sdk",
+  "name": "@dhafin-julda/sdk",
   "version": "0.1.0",
   "type": "module",
-  "private": true,
+  "private": false,
   "exports": {
     ".": {
       "types": "./dist/types/index.d.ts",

@@ -1,0 +1,16 @@
+{
+  "date": "2026-10-14",
+  "accountSource": "Owner-provided npm whoami output: dhafin-julda",
+  "scope": "@dhafin-julda",
+  "packages": ["@dhafin-julda/sdk", "@dhafin-julda/asset-generator"],
+  "version": "0.1.0",
+  "workspaceInstall": "exit 0",
+  "workspaceBuild": "exit 0",
+  "workspaceTypecheck": "exit 0",
+  "sdkPublishDryRun": "exit 0",
+  "generatorPublishDryRun": "exit 0",
+  "actualPublicationPerformed": false,
+  "brand": "Vito",
+  "license": "CPAL-1.0",
+  "limitations": "Dry-run does not reserve names or establish real publish/2FA permissions. No new local test suite or camera/device acceptance was run."
+}

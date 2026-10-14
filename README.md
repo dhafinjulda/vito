@@ -37,13 +37,13 @@ The renderer check at `http://localhost:5173/fit-check.html` uses a generic cano
 
 ## Optional parametric asset generator
 
-`@vto/asset-generator` is a separate optional package; the core SDK does not import it. It interprets supported Indonesian/English descriptions locally, validates recipes, and generates round/rectangle/cat-eye GLBs. Generated files include semantic lens/temple nodes, bridge pivot, metre coordinates and embedded SDK fit/physical-size calibration. A single exported GLB works through `glassesUrl` or `setGlasses(url)` without manually copying calibration.
+`@dhafin-julda/asset-generator` is a separate optional package; the core SDK does not import it. It interprets supported Indonesian/English descriptions locally, validates recipes, and generates round/rectangle/cat-eye GLBs. Generated files include semantic lens/temple nodes, bridge pivot, metre coordinates and embedded SDK fit/physical-size calibration. A single exported GLB works through `glassesUrl` or `setGlasses(url)` without manually copying calibration.
 
 Start **Asset Studio** with `pnpm dev:studio` at `http://localhost:5174/`. The flow is **description → Buat kacamata → Coba di kamera / Unduh GLB**. Examples generate in one click; advanced dimensions/materials/provenance are optional. It stores only the authoring description and recipe in localStorage. The camera starts only from its explicit button, and generation performs no network requests. Invalid/cancelled drafts preserve the previous model and cannot be downloaded as a new result.
 
 ```ts
-import { generateGlassesAsset } from '@vto/asset-generator';
-import { createVirtualTryOn } from '@vto/sdk';
+import { generateGlassesAsset } from '@dhafin-julda/asset-generator';
+import { createVirtualTryOn } from '@dhafin-julda/sdk';
 
 const asset = await generateGlassesAsset({
   description: 'Kacamata bulat acetate hitam, lensa bening, 52-18-140',
@@ -74,7 +74,7 @@ and `contactFingers` counts with `held-two-hands`/`handoff` feedback. See
 depth/skin geometry and physical contact forces remain approximations.
 
 ```ts
-import { createVirtualTryOn } from '@vto/sdk';
+import { createVirtualTryOn } from '@dhafin-julda/sdk';
 
 const tryOn = createVirtualTryOn({
   container: document.querySelector('#try-on')!,

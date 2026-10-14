@@ -13,7 +13,7 @@ import { fileURLToPath } from 'node:url';
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const workerDirectory = resolve(root, 'packages/sdk/dist/assets');
 const workers = (await readdir(workerDirectory)).filter(name => /^face-worker-[\w-]+\.js$/.test(name));
-if (workers.length !== 1) throw new Error(`Expected exactly one built SDK worker, found ${workers.length}. Build @vto/sdk first.`);
+if (workers.length !== 1) throw new Error(`Expected exactly one built SDK worker, found ${workers.length}. Build @dhafin-julda/sdk first.`);
 const source = resolve(workerDirectory, workers[0]);
 const destination = resolve(root, 'examples/vanilla/public/vto-face-worker.js');
 await mkdir(dirname(destination), { recursive: true });

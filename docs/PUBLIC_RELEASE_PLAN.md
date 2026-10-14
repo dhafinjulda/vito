@@ -41,8 +41,6 @@ Standard text source: https://github.com/spdx/license-list-data/blob/main/text/C
   docs/evidence/github-public-*.txt. Physical-device acceptance is
   still open. No new live-camera acceptance is claimed by Git publication.
 
-## Remaining registry gate
-
 ## Remote CI evidence
 
 [Run 38526776394](https://github.com/dhafinjulda/vito/actions/runs/38526776394)
@@ -55,12 +53,15 @@ were disabled or CI stages skipped to obtain this successful result.
 
 ## npm scope / publication
 
-Candidate names: @vito/sdk and @vito/asset-generator. Anonymous registry checks
-on 13 October returned404 for both; this does not establish scope availability
-or ownership. Owner does not yet own @vito. Create an available npm account/org
-scope before deciding registry names; local @vto names are retained meanwhile.
-Packages remain private:true to prevent accidental publication. Root stays
-private. No npm publish without a later explicit request.
+Owner reported `npm whoami` as **dhafin-julda** on 14 October. Selected account
+scope: **@dhafin-julda**, using @dhafin-julda/sdk and
+@dhafin-julda/asset-generator. The Vito brand and repository URL are unchanged.
+Package names, example imports/workspace dependencies, filters and current
+readmes use this scope; historical evidence retains its original package names.
+Both packages now have private:false and public publishConfig so they can be
+published when requested. Root/examples remain private. No actual npm publish
+has been performed; interactive authentication/2FA and registry version checks
+still apply to a real release. Previous @vito candidates were not adopted.
 
 ## Local package workflow
 
@@ -72,5 +73,12 @@ pnpm test
 pnpm --dir packages/sdk pack --pack-destination ../../.benchmarks/packages
 pnpm --dir packages/asset-generator pack --pack-destination ../../.benchmarks/packages
 # In a separate consumer project:
-pnpm add /absolute/path/vto-sdk-0.1.0.tgz /absolute/path/vto-asset-generator-0.1.0.tgz
+pnpm add /absolute/path/dhafin-julda-sdk-0.1.0.tgz /absolute/path/dhafin-julda-asset-generator-0.1.0.tgz
+```
+
+From the repository root, inspect the npm candidates without publication:
+
+```sh
+npm publish ./packages/sdk --access public --dry-run
+npm publish ./packages/asset-generator --access public --dry-run
 ```
