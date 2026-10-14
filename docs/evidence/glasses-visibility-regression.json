@@ -1,0 +1,242 @@
+{
+  "date": "2026-10-12",
+  "regressionBefore": {
+    "explanation": "Both paths rendered 3593 alpha pixels at 40 ms but discarded the valid face result at 250 ms.",
+    "latencyMs": 250,
+    "sdkAgeLimitMs": 200,
+    "handsDisabled": {
+      "visiblePixels": 0,
+      "status": "searching"
+    },
+    "handsEnabled": {
+      "visiblePixels": 0,
+      "status": "searching"
+    }
+  },
+  "publicSdkAfter": {
+    "url": "http://127.0.0.1:5173/",
+    "cameraRequested": false,
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+    "pass": true,
+    "runs": [
+      {
+        "hands": false,
+        "phase": "face-before-hands",
+        "status": "tracking",
+        "availability": "disabled",
+        "visiblePixels": 3593,
+        "pass": true
+      },
+      {
+        "hands": false,
+        "phase": "visible-face",
+        "delay": 40,
+        "status": "tracking",
+        "visiblePixels": 3593,
+        "availability": "disabled",
+        "errors": [],
+        "lastStatus": {
+          "s": "tracking"
+        },
+        "pass": true
+      },
+      {
+        "hands": false,
+        "phase": "visible-face",
+        "delay": 250,
+        "status": "tracking",
+        "visiblePixels": 3593,
+        "availability": "disabled",
+        "errors": [],
+        "lastStatus": {
+          "s": "tracking"
+        },
+        "pass": true
+      },
+      {
+        "hands": false,
+        "phase": "visible-face",
+        "delay": 500,
+        "status": "tracking",
+        "visiblePixels": 3593,
+        "availability": "disabled",
+        "errors": [],
+        "lastStatus": {
+          "s": "tracking"
+        },
+        "pass": true
+      },
+      {
+        "hands": false,
+        "phase": "no-face",
+        "status": "searching",
+        "visiblePixels": 0,
+        "pass": true
+      },
+      {
+        "hands": false,
+        "phase": "reacquire",
+        "status": "tracking",
+        "visiblePixels": 3593,
+        "pass": true
+      },
+      {
+        "hands": false,
+        "phase": "expired-face",
+        "status": "searching",
+        "visiblePixels": 0,
+        "pass": true
+      },
+      {
+        "hands": false,
+        "phase": "stop",
+        "stopped": true,
+        "status": "idle",
+        "pass": true
+      },
+      {
+        "hands": true,
+        "phase": "face-before-hands",
+        "status": "tracking",
+        "availability": "loading",
+        "visiblePixels": 3593,
+        "pass": true
+      },
+      {
+        "hands": true,
+        "phase": "visible-face",
+        "delay": 40,
+        "status": "tracking",
+        "visiblePixels": 3593,
+        "availability": "ready",
+        "errors": [],
+        "lastStatus": {
+          "s": "tracking"
+        },
+        "pass": true
+      },
+      {
+        "hands": true,
+        "phase": "visible-face",
+        "delay": 250,
+        "status": "tracking",
+        "visiblePixels": 3593,
+        "availability": "ready",
+        "errors": [],
+        "lastStatus": {
+          "s": "tracking"
+        },
+        "pass": true
+      },
+      {
+        "hands": true,
+        "phase": "visible-face",
+        "delay": 500,
+        "status": "tracking",
+        "visiblePixels": 3593,
+        "availability": "ready",
+        "errors": [],
+        "lastStatus": {
+          "s": "tracking"
+        },
+        "pass": true
+      },
+      {
+        "hands": true,
+        "phase": "no-face",
+        "status": "searching",
+        "visiblePixels": 0,
+        "pass": true
+      },
+      {
+        "hands": true,
+        "phase": "reacquire",
+        "status": "tracking",
+        "visiblePixels": 3593,
+        "pass": true
+      },
+      {
+        "hands": true,
+        "phase": "expired-face",
+        "status": "searching",
+        "visiblePixels": 0,
+        "pass": true
+      },
+      {
+        "hands": true,
+        "phase": "stop",
+        "stopped": true,
+        "status": "idle",
+        "pass": true
+      }
+    ],
+    "limitations": "Synthetic face results from a local classic worker plus canvas captureStream through the built public SDK, actual video callbacks, GLB and WebGL readback. No real camera or MediaPipe face recognition acceptance."
+  },
+  "actualMediaPipeWorker": {
+    "date": "2026-10-12",
+    "url": "http://127.0.0.1:5173/",
+    "cameraRequested": false,
+    "result": {
+      "pass": true,
+      "events": [
+        {
+          "type": "ready",
+          "stage": 0,
+          "handTracking": "loading"
+        },
+        {
+          "type": "result",
+          "stage": 0,
+          "facePresent": false
+        },
+        {
+          "type": "frame-done",
+          "stage": 0
+        },
+        {
+          "type": "hand-ready",
+          "stage": 1
+        },
+        {
+          "type": "result",
+          "stage": 2,
+          "facePresent": false
+        },
+        {
+          "type": "hand-result",
+          "stage": 2,
+          "hands": 0
+        },
+        {
+          "type": "frame-done",
+          "stage": 2
+        }
+      ]
+    },
+    "exceptions": [],
+    "console": [
+      {
+        "type": "warning",
+        "text": "W1012 11:12:00.215000 1922656 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default."
+      },
+      {
+        "type": "warning",
+        "text": "W1012 11:12:00.266000 1922656 gl_context.cc:1072] OpenGL error checking is disabled"
+      },
+      {
+        "type": "error",
+        "text": "INFO: Created TensorFlow Lite XNNPACK delegate for CPU."
+      },
+      {
+        "type": "warning",
+        "text": "W1012 11:12:01.805000 1922656 gl_context.cc:1072] OpenGL error checking is disabled"
+      },
+      {
+        "type": "warning",
+        "text": "W1012 11:12:02.098000 1922656 landmark_projection_calculator.cc:189] Using NORM_RECT without IMAGE_DIMENSIONS is only supported for the square ROI. Provide IMAGE_DIMENSIONS or use PROJECTION_MATRIX."
+      }
+    ]
+  },
+  "physicalCameraRequested": false,
+  "limitations": "No physical camera or person data. Synthetic recognition packets exercise public SDK lifecycle/rendering; actual MediaPipe processes only blank frames. Live appearance and target-device performance remain unverified."
+}

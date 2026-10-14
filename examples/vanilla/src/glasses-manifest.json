@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "coordinateSystem": {
+    "pivot": "nose-bridge-contact",
+    "x": "toward-wearer's-left from front view",
+    "y": "up",
+    "z": "toward camera",
+    "units": "model units; referenceEyeSpan defines visual scale"
+  },
+  "assets": [
+    {
+      "id": "contour-acetate-demo",
+      "design": "acetate",
+      "file": "glasses.glb",
+      "label": "Contour · acetate",
+      "description": "Demo: acetate rim with metal hinge and curved temple tip.",
+      "fit": { "referenceEyeSpan": 1.45, "scale": 1, "offset": [0, 0, 0.087], "rotation": [0, 0, 0] },
+      "nominalDimensionsMm": { "frameWidth": 146, "templeLength": 136 },
+      "partNames": { "rims": ["rim-left", "rim-right"], "lenses": ["clear-lens-left", "clear-lens-right"], "temples": ["temple-left", "temple-right"], "rearTips": ["ear-tip-left", "ear-tip-right"], "bridge": ["bridge"] },
+      "assetProvenance": "Original procedural demonstration geometry. Dimensions and fit are authoring values, not measurements of a retail product."
+    },
+    {
+      "id": "linea-metal-demo",
+      "design": "metal",
+      "file": "glasses-alt.glb",
+      "label": "Linea · metal",
+      "description": "Demo: slim metal rim with nose pads and coated temple tips.",
+      "fit": { "referenceEyeSpan": 1.45, "scale": 1, "offset": [0, 0, 0.087], "rotation": [0, 0, 0] },
+      "nominalDimensionsMm": { "frameWidth": 146, "templeLength": 136 },
+      "partNames": { "rims": ["rim-left", "rim-right"], "lenses": ["clear-lens-left", "clear-lens-right"], "temples": ["temple-left", "temple-right"], "rearTips": ["ear-tip-left", "ear-tip-right"], "bridge": ["bridge"] },
+      "assetProvenance": "Original procedural demonstration geometry. Dimensions and fit are authoring values, not measurements of a retail product."
+    },
+    {
+      "id": "round-spectacles-cc0",
+      "design": "licensed-test-asset",
+      "file": "round-spectacles.glb",
+      "label": "Round Spectacles · CC0",
+      "description": "Model kacamata PBR dari Poly Haven untuk uji material, orientasi 3D, skala, dan occlusion. Ini bukan SKU retail terukur.",
+      "fit": { "referenceEyeSpan": 0.0889, "scale": 1, "offset": [0, 0, 0], "rotation": [0, 0, 0] },
+      "nominalDimensionsMm": { "frameWidth": 158, "templeLength": 149 },
+      "partNames": { "rims": [], "lenses": [], "temples": [], "rearTips": [], "bridge": [] },
+      "license": "CC0",
+      "sourceUrl": "https://polyhaven.com/a/round_spectacles",
+      "assetProvenance": "Poly Haven Round Spectacles; CC0. Bounds are derived from the downloadable glTF mesh and are for test fitting only, not a retail product specification."
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "name": "@vto/asset-generator",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/asset-generator.js"
+    }
+  },
+  "files": [
+    "dist",
+    "LICENSE",
+    "NOTICE"
+  ],
+  "scripts": {
+    "build": "vite build && tsc -p tsconfig.build.json --emitDeclarationOnly --declaration --noEmit false --outDir dist/types && node ../../scripts/copy-generator-notices.mjs && node ../../scripts/copy-project-license.mjs asset-generator",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "prepack": "pnpm run build"
+  },
+  "dependencies": {
+    "@types/three": "0.176.0",
+    "three": "0.176.0"
+  },
+  "description": "Optional local parametric glasses generation for the VTO browser SDK",
+  "main": "./dist/asset-generator.js",
+  "module": "./dist/asset-generator.js",
+  "types": "./dist/types/index.d.ts",
+  "license": "CPAL-1.0",
+  "engines": {
+    "node": ">=20.19.0"
+  },
+  "keywords": [
+    "virtual-try-on",
+    "glasses",
+    "browser",
+    "typescript",
+    "threejs"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "author": "Dhafin Julda Riyanto",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dhafinjulda/vito.git",
+    "directory": "packages/asset-generator"
+  },
+  "homepage": "https://github.com/dhafinjulda/vito#readme",
+  "bugs": {
+    "url": "https://github.com/dhafinjulda/vito/issues"
+  }
+}

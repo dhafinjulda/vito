@@ -1,0 +1,5 @@
+ EPERM  EPERM: operation not permitted, realpath 'C:\Projects\VTO'
+
+pnpm: EPERM: operation not permitted, realpath 'C:\Projects\VTO'
+    at async Object.realpath (node:internal/fs/promises:1164:10)
+    at async C:\Users\ax-ba\AppData\Roaming\nvm\v22.15.1\node_modules\pnpm\dist\pnpm.cjs:102021:34

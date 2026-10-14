@@ -1,0 +1,102 @@
+{
+  "date": "2026-10-12",
+  "kind": "synthetic-browser-gpu-readback",
+  "cameraOpened": false,
+  "upstream": {
+    "repository": "WebAR.rocks.face",
+    "commit": "819cdbad4e87a43635d5f9724e30f277a7e7964d",
+    "adaptedFile": "helpers/WebARRocksMirror.js",
+    "license": "MIT"
+  },
+  "asset": "Contour demo GLB",
+  "distanceCm": 30,
+  "matrix": {
+    "assets": ["Contour demo GLB", "Linea demo GLB"],
+    "distancesCm": [30, 100],
+    "profileYawDegrees": [-84, 84],
+    "allCombinationsPassed": true,
+    "eachRunAlsoCheckedYawDegrees": [0, 45],
+    "rearHookPixelsWithMasks": 0,
+    "rimVisible": true,
+    "nearTempleVisible": true
+  },
+  "views": [
+    {
+      "yawDegrees": 0,
+      "shader": { "namedTempleMeshes": 4, "changedPixels": 167, "usedPrograms": 6 },
+      "earTipPixels": { "withoutMask": 458, "withMask": 0 },
+      "templePixels": { "withoutMask": 232, "withMask": 126 }
+    },
+    {
+      "yawDegrees": 45,
+      "shader": { "namedTempleMeshes": 4, "changedPixels": 322, "usedPrograms": 6 },
+      "earTipPixels": { "withoutMask": 659, "withMask": 0 },
+      "templePixels": { "withoutMask": 705, "withMask": 483 }
+    },
+    {
+      "yawDegrees": 84,
+      "shader": { "namedTempleMeshes": 4, "changedPixels": 795, "usedPrograms": 6 },
+      "earTipPixels": { "withoutMask": 1467, "withMask": 0 },
+      "templePixels": { "withoutMask": 1388, "withMask": 858 }
+    }
+  ],
+  "checks": {
+    "rimVisible": true,
+    "nearTempleVisibleWithMask": true,
+    "bothRearTipsFullyOccluded": true,
+    "shaderToggleChangesGpuReadback": true,
+    "duplicateDrawSuppression": true,
+    "tiltedProfile": {
+      "pitchDegrees": 12,
+      "rollDegrees": 8,
+      "yawDegrees": 84,
+      "rearHookPixelsWithMask": 0,
+      "nearTemplePixelsWithMask": 889,
+      "gpuShaderChangedPixels": 791,
+      "pass": true
+    },
+    "assetSwapSoak": {
+      "assetSwapsPerRenderer": 20,
+      "rendererCount": 3,
+      "geometryTexturesBeforeAndAfterPerRenderer": "15/1",
+      "pass": true
+    }
+  },
+  "latestBrowserRetest": {
+    "asset": "Linea demo GLB",
+    "distanceCm": 100,
+    "selectedProfileYawDegrees": -84,
+    "posesAlsoCheckedYawDegrees": [0, 45],
+    "rearHookMaskedPixelsByView": [0, 0, 0],
+    "rearHookUnmaskedPixelsByView": [52, 84, 124],
+    "nearTempleMaskedPixelsByView": [4, 25, 29],
+    "templeShaderChangedPixelsByView": [8, 32, 54],
+    "tiltedProfile": {
+      "pitchDegrees": 12,
+      "rollDegrees": 8,
+      "yawDegrees": -84,
+      "rearHookMaskedPixels": 0,
+      "nearTempleMaskedPixels": 29,
+      "templeShaderChangedPixels": 51,
+      "pass": true
+    },
+    "localLightingChangedPixelsByView": [22, 57, 18],
+    "duplicateDrawsSkipped": true,
+    "browserWarningAndErrorLogs": [],
+    "result": "pass"
+  },
+  "syntheticMotionRun": {
+    "frames": 180,
+    "renderers": 3,
+    "observedFramesPerSecond": 60.0,
+    "cpuFitAndRenderSubmissionMeanMs": 1.38,
+    "cpuFitAndRenderSubmissionP95Ms": 1.70,
+    "excludes": ["MediaPipe inference", "asynchronous GPU completion", "real camera/device timing"]
+  },
+  "limitations": [
+    "The first measurement table shows the representative Contour/30 cm/right-profile run; latestBrowserRetest records an additional Linea/100 cm/left-profile browser run.",
+    "Desktop browser and synthetic fixtures only.",
+    "GPU readback establishes shader execution and occlusion for these fixtures, not visual realism or live-camera fit.",
+    "No real person, camera frames, landmarks, poses, or snapshots were recorded."
+  ]
+}

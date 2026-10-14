@@ -1,0 +1,29 @@
+Vito browser virtual try-on SDK and optional asset generator
+Copyright (c) 2026 Dhafin Julda Riyanto. All Rights Reserved.
+
+The contents of the original source files in this project are subject to the
+Common Public Attribution License Version 1.0 (the "License"); you may not use
+them except in compliance with the License. You may obtain a copy at
+https://github.com/dhafinjulda/vito/blob/main/LICENSE.
+The License is based on the Mozilla Public License Version 1.1; Sections 14 and
+15 cover network use and limited attribution for the Original Developer.
+Software distributed under the License is distributed on an "AS IS" basis,
+WITHOUT WARRANTY OF ANY KIND. See LICENSE for rights and limitations.
+
+Original Code: Vito browser virtual try-on SDK and optional asset generator.
+Initial Developer and Original Developer: Dhafin Julda Riyanto.
+No alternative project license is offered.
+The completed Exhibits A/B in LICENSE identify the source and attribution.
+
+Attribution phrase: Vito.
+Project URL: https://github.com/dhafinjulda/vito
+Display of Attribution Information is required in Larger Works, subject to
+Section 14's limits. The SDK camera wordmark provides a dedicated UI area.
+
+Third-party code/data/assets retain their original licenses. These include
+MediaPipe canonical face data/topology (Apache-2.0), Three.js/GLTFExporter and
+WebAR.rocks.face adaptations (MIT), and Poly Haven spectacles/textures (CC0).
+See THIRD_PARTY_NOTICES.md and distribution license copies. This project notice
+does not replace or relicense those upstream portions. Original bundled demo
+geometry is supplied under the project license; generated template assets are
+not verified brand replicas or supplier product measurements.

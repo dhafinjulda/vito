@@ -1,0 +1,22 @@
+{
+  "date": "2026-10-12",
+  "environment": {
+    "browser": "HeadlessChrome/154.0.0.0",
+    "origin": "http://127.0.0.1:4173",
+    "deviceClass": "desktop Chromium automation",
+    "cameraRequested": false
+  },
+  "online": {
+    "serviceWorkerControlsPage": true,
+    "shellCanvasCount": 1,
+    "syntheticMediaPipeDiagnostic": "Runtime dan inferensi worker berhasil",
+    "runtimeCacheEntryCount": 3
+  },
+  "offlineAfterWarmup": {
+    "shellReloadTitle": "Virtual Try-On · Vanilla SDK Example",
+    "shellCanvasCount": 1,
+    "syntheticMediaPipeDiagnostic": "Runtime dan inferensi worker berhasil",
+    "uncaughtPageErrors": 0
+  },
+  "scope": "Chromium browser-context offline emulation after a successful online warmup. The diagnostic processes a generated blank canvas; this is not camera, mobile, or physical-network acceptance."
+}

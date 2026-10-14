@@ -1,0 +1,11 @@
+{
+  "checkedAt": "2026-10-13T07:51:53.875Z",
+  "url": "https://storage.googleapis.com/mediapipe-models/image_segmenter/hair_segmenter/float32/1/hair_segmenter.tflite",
+  "bytes": 781618,
+  "sha256": "2628cf3ce5f695f604cbea2841e00befcaa3624bf80caf3664bef2656d59bf84",
+  "license": "Apache-2.0 as declared by the official Hair Segmentation model card",
+  "modelCard": "https://storage.googleapis.com/mediapipe-assets/Model%20Card%20-%20Hair%20Segmentation.pdf",
+  "vendored": false,
+  "outputContainsWeights": false,
+  "runtimeIntegrityEnforced": false
+}

@@ -1,0 +1,75 @@
+{
+  "date": "2026-10-12",
+  "url": "http://127.0.0.1:5173/fit-check.html",
+  "cameraRequested": false,
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+  "runs": [
+    {
+      "asset": "0",
+      "distance": 30,
+      "result": "pass",
+      "grip": {
+        "acquired": true,
+        "noJump": true,
+        "lateralCm": 4.842438678001797,
+        "rotationRadians": 0.7020000000000002,
+        "survivesFaceLoss": true,
+        "unmaskedPixels": 3085,
+        "maskedPixels": 2821,
+        "fingerOcclusion": true,
+        "pass": true
+      }
+    },
+    {
+      "asset": "0",
+      "distance": 100,
+      "result": "pass",
+      "grip": {
+        "acquired": true,
+        "noJump": true,
+        "lateralCm": 15.953619435384617,
+        "rotationRadians": 0.7020000000000002,
+        "survivesFaceLoss": true,
+        "unmaskedPixels": 275,
+        "maskedPixels": 206,
+        "fingerOcclusion": true,
+        "pass": true
+      }
+    },
+    {
+      "asset": "1",
+      "distance": 30,
+      "result": "pass",
+      "grip": {
+        "acquired": true,
+        "noJump": true,
+        "lateralCm": 4.894080064660298,
+        "rotationRadians": 0.7020000000000002,
+        "survivesFaceLoss": true,
+        "unmaskedPixels": 2942,
+        "maskedPixels": 2738,
+        "fingerOcclusion": true,
+        "pass": true
+      }
+    },
+    {
+      "asset": "1",
+      "distance": 100,
+      "result": "pass",
+      "grip": {
+        "acquired": true,
+        "noJump": true,
+        "lateralCm": 15.997485633944192,
+        "rotationRadians": 0.7020000000000002,
+        "survivesFaceLoss": true,
+        "unmaskedPixels": 265,
+        "maskedPixels": 203,
+        "fingerOcclusion": true,
+        "pass": true
+      }
+    }
+  ],
+  "limitations": "Synthetic hand/face fixtures through the actual grip controller, GLB contact selection and WebGL renderer. No real hand/camera recognition, segmentation, calibrated absolute hand depth, physical collision or device performance acceptance.",
+  "consoleErrors": 0,
+  "consoleWarnings": 0
+}

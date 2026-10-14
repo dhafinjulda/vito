@@ -1,0 +1,183 @@
+{
+  "date": "2026-10-12",
+  "url": "http://127.0.0.1:4173/fit-check.html",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+  "cameraRequested": false,
+  "runs": [
+    {
+      "asset": "0",
+      "distance": 30,
+      "result": "pass",
+      "pitch": [
+        {
+          "pitch": -80,
+          "visible": true,
+          "visiblePixels": 454,
+          "pass": true
+        },
+        {
+          "pitch": -70,
+          "visible": true,
+          "visiblePixels": 742,
+          "pass": true
+        },
+        {
+          "pitch": -45,
+          "visible": true,
+          "visiblePixels": 1644,
+          "pass": true
+        },
+        {
+          "pitch": 45,
+          "visible": true,
+          "visiblePixels": 3015,
+          "pass": true
+        },
+        {
+          "pitch": 70,
+          "visible": true,
+          "visiblePixels": 1658,
+          "pass": true
+        },
+        {
+          "pitch": 80,
+          "visible": true,
+          "visiblePixels": 1604,
+          "pass": true
+        }
+      ]
+    },
+    {
+      "asset": "0",
+      "distance": 100,
+      "result": "pass",
+      "pitch": [
+        {
+          "pitch": -80,
+          "visible": true,
+          "visiblePixels": 80,
+          "pass": true
+        },
+        {
+          "pitch": -70,
+          "visible": true,
+          "visiblePixels": 113,
+          "pass": true
+        },
+        {
+          "pitch": -45,
+          "visible": true,
+          "visiblePixels": 196,
+          "pass": true
+        },
+        {
+          "pitch": 45,
+          "visible": true,
+          "visiblePixels": 244,
+          "pass": true
+        },
+        {
+          "pitch": 70,
+          "visible": true,
+          "visiblePixels": 151,
+          "pass": true
+        },
+        {
+          "pitch": 80,
+          "visible": true,
+          "visiblePixels": 109,
+          "pass": true
+        }
+      ]
+    },
+    {
+      "asset": "1",
+      "distance": 30,
+      "result": "pass",
+      "pitch": [
+        {
+          "pitch": -80,
+          "visible": true,
+          "visiblePixels": 296,
+          "pass": true
+        },
+        {
+          "pitch": -70,
+          "visible": true,
+          "visiblePixels": 560,
+          "pass": true
+        },
+        {
+          "pitch": -45,
+          "visible": true,
+          "visiblePixels": 1511,
+          "pass": true
+        },
+        {
+          "pitch": 45,
+          "visible": true,
+          "visiblePixels": 2697,
+          "pass": true
+        },
+        {
+          "pitch": 70,
+          "visible": true,
+          "visiblePixels": 1191,
+          "pass": true
+        },
+        {
+          "pitch": 80,
+          "visible": true,
+          "visiblePixels": 1089,
+          "pass": true
+        }
+      ]
+    },
+    {
+      "asset": "1",
+      "distance": 100,
+      "result": "pass",
+      "pitch": [
+        {
+          "pitch": -80,
+          "visible": true,
+          "visiblePixels": 58,
+          "pass": true
+        },
+        {
+          "pitch": -70,
+          "visible": true,
+          "visiblePixels": 88,
+          "pass": true
+        },
+        {
+          "pitch": -45,
+          "visible": true,
+          "visiblePixels": 173,
+          "pass": true
+        },
+        {
+          "pitch": 45,
+          "visible": true,
+          "visiblePixels": 230,
+          "pass": true
+        },
+        {
+          "pitch": 70,
+          "visible": true,
+          "visiblePixels": 106,
+          "pass": true
+        },
+        {
+          "pitch": 80,
+          "visible": true,
+          "visiblePixels": 80,
+          "pass": true
+        }
+      ]
+    }
+  ],
+  "limitations": "Synthetic canonical face with actual GLB/WebGL rendering; no live detector, real face, or mobile acceptance. Visible pixel count establishes nonempty asset rendering, not anatomical accuracy.",
+  "consoleErrors": 0,
+  "consoleWarnings": 0
+}

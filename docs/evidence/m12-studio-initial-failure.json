@@ -1,0 +1,19 @@
+{
+  "date": "2026-10-13",
+  "pass": false,
+  "phase": "camera-start",
+  "error": "Studio synthetic camera stayed searching; waitForFunction timed out at 12000 ms.",
+  "observation": {
+    "cameraCalls": 1,
+    "videoWidth": 1280,
+    "videoHeight": 720,
+    "workerPackets": 2934,
+    "lastPacket": "frame-done",
+    "mountStyle": "position: relative; overflow: hidden;",
+    "sdkCanvasRect": { "width": 596.1875, "height": 0 },
+    "viewportHeight": 350
+  },
+  "cause": "SDK establishes inline relative positioning; the Studio overlay previously relied on absolute positioning from CSS and collapsed to zero height.",
+  "fix": "Studio explicitly sets its camera mount inline position to absolute before creating the SDK.",
+  "input": "Local synthetic canvas and canonical face fixture; no physical camera or personal frames."
+}

@@ -1,0 +1,15 @@
+{
+  "checkedDate": "2026-10-13",
+  "registry": "https://registry.npmjs.org/",
+  "packages": [
+    { "name": "@vito/sdk", "httpStatus": 404, "npmViewCode": "E404", "body": { "error": "Not found" } },
+    { "name": "@vito/asset-generator", "httpStatus": 404, "npmViewCode": "E404", "body": { "error": "Not found" } }
+  ],
+  "scopeCheck": {
+    "userLookupStatus": 401,
+    "npmUserPageStatus": 403,
+    "npmOrganizationPageStatus": 403,
+    "ownershipVerified": false
+  },
+  "conclusion": "No package metadata publicly available for either requested name at check time. Scope availability, ownership, private packages and publish permissions are not established. Nothing reserved, registered or published."
+}

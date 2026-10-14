@@ -1,0 +1,7 @@
+{
+  "name": "vanilla-example",
+  "private": true,
+  "type": "module",
+  "scripts": { "dev": "vite --host 0.0.0.0", "build": "vite build && node ../../scripts/verify-offline-build.mjs", "preview": "vite preview --host 0.0.0.0", "typecheck": "tsc --noEmit" },
+  "dependencies": { "@vto/sdk": "workspace:*" }
+}

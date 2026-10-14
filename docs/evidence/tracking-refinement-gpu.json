@@ -1,0 +1,510 @@
+{
+  "synthetic": true,
+  "configs": [
+    {
+      "asset": "0",
+      "distance": 30,
+      "side": "1",
+      "checks": {
+        "poses": [
+          {
+            "face": true,
+            "rear": [
+              true,
+              true
+            ],
+            "frontVisible": true,
+            "templeVisible": true,
+            "headAddsCoverage": false,
+            "pass": true
+          },
+          {
+            "face": true,
+            "rear": [
+              true,
+              true
+            ],
+            "frontVisible": true,
+            "templeVisible": true,
+            "headAddsCoverage": true,
+            "pass": true
+          },
+          {
+            "face": true,
+            "rear": [
+              true,
+              true
+            ],
+            "frontVisible": true,
+            "templeVisible": true,
+            "headAddsCoverage": true,
+            "pass": true
+          }
+        ],
+        "hooks": [
+          {
+            "hooks": 2,
+            "unmaskedPixels": 702,
+            "maskedPixels": 0,
+            "pass": true
+          },
+          {
+            "hooks": 2,
+            "unmaskedPixels": 1032,
+            "maskedPixels": 0,
+            "pass": true
+          },
+          {
+            "hooks": 2,
+            "unmaskedPixels": 2291,
+            "maskedPixels": 0,
+            "pass": true
+          }
+        ],
+        "duplicateDrawsSkipped": true
+      }
+    },
+    {
+      "asset": "0",
+      "distance": 30,
+      "side": "-1",
+      "checks": {
+        "poses": [
+          {
+            "face": true,
+            "rear": [
+              true,
+              true
+            ],
+            "frontVisible": true,
+            "templeVisible": true,
+            "headAddsCoverage": false,
+            "pass": true
+          },
+          {
+            "face": true,
+            "rear": [
+              true,
+              true
+            ],
+            "frontVisible": true,
+            "templeVisible": true,
+            "headAddsCoverage": true,
+            "pass": true
+          },
+          {
+            "face": true,
+            "rear": [
+              true,
+              true
+            ],
+            "frontVisible": true,
+            "templeVisible": true,
+            "headAddsCoverage": true,
+            "pass": true
+          }
+        ],
+        "hooks": [
+          {
+            "hooks": 2,
+            "unmaskedPixels": 702,
+            "maskedPixels": 0,
+            "pass": true
+          },
+          {
+            "hooks": 2,
+            "unmaskedPixels": 1032,
+            "maskedPixels": 0,
+            "pass": true
+          },
+          {
+            "hooks": 2,
+            "unmaskedPixels": 2291,
+            "maskedPixels": 0,
+            "pass": true
+          }
+        ],
+        "duplicateDrawsSkipped": true
+      }
+    },
+    {
+      "asset": "0",
+      "distance": 100,
+      "side": "1",
+      "checks": {
+        "poses": [
+          {
+            "face": true,
+            "rear": [
+              true,
+              true
+            ],
+            "frontVisible": true,
+            "templeVisible": true,
+            "headAddsCoverage": false,
+            "pass": true
+          },
+          {
+            "face": true,
+            "rear": [
+              true,
+              true
+            ],
+            "frontVisible": true,
+            "templeVisible": true,
+            "headAddsCoverage": true,
+            "pass": true
+          },
+          {
+            "face": true,
+            "rear": [
+              true,
+              true
+            ],
+            "frontVisible": true,
+            "templeVisible": true,
+            "headAddsCoverage": true,
+            "pass": true
+          }
+        ],
+        "hooks": [
+          {
+            "hooks": 2,
+            "unmaskedPixels": 92,
+            "maskedPixels": 0,
+            "pass": true
+          },
+          {
+            "hooks": 2,
+            "unmaskedPixels": 134,
+            "maskedPixels": 0,
+            "pass": true
+          },
+          {
+            "hooks": 2,
+            "unmaskedPixels": 192,
+            "maskedPixels": 0,
+            "pass": true
+          }
+        ],
+        "duplicateDrawsSkipped": true
+      }
+    },
+    {
+      "asset": "0",
+      "distance": 100,
+      "side": "-1",
+      "checks": {
+        "poses": [
+          {
+            "face": true,
+            "rear": [
+              true,
+              true
+            ],
+            "frontVisible": true,
+            "templeVisible": true,
+            "headAddsCoverage": false,
+            "pass": true
+          },
+          {
+            "face": true,
+            "rear": [
+              true,
+              true
+            ],
+            "frontVisible": true,
+            "templeVisible": true,
+            "headAddsCoverage": true,
+            "pass": true
+          },
+          {
+            "face": true,
+            "rear": [
+              true,
+              true
+            ],
+            "frontVisible": true,
+            "templeVisible": true,
+            "headAddsCoverage": true,
+            "pass": true
+          }
+        ],
+        "hooks": [
+          {
+            "hooks": 2,
+            "unmaskedPixels": 92,
+            "maskedPixels": 0,
+            "pass": true
+          },
+          {
+            "hooks": 2,
+            "unmaskedPixels": 134,
+            "maskedPixels": 0,
+            "pass": true
+          },
+          {
+            "hooks": 2,
+            "unmaskedPixels": 192,
+            "maskedPixels": 0,
+            "pass": true
+          }
+        ],
+        "duplicateDrawsSkipped": true
+      }
+    },
+    {
+      "asset": "1",
+      "distance": 30,
+      "side": "1",
+      "checks": {
+        "poses": [
+          {
+            "face": true,
+            "rear": [
+              true,
+              true
+            ],
+            "frontVisible": true,
+            "templeVisible": true,
+            "headAddsCoverage": false,
+            "pass": true
+          },
+          {
+            "face": true,
+            "rear": [
+              true,
+              true
+            ],
+            "frontVisible": true,
+            "templeVisible": true,
+            "headAddsCoverage": true,
+            "pass": true
+          },
+          {
+            "face": true,
+            "rear": [
+              true,
+              true
+            ],
+            "frontVisible": true,
+            "templeVisible": true,
+            "headAddsCoverage": true,
+            "pass": true
+          }
+        ],
+        "hooks": [
+          {
+            "hooks": 2,
+            "unmaskedPixels": 702,
+            "maskedPixels": 0,
+            "pass": true
+          },
+          {
+            "hooks": 2,
+            "unmaskedPixels": 1032,
+            "maskedPixels": 0,
+            "pass": true
+          },
+          {
+            "hooks": 2,
+            "unmaskedPixels": 2291,
+            "maskedPixels": 0,
+            "pass": true
+          }
+        ],
+        "duplicateDrawsSkipped": true
+      }
+    },
+    {
+      "asset": "1",
+      "distance": 30,
+      "side": "-1",
+      "checks": {
+        "poses": [
+          {
+            "face": true,
+            "rear": [
+              true,
+              true
+            ],
+            "frontVisible": true,
+            "templeVisible": true,
+            "headAddsCoverage": false,
+            "pass": true
+          },
+          {
+            "face": true,
+            "rear": [
+              true,
+              true
+            ],
+            "frontVisible": true,
+            "templeVisible": true,
+            "headAddsCoverage": true,
+            "pass": true
+          },
+          {
+            "face": true,
+            "rear": [
+              true,
+              true
+            ],
+            "frontVisible": true,
+            "templeVisible": true,
+            "headAddsCoverage": true,
+            "pass": true
+          }
+        ],
+        "hooks": [
+          {
+            "hooks": 2,
+            "unmaskedPixels": 702,
+            "maskedPixels": 0,
+            "pass": true
+          },
+          {
+            "hooks": 2,
+            "unmaskedPixels": 1032,
+            "maskedPixels": 0,
+            "pass": true
+          },
+          {
+            "hooks": 2,
+            "unmaskedPixels": 2291,
+            "maskedPixels": 0,
+            "pass": true
+          }
+        ],
+        "duplicateDrawsSkipped": true
+      }
+    },
+    {
+      "asset": "1",
+      "distance": 100,
+      "side": "1",
+      "checks": {
+        "poses": [
+          {
+            "face": true,
+            "rear": [
+              true,
+              true
+            ],
+            "frontVisible": true,
+            "templeVisible": true,
+            "headAddsCoverage": false,
+            "pass": true
+          },
+          {
+            "face": true,
+            "rear": [
+              true,
+              true
+            ],
+            "frontVisible": true,
+            "templeVisible": true,
+            "headAddsCoverage": true,
+            "pass": true
+          },
+          {
+            "face": true,
+            "rear": [
+              true,
+              true
+            ],
+            "frontVisible": true,
+            "templeVisible": true,
+            "headAddsCoverage": true,
+            "pass": true
+          }
+        ],
+        "hooks": [
+          {
+            "hooks": 2,
+            "unmaskedPixels": 92,
+            "maskedPixels": 0,
+            "pass": true
+          },
+          {
+            "hooks": 2,
+            "unmaskedPixels": 134,
+            "maskedPixels": 0,
+            "pass": true
+          },
+          {
+            "hooks": 2,
+            "unmaskedPixels": 192,
+            "maskedPixels": 0,
+            "pass": true
+          }
+        ],
+        "duplicateDrawsSkipped": true
+      }
+    },
+    {
+      "asset": "1",
+      "distance": 100,
+      "side": "-1",
+      "checks": {
+        "poses": [
+          {
+            "face": true,
+            "rear": [
+              true,
+              true
+            ],
+            "frontVisible": true,
+            "templeVisible": true,
+            "headAddsCoverage": false,
+            "pass": true
+          },
+          {
+            "face": true,
+            "rear": [
+              true,
+              true
+            ],
+            "frontVisible": true,
+            "templeVisible": true,
+            "headAddsCoverage": true,
+            "pass": true
+          },
+          {
+            "face": true,
+            "rear": [
+              true,
+              true
+            ],
+            "frontVisible": true,
+            "templeVisible": true,
+            "headAddsCoverage": true,
+            "pass": true
+          }
+        ],
+        "hooks": [
+          {
+            "hooks": 2,
+            "unmaskedPixels": 92,
+            "maskedPixels": 0,
+            "pass": true
+          },
+          {
+            "hooks": 2,
+            "unmaskedPixels": 134,
+            "maskedPixels": 0,
+            "pass": true
+          },
+          {
+            "hooks": 2,
+            "unmaskedPixels": 192,
+            "maskedPixels": 0,
+            "pass": true
+          }
+        ],
+        "duplicateDrawsSkipped": true
+      }
+    }
+  ],
+  "motion": "180 frame / 3 renderer: 30.1 frame/detik teramati; waktu fitting + pengiriman render CPU rata-rata 2.34 ms, p95 3.10 ms. Tidak termasuk inferensi MediaPipe atau waktu eksekusi GPU; bukan hasil kamera/perangkat nyata."
+}

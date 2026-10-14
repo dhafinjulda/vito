@@ -1,0 +1,56 @@
+{
+  "name": "@vto/sdk",
+  "version": "0.1.0",
+  "type": "module",
+  "private": true,
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/vto-sdk.js"
+    }
+  },
+  "files": [
+    "dist",
+    "LICENSE",
+    "NOTICE"
+  ],
+  "scripts": {
+    "build": "vite build && tsc -p tsconfig.build.json --emitDeclarationOnly --declaration --noEmit false --outDir dist/types && node ../../scripts/copy-sdk-notices.mjs && node ../../scripts/copy-project-license.mjs sdk",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "prepack": "pnpm run build"
+  },
+  "dependencies": {
+    "@types/three": "0.176.0",
+    "@mediapipe/tasks-vision": "0.10.22-rc.20250304",
+    "three": "0.176.0"
+  },
+  "description": "Framework-agnostic browser SDK for local glasses virtual try-on",
+  "main": "./dist/vto-sdk.js",
+  "module": "./dist/vto-sdk.js",
+  "types": "./dist/types/index.d.ts",
+  "license": "CPAL-1.0",
+  "engines": {
+    "node": ">=20.19.0"
+  },
+  "keywords": [
+    "virtual-try-on",
+    "glasses",
+    "browser",
+    "typescript",
+    "threejs"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "author": "Dhafin Julda Riyanto",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dhafinjulda/vito.git",
+    "directory": "packages/sdk"
+  },
+  "homepage": "https://github.com/dhafinjulda/vito#readme",
+  "bugs": {
+    "url": "https://github.com/dhafinjulda/vito/issues"
+  }
+}

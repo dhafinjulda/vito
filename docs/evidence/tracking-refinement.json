@@ -1,0 +1,33 @@
+{
+  "synthetic": true,
+  "scope": "pose solver/filter only; excludes model inference, GPU and real-person accuracy",
+  "fps": 30,
+  "noiseAmplitudeCm": 0.12,
+  "warmupFrames": 30,
+  "measuredFrames": 90,
+  "formerFilterRmsCm": 0.1173328508059963,
+  "refinedFilterRmsCm": 0.021750725291490438,
+  "depthChecks": [
+    {
+      "yaw": -84,
+      "depthErrorCm": 0
+    },
+    {
+      "yaw": -45,
+      "depthErrorCm": 3.552713678800501e-14
+    },
+    {
+      "yaw": 0,
+      "depthErrorCm": 0
+    },
+    {
+      "yaw": 45,
+      "depthErrorCm": 0
+    },
+    {
+      "yaw": 84,
+      "depthErrorCm": 0
+    }
+  ],
+  "reductionVsFormerPercent": 81.46237380062118
+}

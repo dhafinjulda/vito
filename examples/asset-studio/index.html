@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#f4f2ed" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <title>VTO · Asset Studio</title>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar"><a class="brand" href="/"><span class="brand-mark">V</span> Asset Studio</a><span id="save-state">Draft lokal</span></header>
+    <main>
+      <section class="intro"><h1>Dari ide ke <em>kacamata.</em></h1><p>Deskripsikan bentuk dan warnanya. Tambahkan ukuran jika Anda punya.</p></section>
+      <div class="workspace">
+        <section class="editor" aria-label="Generator kacamata">
+          <form id="description-form">
+            <label for="description">Kacamata seperti apa?</label>
+            <textarea id="description" rows="3" maxlength="1800" required spellcheck="false" placeholder="Bulat, acetate hitam, lensa bening, ukuran 52-18-140">Kacamata bulat acetate hitam, lensa bening, 52-18-140</textarea>
+            <div class="examples" aria-label="Contoh deskripsi">
+              <button type="button" data-example="Kacamata bulat acetate hitam, lensa bening, 52-18-140">Bulat hitam</button>
+              <button type="button" data-example="Kacamata rectangle metal emas, lensa bening, 54-18-145">Metal emas</button>
+              <button type="button" data-example="Kacamata cat-eye acetate coklat, lensa bening, 52-18-140">Cat-eye coklat</button>
+            </div>
+            <div class="generate-row"><button id="generate" class="primary" type="submit">Buat kacamata <span aria-hidden="true">→</span></button><button id="generation-cancel" class="text-button" type="button" hidden>Batalkan</button></div>
+          </form>
+          <p id="generation-state" class="status" role="status" aria-live="polite">Menyiapkan contoh…</p>
+          <div id="form-errors" class="errors" role="alert"></div>
+          <div id="result-actions" class="result-actions">
+            <button id="camera-start" type="button" disabled>Coba di kamera</button>
+            <button id="camera-stop" type="button" hidden>Hentikan kamera</button>
+            <button id="download" type="button" disabled>Unduh GLB</button>
+          </div>
+          <p id="camera-state" class="support" role="status" aria-live="polite">Kamera mulai hanya saat Anda memilih Coba di kamera.</p>
+          <details id="advanced-controls">
+            <summary>Sesuaikan ukuran & detail</summary>
+            <p id="assumptions" class="support">Detail yang belum disebutkan menggunakan nilai standar.</p>
+            <form id="recipe-form" novalidate>
+              <div class="identity-grid"><label class="field">Nama<input id="name" maxlength="80" value="Kacamata bulat" /></label><label class="field">ID aset<input id="productId" maxlength="80" value="frame-round" /></label></div>
+              <div class="field">Bentuk<div class="choice-row" role="group" aria-label="Bentuk frame"><button type="button" data-template="round" class="selected" aria-pressed="true">Bulat</button><button type="button" data-template="rectangle" aria-pressed="false">Kotak</button><button type="button" data-template="cat-eye" aria-pressed="false">Cat-eye</button></div></div>
+              <div class="dimension-grid">
+                <label class="field">Lebar lensa · mm<input data-dimension="lensWidth" type="number" min="35" max="75" step=".5" value="52" required /><select data-source="lensWidth" aria-label="Sumber lebar lensa"><option value="estimated">Perkiraan</option><option value="measured">Diukur</option><option value="supplier">Produsen</option></select></label>
+                <label class="field">Tinggi lensa · mm<input data-dimension="lensHeight" type="number" min="22" max="60" step=".5" value="38" required /><select data-source="lensHeight" aria-label="Sumber tinggi lensa"><option value="estimated">Perkiraan</option><option value="measured">Diukur</option><option value="supplier">Produsen</option></select></label>
+                <label class="field">Bridge · mm<input data-dimension="bridgeWidth" type="number" min="12" max="30" step=".5" value="18" required /><select data-source="bridgeWidth" aria-label="Sumber bridge"><option value="estimated">Perkiraan</option><option value="measured">Diukur</option><option value="supplier">Produsen</option></select></label>
+                <label class="field">Panjang tangkai · mm<input data-dimension="templeLength" type="number" min="90" max="160" step="1" value="140" required /><select data-source="templeLength" aria-label="Sumber panjang tangkai"><option value="estimated">Perkiraan</option><option value="measured">Diukur</option><option value="supplier">Produsen</option></select></label>
+                <label class="field">Lebar frame · mm<input data-dimension="frameWidth" type="number" min="105" max="180" step=".5" value="146" required /><select data-source="frameWidth" aria-label="Sumber lebar frame"><option value="estimated">Perkiraan</option><option value="measured">Diukur</option><option value="supplier">Produsen</option></select></label>
+                <label class="field">Ketebalan · mm<input id="frameThickness" type="number" min="1" max="8" step=".25" value="4" required /></label>
+              </div>
+              <div class="field">Material<div class="choice-row" role="group" aria-label="Material"><button type="button" data-material="acetate" class="selected" aria-pressed="true">Acetate</button><button type="button" data-material="metal" aria-pressed="false">Metal</button></div></div>
+              <div class="color-grid"><label class="field">Warna frame<div class="color-input"><input id="frameColor" type="color" value="#26342d" /><span id="frameColorLabel">#26342D</span></div></label><label class="field">Tint lensa<div class="color-input"><input id="lensTint" type="color" value="#d9e8e4" /><span id="lensTintLabel">#D9E8E4</span></div></label></div>
+              <div class="field">Ujung tangkai<div class="choice-row" role="group" aria-label="Ujung tangkai"><button type="button" data-temple="straight" aria-pressed="false">Lurus</button><button type="button" data-temple="curved" class="selected" aria-pressed="true">Melengkung</button></div></div>
+              <button type="submit" id="apply-details">Terapkan detail</button>
+            </form>
+          </details>
+          <details class="delivery"><summary>File & integrasi SDK</summary><p>GLB menyimpan kalibrasi fit. Gunakan URL file pada <code>glassesUrl</code> atau <code>setGlasses()</code>.</p><div class="file-actions"><button id="download-manifest" type="button" disabled>Unduh manifest</button><button id="download-recipe" type="button" disabled>Unduh recipe</button></div></details>
+        </section>
+        <aside class="preview-panel" aria-label="Hasil kacamata">
+          <div class="preview-top"><strong id="preview-title">Kacamata bulat</strong><span id="asset-ready">Menyiapkan</span></div>
+          <div class="viewport-wrap"><canvas id="preview" tabindex="0" aria-label="Preview 3D kacamata; seret atau gunakan tombol panah untuk memutar"></canvas><div id="camera-mount" hidden></div><div id="camera-overlay" hidden></div><div id="preview-fallback" hidden>Preview 3D tidak tersedia. File GLB tetap dapat dibuat.</div><span class="viewport-caption" id="viewport-hint">Seret / tombol panah untuk memutar</span></div>
+          <dl class="measurements"><div><dt>Lebar frame</dt><dd id="side-width">—</dd></div><div><dt>Lensa</dt><dd id="side-lens">—</dd></div><div><dt>Bridge</dt><dd id="side-bridge">—</dd></div></dl>
+          <p id="validation" class="quality-note">Dimensi standar dapat Anda sesuaikan. Hasilnya adalah model parametrik.</p>
+          <p id="asset-report" class="asset-report"></p>
+        </aside>
+      </div>
+    </main>
+    <footer><span>Generator & kamera diproses lokal.</span><span>Model parametrik; kecocokan SKU memerlukan ukuran dan validasi produk.</span></footer>
+  </div>
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>

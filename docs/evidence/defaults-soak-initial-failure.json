@@ -1,0 +1,97 @@
+{
+  "phase": "failed",
+  "elapsedMs": 0,
+  "checkpoints": [],
+  "error": "Error: Hand graph startup timeout.",
+  "health": {
+    "phase": "stopped",
+    "delegate": "CPU",
+    "framesSent": 686,
+    "resultsReceived": 685,
+    "restarts": 1,
+    "lastLatencyMs": 7,
+    "inputWidth": 640,
+    "inputHeight": 360,
+    "hairTracking": "disabled",
+    "cameraCompositing": "disabled",
+    "hairStartupMs": 7530,
+    "startupMs": 55476,
+    "featureFallback": "worker-recovery",
+    "pixelRatio": 1,
+    "performance": {
+      "windowMs": 5000,
+      "observedMs": 5000,
+      "rates": {
+        "captureHz": 30,
+        "faceHz": 30,
+        "handHz": 0,
+        "renderHz": 30,
+        "animationHz": 60,
+        "cameraHz": 30
+      },
+      "timings": {
+        "captureDraw": {
+          "samples": 150,
+          "meanMs": 2.271333337624868,
+          "p50Ms": 2,
+          "p95Ms": 3.300000011920929
+        },
+        "bitmap": {
+          "samples": 150,
+          "meanMs": 0.08266666253407796,
+          "p50Ms": 0.09999996423721313,
+          "p95Ms": 0.19999998807907104
+        },
+        "faceInference": {
+          "samples": 150,
+          "meanMs": 6.597333334287008,
+          "p50Ms": 6.5,
+          "p95Ms": 7.400000035762787
+        },
+        "handInference": {
+          "samples": 0,
+          "meanMs": null,
+          "p50Ms": null,
+          "p95Ms": null
+        },
+        "hairInference": {
+          "samples": 0,
+          "meanMs": null,
+          "p50Ms": null,
+          "p95Ms": null
+        },
+        "fit": {
+          "samples": 150,
+          "meanMs": 0.008000000317891439,
+          "p50Ms": 0,
+          "p95Ms": 0.10000002384185791
+        },
+        "renderSubmission": {
+          "samples": 150,
+          "meanMs": 3.0946666685740154,
+          "p50Ms": 3.099999964237213,
+          "p95Ms": 3.5
+        },
+        "captureToSubmission": {
+          "samples": 0,
+          "meanMs": null,
+          "p50Ms": null,
+          "p95Ms": null
+        },
+        "resultAge": {
+          "samples": 150,
+          "meanMs": 6.881333330074946,
+          "p50Ms": 6.800000011920929,
+          "p95Ms": 7.699999988079071
+        },
+        "renderInterval": {
+          "samples": 150,
+          "meanMs": 33.223333333333336,
+          "p50Ms": 33.30000001192093,
+          "p95Ms": 50.69999998807907
+        }
+      }
+    }
+  },
+  "result": null
+}

@@ -1,0 +1,15 @@
+{
+  "date": "2026-10-12",
+  "url": "http://127.0.0.1:4173/fit-check.html",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+  "result": "PASS",
+  "details": {
+    "syntheticGpuFitting": "LULUS; temple shader and ambient tint changed GPU output; rear hook occluded; front rim and near temple remained visible",
+    "loadedChunks": ["three-core-Cm1lnwPO.js", "three-loaders-CAlyqyWf.js"],
+    "serviceWorkerControlled": true,
+    "cameraStreamAttached": false,
+    "consoleErrors": 0,
+    "consoleWarnings": 0
+  },
+  "limitations": "Headless desktop Chromium smoke only. No camera, real face, mobile device, transfer-size measurement, or SKU fit acceptance."
+}

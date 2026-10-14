@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#101512" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>Virtual Try-On · Vanilla SDK Example</title>
+  </head>
+  <body>
+    <main class="shell">
+      <section class="intro">
+        <p class="eyebrow">VIRTUAL TRY-ON</p>
+        <h1>Coba bentuknya.<br>Lihat dari setiap sudut.</h1>
+        <p class="lede">Pilih bingkai, sesuaikan pemasangannya, lalu menoleh untuk melihat bentuk dan gagangnya.</p>
+      </section>
+      <section class="stage-wrap" aria-label="Pratinjau virtual try-on">
+        <div id="try-on" class="stage"></div>
+        <div id="empty-hint" class="empty-hint"><span class="face-guide" aria-hidden="true"></span><strong>Aktifkan kamera untuk mulai</strong><span>Posisikan wajah di tengah, dengan pencahayaan yang cukup.</span></div>
+        <div class="stage-label"><span id="indicator" class="indicator"></span><span id="status">Siap dimulai</span></div>
+        <div id="distance" class="distance-label" hidden aria-label="Perkiraan jarak kamera ke wajah dan sudut kepala"></div>
+        <div class="privacy-note">Pemrosesan wajah lokal. Runtime disimpan di perangkat; video dan data wajah tidak disimpan atau diunggah.</div>
+      </section>
+      <section class="controls">
+        <button id="start" class="primary">Mulai kamera</button>
+        <button id="stop" class="secondary" disabled>Hentikan</button>
+        <button id="resync" class="secondary" disabled>Sambungkan ulang</button>
+      </section>
+      <p id="message" class="message" role="status" aria-live="polite">Akses kamera hanya dimulai setelah tombol ditekan.</p>
+      <details class="fit-panel"><summary>Diagnostik pelacakan lokal</summary><p id="tracking-health">Kamera belum dimulai.</p><p id="performance-health">Metrik performa belum tersedia.</p><p>Counter dan timing sementara. Submit adalah pengiriman CPU, bukan waktu GPU atau latency kamera-ke-layar fisik. Tidak menyimpan gambar atau koordinat wajah.</p></details>
+      <details class="fit-panel"><summary>Realisme &amp; kalibrasi lokal</summary>
+        <div class="fit-controls">
+          <label><input id="camera-compositing" type="checkbox"> Compositing kamera dan lensa transmission</label>
+          <label><input id="hair-occlusion" type="checkbox"> Mask rambut otomatis pada belakang tangkai</label>
+          <label for="camera-fov">Vertical FOV kamera (35–95°)</label><input id="camera-fov" type="number" min="35" max="95" step="0.1" value="63" required>
+          <label for="eye-reference">Jarak sudut luar mata, cm (opsional; bukan PD)</label><input id="eye-reference" type="number" min="3" max="14" step="0.1" placeholder="Referensi generik">
+          <p>Ubah sebelum memulai kamera. FOV dan ukuran referensi harus diketahui atau diukur; angka tebakan tidak memberi ukuran fisik akurat. Nilai hanya ada di memori sesi ini. Mask rambut menambah beban perangkat dan belum mengenali telinga.</p>
+          <p id="calibration-message" role="status"></p>
+        </div>
+      </details>
+      <section class="fit-panel" aria-label="Interaksi kacamata">
+        <label><input id="hand-interaction" type="checkbox"> Aktifkan kontrol tangan lokal</label>
+        <p>Jepit bingkai dengan ibu jari dan salah satu jari. Tambahkan tangan kedua pada sisi lain untuk memutar bersama. Untuk memindahkan pegangan, tahan jepitan tangan penerima lalu buka tangan pertama. Dekatkan ke wajah atau kepala dan lepaskan untuk memasang.</p>
+        <div class="actions"><button id="place-face" class="secondary">Pasang di wajah</button><button id="place-head" class="secondary">Letakkan di atas kepala</button></div>
+        <p id="interaction-state" role="status" aria-live="polite">Interaksi dan posisi di kepala masih perkiraan. Aktifkan kontrol tangan sebelum memulai kamera.</p>
+      </section>
+      <section class="collection" aria-label="Pilih bingkai">
+        <div class="section-heading"><h2>Pilih bingkai</h2><span>Dua desain demo + satu aset CC0</span></div>
+        <div class="product-options">
+          <button class="product" data-product="0" aria-pressed="true"><span class="swatch acetate" aria-hidden="true"></span><span><strong>Contour</strong><small>Acetate · hijau gelap</small></span><span class="selected-mark" aria-hidden="true">✓</span></button>
+          <button class="product" data-product="1" aria-pressed="false"><span class="swatch titanium" aria-hidden="true"></span><span><strong>Linea</strong><small>Metal · champagne</small></span><span class="selected-mark" aria-hidden="true">✓</span></button>
+          <button class="product" data-product="2" aria-pressed="false"><span class="swatch round" aria-hidden="true"></span><span><strong>Round Spectacles</strong><small>PBR · Poly Haven CC0</small></span><span class="selected-mark" aria-hidden="true">✓</span></button>
+        </div>
+        <p id="product-description" class="product-description">Rim acetate dengan engsel metal dan ujung gagang melengkung.</p>
+      </section>
+      <details class="fit-panel">
+        <summary>Sesuaikan pemasangan <span>Ukuran &amp; posisi</span></summary>
+        <div class="fit-controls">
+          <label for="fit-size"><span>Ukuran bingkai</span><output id="size-value" for="fit-size">100%</output></label>
+          <input id="fit-size" type="range" min="85" max="115" value="100" aria-describedby="fit-note" />
+          <label for="fit-height"><span>Posisi vertikal</span><output id="height-value" for="fit-height">Netral</output></label>
+          <input id="fit-height" type="range" min="-12" max="12" value="0" aria-describedby="fit-note" />
+          <label for="fit-depth"><span>Jarak dari wajah</span><output id="depth-value" for="fit-depth">6%</output></label>
+          <input id="fit-depth" type="range" min="0" max="20" value="6" aria-describedby="fit-note" />
+          <button id="reset-fit" class="secondary">Kembalikan pemasangan</button>
+          <p id="fit-note">Ukuran mengikuti jarak secara otomatis. Angka jarak merupakan perkiraan berdasarkan ukuran wajah generik, bukan hasil pengukuran. Ukuran fisik dan kenyamanan perlu diperiksa langsung.</p>
+        </div>
+      </details>
+      <p class="footnote">Contour dan Linea adalah desain demo. Round Spectacles adalah model uji CC0 dari <a href="https://polyhaven.com/a/round_spectacles" target="_blank" rel="noreferrer">Poly Haven</a>, bukan SKU retail terukur. <a href="/fit-check.html">Lihat pemeriksaan 3D tanpa kamera</a></p>
+    </main>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

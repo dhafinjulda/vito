@@ -1,0 +1,33 @@
+{
+  "date": "2026-10-12",
+  "kind": "synthetic-browser-gpu-readback",
+  "cameraOpened": false,
+  "sampleSource": "32x24 synthetic RGBA arrays with warm/cool border colors and identical face-colored center",
+  "estimator": {
+    "sampling": "outer image border only",
+    "temporalSmoothingMs": 650,
+    "warmLinearLuminance": 0.24505961604224288,
+    "coolLinearLuminance": 0.17670465701096785,
+    "confidence": [1, 1],
+    "privacy": "local arrays only; estimator retains aggregate filtered RGB/luminance/confidence, never the image"
+  },
+  "views": [
+    { "yawDegrees": 0, "changedGpuPixels": 231, "pass": true },
+    { "yawDegrees": 45, "changedGpuPixels": 418, "pass": true },
+    { "yawDegrees": 84, "changedGpuPixels": 91, "pass": true }
+  ],
+  "secondScenario": {
+    "asset": "Linea demo GLB",
+    "distanceCm": 100,
+    "selectedProfileYawDegrees": -84,
+    "posesAlsoCheckedYawDegrees": [0, 45],
+    "changedGpuPixelsByView": [22, 57, 18],
+    "allViewsChanged": true
+  },
+  "result": "Candidate warm/cool samples changed actual desktop WebGL output on all three synthetic poses. The estimator is now integrated into the local camera loop with an opt-out.",
+  "limitations": [
+    "Synthetic colors do not model camera auto-exposure, environment illumination, or real material appearance.",
+    "No live camera, human subject, mobile device, front/side/back lighting sweep, flicker test, or performance/battery measurement was performed.",
+    "Real-camera lighting quality, exposure behavior and mobile cost still need user/device testing."
+  ]
+}

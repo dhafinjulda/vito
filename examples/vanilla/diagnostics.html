@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="theme-color" content="#101512" />
+    <title>SDK Runtime Check · Virtual Try-On</title>
+  </head>
+  <body>
+    <main class="shell diagnostics">
+      <p class="eyebrow">SDK DIAGNOSTICS · NO CAMERA</p>
+      <h1>Periksa runtime tracking.</h1>
+      <p class="lede">Halaman ini mengunduh model dan WASM MediaPipe, lalu memproses satu frame sintetis kosong lewat worker SDK. Kamera tidak diminta; frame tidak dikirim ke server.</p>
+      <section class="check-card">
+        <div id="status" role="status" aria-live="polite">Belum dijalankan</div>
+        <label><input type="checkbox" id="hands"> Sertakan model tangan opsional (tanpa kamera)</label>
+        <button id="run" class="primary">Jalankan pemeriksaan</button>
+        <pre id="details" aria-live="polite"></pre>
+      </section>
+      <a href="/">Kembali ke contoh website</a>
+    </main>
+    <script type="module" src="/src/diagnostics.ts"></script>
+  </body>
+</html>

@@ -1,0 +1,164 @@
+{
+  "recordedDate": "2026-10-13",
+  "label": "defaults-final",
+  "entrySha256": "c20b88e840d89b967d9225738ae469d85f54b85d43898f72cc303fd4da1cee79",
+  "sdkModulePath": ".benchmarks/sdk-c20b88e840d8/vto-sdk.js",
+  "files": [
+    {
+      "path": "packages/sdk/src/diagnostics/FeaturePolicy.ts",
+      "sha256": "7e97e5153789705f8c829b729a2663776ff79e116e0224c5a1febe1e2595539c"
+    },
+    {
+      "path": "packages/sdk/src/diagnostics/QualityGovernor.ts",
+      "sha256": "09d89f73e887758ea6a13a6c9667886eb48ea0ff3b81d28c1c7ee7bfd7cf9429"
+    },
+    {
+      "path": "packages/sdk/src/diagnostics/RuntimeMetrics.ts",
+      "sha256": "a461689d0f77a7fbb5e14fb083153fe65be7449bb3e06e5268b1713ae6454f50"
+    },
+    {
+      "path": "packages/sdk/src/glasses/calibration.ts",
+      "sha256": "481df6057c0332b58882a047b942ca0c942c8154f9de03e7e8b21d5af4e0e12a"
+    },
+    {
+      "path": "packages/sdk/src/glasses/coordinates.ts",
+      "sha256": "d0258eae3e13918a687ce06ca06ffaee506c53a37ce5e58760bdf3861e986c90"
+    },
+    {
+      "path": "packages/sdk/src/glasses/face-topology.ts",
+      "sha256": "1a0c48b1342f2d41a73a2078c39df90070217e3b9ccd15a84641802864842041"
+    },
+    {
+      "path": "packages/sdk/src/glasses/fitting.ts",
+      "sha256": "1b29b95d116383211840707e60695d9340a6ed879c662a8e0650ac8d003a5f30"
+    },
+    {
+      "path": "packages/sdk/src/glasses/pose.ts",
+      "sha256": "0b11ca048437abb6075a16b6256db5debe89e25c46d5ebd89b692c6aa3cdae4c"
+    },
+    {
+      "path": "packages/sdk/src/glasses/PosePresentation.ts",
+      "sha256": "7e6032c392eff0560200d8b648ffec1c55d0e609a7388ea89e42837ca28358f7"
+    },
+    {
+      "path": "packages/sdk/src/glasses/PoseSmoother.ts",
+      "sha256": "6de856b0fe14e2f0277c4dfb493f27fd72d762b8207e966d548cfe11a099c91e"
+    },
+    {
+      "path": "packages/sdk/src/index.ts",
+      "sha256": "4b68dceeef87e6ed5cf3476ebd83cdecdad62cba91dfacbea92129191543d32c"
+    },
+    {
+      "path": "packages/sdk/src/interaction/GlassesInteraction.ts",
+      "sha256": "6377aee9f44ac12dc2572dcde6adf48cb5fd41af270a67b1ce33187802a3687f"
+    },
+    {
+      "path": "packages/sdk/src/interaction/HandGrip.ts",
+      "sha256": "7440882ddd3d2e1617c5bba6c17af0b55e1a0153c37749d84b68fd70e8710a6c"
+    },
+    {
+      "path": "packages/sdk/src/interaction/placement.ts",
+      "sha256": "f272a759483c75fe174331ce438f507e663d59fd1363bdf5475f08efaefe8ac1"
+    },
+    {
+      "path": "packages/sdk/src/rendering/CameraBackground.ts",
+      "sha256": "a3849b3b2ad02dbfcd3930684cd2b2901ce839522c984d4d2689078ffc3df222"
+    },
+    {
+      "path": "packages/sdk/src/rendering/GlassesRenderer.ts",
+      "sha256": "0670ef5f034ee8aa24bb4b9041b9cab74caf5dbc98ce30a4796b0cab54a2d81b"
+    },
+    {
+      "path": "packages/sdk/src/rendering/HairMask.ts",
+      "sha256": "126786f5f6262bbb3b501c57d0f82ed968f9f5b9cdafee3f652a2b7acd196fac"
+    },
+    {
+      "path": "packages/sdk/src/rendering/HandOccluder.ts",
+      "sha256": "9cfb260fd2e14905c588ee599c1ddaa467a917d58799bff146eda7930582e177"
+    },
+    {
+      "path": "packages/sdk/src/rendering/HeadOccluder.ts",
+      "sha256": "7b456633f9c19b1d195c786817ff84083b6bdfe9eec94816ecc1ec29cda9367b"
+    },
+    {
+      "path": "packages/sdk/src/rendering/LensOptics.ts",
+      "sha256": "a60d0a7da3c8ce76ac0e34bfcb993ec9132c23fe502da0834156d4d8fe73a936"
+    },
+    {
+      "path": "packages/sdk/src/rendering/LocalAmbientEstimator.ts",
+      "sha256": "f2ccbc2b2df5bf0eb21d6cf23acf4c239c777772c4232321cad1dc6afdeff8ce"
+    },
+    {
+      "path": "packages/sdk/src/rendering/TempleEffects.ts",
+      "sha256": "e9e710e6d1787d5078a30811f39d7ecbd38ce7789be8e9a7542927b1f01dc3bb"
+    },
+    {
+      "path": "packages/sdk/src/tracking/face.worker.ts",
+      "sha256": "e13e717b9186f13fe8ed4adc55151dc464b4b3468db75be8d5271cd034e8cb3f"
+    },
+    {
+      "path": "packages/sdk/src/tracking/FrameClock.ts",
+      "sha256": "ef57d2f253bbde1c55587054a8c7fb0933a7b956a385427cdb2fa20a7fb2fb4a"
+    },
+    {
+      "path": "packages/sdk/src/tracking/HairTracker.ts",
+      "sha256": "762971952c7ab384c25ec032766f27baec2298d79e21316975e97b2e92fa5de4"
+    },
+    {
+      "path": "packages/sdk/src/tracking/HandCadence.ts",
+      "sha256": "e699a24cc4f591f569f72929fb70f017987a920d1bf6007f1dc745497cc6137f"
+    },
+    {
+      "path": "packages/sdk/src/tracking/protocol.ts",
+      "sha256": "225d18e1b7e13194457e78550a46a83f74318532f374264f8ca595ed57d46ec2"
+    },
+    {
+      "path": "packages/sdk/src/tracking/runtime-assets.ts",
+      "sha256": "eabdfc6419b9324cb8ebec9d648958ad0e84b8d6e2c5b1944165d34bb719f3db"
+    },
+    {
+      "path": "packages/sdk/src/types.ts",
+      "sha256": "43e30b67b424a4712a249d245b6b1ecafa4020f9b66c1738a4dee328fdfce08d"
+    },
+    {
+      "path": "packages/sdk/src/vite-env.d.ts",
+      "sha256": "65996936fbb042915f7b74a200fcdde7e410f32a669b1ab9597cfaa4b0faddb5"
+    },
+    {
+      "path": "packages/sdk/dist/assets/face-worker-D_-InCxR.js",
+      "sha256": "2d49345fa75fe481e234f25a31fc666adc748161751205b73b4926370db149cb"
+    },
+    {
+      "path": "packages/sdk/dist/assets/face-worker-D_-InCxR.js.map",
+      "sha256": "30f5160c408158de19af8ca8724273aefa4310efe188f57ed9d4d88d93d93deb"
+    }
+  ],
+  "scope": "Source hashes at snapshot time and built entry/worker hashes. Source/build parity requires an immediately preceding successful build; this script does not establish it. No camera/person data. Frozen dist is local and ignored.",
+  "package": {
+    "name": "@vto/sdk",
+    "version": "0.1.0",
+    "type": "module",
+    "private": true,
+    "exports": {
+      ".": {
+        "types": "./dist/types/index.d.ts",
+        "import": "./dist/vto-sdk.js"
+      }
+    },
+    "files": [
+      "dist"
+    ],
+    "scripts": {
+      "build": "vite build && tsc -p tsconfig.build.json --emitDeclarationOnly --declaration --noEmit false --outDir dist/types && node ../../scripts/copy-sdk-notices.mjs",
+      "typecheck": "tsc --noEmit",
+      "test": "vitest run"
+    },
+    "dependencies": {
+      "@mediapipe/tasks-vision": "0.10.22-rc.20250304",
+      "three": "0.176.0"
+    },
+    "devDependencies": {
+      "@types/three": "0.176.0"
+    }
+  }
+}

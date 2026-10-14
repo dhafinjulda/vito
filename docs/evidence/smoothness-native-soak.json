@@ -1,0 +1,1045 @@
+{
+  "phase": "complete",
+  "elapsedMs": 600506.8999999762,
+  "checkpoints": [
+    {
+      "elapsedMs": 60095.89999997616,
+      "completed": 1167,
+      "advanced": true,
+      "health": {
+        "phase": "running",
+        "delegate": "GPU",
+        "framesSent": 1339,
+        "resultsReceived": 1339,
+        "restarts": 0,
+        "lastLatencyMs": 7,
+        "inputWidth": 480,
+        "inputHeight": 270,
+        "startupMs": 2528.300000011921,
+        "handStartupMs": 4396.5,
+        "pixelRatio": 1,
+        "performance": {
+          "windowMs": 5000,
+          "observedMs": 5000,
+          "rates": {
+            "captureHz": 22.4,
+            "faceHz": 22.4,
+            "handHz": 7.8,
+            "renderHz": 0,
+            "animationHz": 60,
+            "cameraHz": 29.8
+          },
+          "timings": {
+            "captureDraw": {
+              "samples": 112,
+              "meanMs": 5.452678572386503,
+              "p50Ms": 5,
+              "p95Ms": 6.800000011920929
+            },
+            "bitmap": {
+              "samples": 112,
+              "meanMs": 0.09375000319310597,
+              "p50Ms": 0.10000002384185791,
+              "p95Ms": 0.19999998807907104
+            },
+            "faceInference": {
+              "samples": 112,
+              "meanMs": 8.2178571415799,
+              "p50Ms": 7.699999988079071,
+              "p95Ms": 12.199999988079071
+            },
+            "handInference": {
+              "samples": 39,
+              "meanMs": 14.892307694141682,
+              "p50Ms": 14.900000035762787,
+              "p95Ms": 19.5
+            },
+            "fit": {
+              "samples": 111,
+              "meanMs": 0.012612612934799882,
+              "p50Ms": 0,
+              "p95Ms": 0.10000002384185791
+            },
+            "renderSubmission": {
+              "samples": 0,
+              "meanMs": null,
+              "p50Ms": null,
+              "p95Ms": null
+            },
+            "captureToSubmission": {
+              "samples": 0,
+              "meanMs": null,
+              "p50Ms": null,
+              "p95Ms": null
+            },
+            "resultAge": {
+              "samples": 112,
+              "meanMs": 8.560714288481645,
+              "p50Ms": 8,
+              "p95Ms": 12.700000047683716
+            },
+            "renderInterval": {
+              "samples": 0,
+              "meanMs": null,
+              "p50Ms": null,
+              "p95Ms": null
+            }
+          }
+        }
+      }
+    },
+    {
+      "elapsedMs": 120124.5,
+      "completed": 2570,
+      "advanced": true,
+      "health": {
+        "phase": "running",
+        "delegate": "GPU",
+        "framesSent": 2737,
+        "resultsReceived": 2736,
+        "restarts": 0,
+        "lastLatencyMs": 9,
+        "inputWidth": 640,
+        "inputHeight": 360,
+        "startupMs": 2528.300000011921,
+        "handStartupMs": 4396.5,
+        "pixelRatio": 1,
+        "performance": {
+          "windowMs": 5000,
+          "observedMs": 5000,
+          "rates": {
+            "captureHz": 23,
+            "faceHz": 23,
+            "handHz": 8,
+            "renderHz": 0,
+            "animationHz": 59.8,
+            "cameraHz": 30
+          },
+          "timings": {
+            "captureDraw": {
+              "samples": 116,
+              "meanMs": 3.829310342155654,
+              "p50Ms": 3.600000023841858,
+              "p95Ms": 5.099999964237213
+            },
+            "bitmap": {
+              "samples": 116,
+              "meanMs": 0.06982758898159554,
+              "p50Ms": 0.09999996423721313,
+              "p95Ms": 0.19999998807907104
+            },
+            "faceInference": {
+              "samples": 115,
+              "meanMs": 6.943478260351264,
+              "p50Ms": 6.599999964237213,
+              "p95Ms": 11.900000035762787
+            },
+            "handInference": {
+              "samples": 40,
+              "meanMs": 13.315000002086162,
+              "p50Ms": 12.899999976158142,
+              "p95Ms": 17.600000023841858
+            },
+            "fit": {
+              "samples": 115,
+              "meanMs": 0.006086956418078879,
+              "p50Ms": 0,
+              "p95Ms": 0.09999996423721313
+            },
+            "renderSubmission": {
+              "samples": 0,
+              "meanMs": null,
+              "p50Ms": null,
+              "p95Ms": null
+            },
+            "captureToSubmission": {
+              "samples": 0,
+              "meanMs": null,
+              "p50Ms": null,
+              "p95Ms": null
+            },
+            "resultAge": {
+              "samples": 115,
+              "meanMs": 7.222608698451,
+              "p50Ms": 6.899999976158142,
+              "p95Ms": 12.199999988079071
+            },
+            "renderInterval": {
+              "samples": 0,
+              "meanMs": null,
+              "p50Ms": null,
+              "p95Ms": null
+            }
+          }
+        }
+      }
+    },
+    {
+      "elapsedMs": 180046.10000002384,
+      "completed": 3906,
+      "advanced": true,
+      "health": {
+        "phase": "running",
+        "delegate": "GPU",
+        "framesSent": 4077,
+        "resultsReceived": 4077,
+        "restarts": 0,
+        "lastLatencyMs": 13,
+        "inputWidth": 640,
+        "inputHeight": 360,
+        "startupMs": 2528.300000011921,
+        "handStartupMs": 4396.5,
+        "pixelRatio": 1,
+        "performance": {
+          "windowMs": 5000,
+          "observedMs": 5000,
+          "rates": {
+            "captureHz": 22.2,
+            "faceHz": 22.2,
+            "handHz": 7.8,
+            "renderHz": 0,
+            "animationHz": 60.2,
+            "cameraHz": 29.6
+          },
+          "timings": {
+            "captureDraw": {
+              "samples": 111,
+              "meanMs": 4.227027031215462,
+              "p50Ms": 4.199999988079071,
+              "p95Ms": 5.899999976158142
+            },
+            "bitmap": {
+              "samples": 111,
+              "meanMs": 0.07207207368300841,
+              "p50Ms": 0.09999996423721313,
+              "p95Ms": 0.19999998807907104
+            },
+            "faceInference": {
+              "samples": 111,
+              "meanMs": 7.346846848457783,
+              "p50Ms": 6.700000047683716,
+              "p95Ms": 12.300000011920929
+            },
+            "handInference": {
+              "samples": 39,
+              "meanMs": 13.633333336084316,
+              "p50Ms": 13.800000011920929,
+              "p95Ms": 17.899999976158142
+            },
+            "fit": {
+              "samples": 111,
+              "meanMs": 0.00810810950425294,
+              "p50Ms": 0,
+              "p95Ms": 0.10000002384185791
+            },
+            "renderSubmission": {
+              "samples": 0,
+              "meanMs": null,
+              "p50Ms": null,
+              "p95Ms": null
+            },
+            "captureToSubmission": {
+              "samples": 0,
+              "meanMs": null,
+              "p50Ms": null,
+              "p95Ms": null
+            },
+            "resultAge": {
+              "samples": 111,
+              "meanMs": 7.634234232408506,
+              "p50Ms": 7,
+              "p95Ms": 12.5
+            },
+            "renderInterval": {
+              "samples": 0,
+              "meanMs": null,
+              "p50Ms": null,
+              "p95Ms": null
+            }
+          }
+        }
+      }
+    },
+    {
+      "elapsedMs": 240070.30000001192,
+      "completed": 5290,
+      "advanced": true,
+      "health": {
+        "phase": "running",
+        "delegate": "GPU",
+        "framesSent": 5457,
+        "resultsReceived": 5456,
+        "restarts": 0,
+        "lastLatencyMs": 8,
+        "inputWidth": 640,
+        "inputHeight": 360,
+        "startupMs": 2528.300000011921,
+        "handStartupMs": 4396.5,
+        "pixelRatio": 1,
+        "performance": {
+          "windowMs": 5000,
+          "observedMs": 5000,
+          "rates": {
+            "captureHz": 22.8,
+            "faceHz": 22.8,
+            "handHz": 8,
+            "renderHz": 0,
+            "animationHz": 59.8,
+            "cameraHz": 29.8
+          },
+          "timings": {
+            "captureDraw": {
+              "samples": 115,
+              "meanMs": 4.520869564491769,
+              "p50Ms": 4.399999976158142,
+              "p95Ms": 5.699999988079071
+            },
+            "bitmap": {
+              "samples": 115,
+              "meanMs": 0.09043478602948396,
+              "p50Ms": 0.10000002384185791,
+              "p95Ms": 0.19999998807907104
+            },
+            "faceInference": {
+              "samples": 114,
+              "meanMs": 8.176315787591433,
+              "p50Ms": 7.600000023841858,
+              "p95Ms": 12.600000023841858
+            },
+            "handInference": {
+              "samples": 40,
+              "meanMs": 14.839999993145465,
+              "p50Ms": 14.300000011920929,
+              "p95Ms": 19.19999998807907
+            },
+            "fit": {
+              "samples": 114,
+              "meanMs": 0.006140351818318953,
+              "p50Ms": 0,
+              "p95Ms": 0.10000002384185791
+            },
+            "renderSubmission": {
+              "samples": 0,
+              "meanMs": null,
+              "p50Ms": null,
+              "p95Ms": null
+            },
+            "captureToSubmission": {
+              "samples": 0,
+              "meanMs": null,
+              "p50Ms": null,
+              "p95Ms": null
+            },
+            "resultAge": {
+              "samples": 114,
+              "meanMs": 8.503508776426315,
+              "p50Ms": 7.900000035762787,
+              "p95Ms": 12.899999976158142
+            },
+            "renderInterval": {
+              "samples": 0,
+              "meanMs": null,
+              "p50Ms": null,
+              "p95Ms": null
+            }
+          }
+        }
+      }
+    },
+    {
+      "elapsedMs": 300475.6999999881,
+      "completed": 6673,
+      "advanced": true,
+      "health": {
+        "phase": "running",
+        "delegate": "GPU",
+        "framesSent": 6840,
+        "resultsReceived": 6840,
+        "restarts": 0,
+        "lastLatencyMs": 8,
+        "inputWidth": 640,
+        "inputHeight": 360,
+        "startupMs": 2528.300000011921,
+        "handStartupMs": 4396.5,
+        "pixelRatio": 1,
+        "performance": {
+          "windowMs": 5000,
+          "observedMs": 5000,
+          "rates": {
+            "captureHz": 23.4,
+            "faceHz": 23.4,
+            "handHz": 8,
+            "renderHz": 0,
+            "animationHz": 60,
+            "cameraHz": 30
+          },
+          "timings": {
+            "captureDraw": {
+              "samples": 117,
+              "meanMs": 4.879487180302286,
+              "p50Ms": 4.899999976158142,
+              "p95Ms": 6.300000011920929
+            },
+            "bitmap": {
+              "samples": 117,
+              "meanMs": 0.08803419221160758,
+              "p50Ms": 0.10000002384185791,
+              "p95Ms": 0.19999998807907104
+            },
+            "faceInference": {
+              "samples": 117,
+              "meanMs": 8.40000000061133,
+              "p50Ms": 7.899999976158142,
+              "p95Ms": 13.600000023841858
+            },
+            "handInference": {
+              "samples": 40,
+              "meanMs": 15.674999997019768,
+              "p50Ms": 15.899999976158142,
+              "p95Ms": 18.19999998807907
+            },
+            "fit": {
+              "samples": 117,
+              "meanMs": 0.009401710624368781,
+              "p50Ms": 0,
+              "p95Ms": 0.10000002384185791
+            },
+            "renderSubmission": {
+              "samples": 0,
+              "meanMs": null,
+              "p50Ms": null,
+              "p95Ms": null
+            },
+            "captureToSubmission": {
+              "samples": 0,
+              "meanMs": null,
+              "p50Ms": null,
+              "p95Ms": null
+            },
+            "resultAge": {
+              "samples": 117,
+              "meanMs": 8.727350428573086,
+              "p50Ms": 8.199999988079071,
+              "p95Ms": 14
+            },
+            "renderInterval": {
+              "samples": 0,
+              "meanMs": null,
+              "p50Ms": null,
+              "p95Ms": null
+            }
+          }
+        }
+      }
+    },
+    {
+      "elapsedMs": 360444.39999997616,
+      "completed": 8045,
+      "advanced": true,
+      "health": {
+        "phase": "running",
+        "delegate": "GPU",
+        "framesSent": 8207,
+        "resultsReceived": 8206,
+        "restarts": 0,
+        "lastLatencyMs": 15,
+        "inputWidth": 640,
+        "inputHeight": 360,
+        "startupMs": 2528.300000011921,
+        "handStartupMs": 4396.5,
+        "pixelRatio": 1,
+        "performance": {
+          "windowMs": 5000,
+          "observedMs": 5000,
+          "rates": {
+            "captureHz": 23,
+            "faceHz": 23,
+            "handHz": 7.8,
+            "renderHz": 0,
+            "animationHz": 59.8,
+            "cameraHz": 30.2
+          },
+          "timings": {
+            "captureDraw": {
+              "samples": 116,
+              "meanMs": 3.9465517262960303,
+              "p50Ms": 3.800000011920929,
+              "p95Ms": 5
+            },
+            "bitmap": {
+              "samples": 116,
+              "meanMs": 0.07068965506964717,
+              "p50Ms": 0.09999996423721313,
+              "p95Ms": 0.19999998807907104
+            },
+            "faceInference": {
+              "samples": 115,
+              "meanMs": 6.928695651240971,
+              "p50Ms": 6.300000011920929,
+              "p95Ms": 12.100000023841858
+            },
+            "handInference": {
+              "samples": 39,
+              "meanMs": 13.151282050670721,
+              "p50Ms": 13.300000011920929,
+              "p95Ms": 16
+            },
+            "fit": {
+              "samples": 115,
+              "meanMs": 0.004347825568655263,
+              "p50Ms": 0,
+              "p95Ms": 0
+            },
+            "renderSubmission": {
+              "samples": 0,
+              "meanMs": null,
+              "p50Ms": null,
+              "p95Ms": null
+            },
+            "captureToSubmission": {
+              "samples": 0,
+              "meanMs": null,
+              "p50Ms": null,
+              "p95Ms": null
+            },
+            "resultAge": {
+              "samples": 115,
+              "meanMs": 7.2078260867492014,
+              "p50Ms": 6.600000023841858,
+              "p95Ms": 12.300000011920929
+            },
+            "renderInterval": {
+              "samples": 0,
+              "meanMs": null,
+              "p50Ms": null,
+              "p95Ms": null
+            }
+          }
+        }
+      }
+    },
+    {
+      "elapsedMs": 420466.8000000119,
+      "completed": 9427,
+      "advanced": true,
+      "health": {
+        "phase": "running",
+        "delegate": "GPU",
+        "framesSent": 9599,
+        "resultsReceived": 9599,
+        "restarts": 0,
+        "lastLatencyMs": 9,
+        "inputWidth": 640,
+        "inputHeight": 360,
+        "startupMs": 2528.300000011921,
+        "handStartupMs": 4396.5,
+        "pixelRatio": 1,
+        "performance": {
+          "windowMs": 5000,
+          "observedMs": 5000,
+          "rates": {
+            "captureHz": 22.6,
+            "faceHz": 22.6,
+            "handHz": 8,
+            "renderHz": 0,
+            "animationHz": 60,
+            "cameraHz": 29.8
+          },
+          "timings": {
+            "captureDraw": {
+              "samples": 113,
+              "meanMs": 3.7176991157827124,
+              "p50Ms": 3.5,
+              "p95Ms": 4.899999976158142
+            },
+            "bitmap": {
+              "samples": 113,
+              "meanMs": 0.06637168141592921,
+              "p50Ms": 0.09999996423721313,
+              "p95Ms": 0.19999998807907104
+            },
+            "faceInference": {
+              "samples": 113,
+              "meanMs": 7.04778760935353,
+              "p50Ms": 6.5,
+              "p95Ms": 11.899999976158142
+            },
+            "handInference": {
+              "samples": 40,
+              "meanMs": 12.43000000268221,
+              "p50Ms": 12.099999964237213,
+              "p95Ms": 15
+            },
+            "fit": {
+              "samples": 112,
+              "meanMs": 0.005357143070016589,
+              "p50Ms": 0,
+              "p95Ms": 0.09999996423721313
+            },
+            "renderSubmission": {
+              "samples": 0,
+              "meanMs": null,
+              "p50Ms": null,
+              "p95Ms": null
+            },
+            "captureToSubmission": {
+              "samples": 0,
+              "meanMs": null,
+              "p50Ms": null,
+              "p95Ms": null
+            },
+            "resultAge": {
+              "samples": 113,
+              "meanMs": 7.317699114305783,
+              "p50Ms": 6.800000011920929,
+              "p95Ms": 12.199999988079071
+            },
+            "renderInterval": {
+              "samples": 0,
+              "meanMs": null,
+              "p50Ms": null,
+              "p95Ms": null
+            }
+          }
+        }
+      }
+    },
+    {
+      "elapsedMs": 480495.3000000119,
+      "completed": 10772,
+      "advanced": true,
+      "health": {
+        "phase": "running",
+        "delegate": "GPU",
+        "framesSent": 10942,
+        "resultsReceived": 10941,
+        "restarts": 0,
+        "lastLatencyMs": 6,
+        "inputWidth": 640,
+        "inputHeight": 360,
+        "startupMs": 2528.300000011921,
+        "handStartupMs": 4396.5,
+        "pixelRatio": 1,
+        "performance": {
+          "windowMs": 5000,
+          "observedMs": 5000,
+          "rates": {
+            "captureHz": 22.6,
+            "faceHz": 22.6,
+            "handHz": 8.2,
+            "renderHz": 0,
+            "animationHz": 59.4,
+            "cameraHz": 29.8
+          },
+          "timings": {
+            "captureDraw": {
+              "samples": 114,
+              "meanMs": 4.015789475357323,
+              "p50Ms": 3.899999976158142,
+              "p95Ms": 5.299999952316284
+            },
+            "bitmap": {
+              "samples": 114,
+              "meanMs": 0.06666666426156696,
+              "p50Ms": 0.09999996423721313,
+              "p95Ms": 0.19999998807907104
+            },
+            "faceInference": {
+              "samples": 113,
+              "meanMs": 6.7504424779816015,
+              "p50Ms": 6.299999952316284,
+              "p95Ms": 11.5
+            },
+            "handInference": {
+              "samples": 41,
+              "meanMs": 13.704878051106522,
+              "p50Ms": 13.200000047683716,
+              "p95Ms": 19.099999964237213
+            },
+            "fit": {
+              "samples": 113,
+              "meanMs": 0.0026548678896068474,
+              "p50Ms": 0,
+              "p95Ms": 0
+            },
+            "renderSubmission": {
+              "samples": 0,
+              "meanMs": null,
+              "p50Ms": null,
+              "p95Ms": null
+            },
+            "captureToSubmission": {
+              "samples": 0,
+              "meanMs": null,
+              "p50Ms": null,
+              "p95Ms": null
+            },
+            "resultAge": {
+              "samples": 113,
+              "meanMs": 7.013274335228236,
+              "p50Ms": 6.5,
+              "p95Ms": 11.699999988079071
+            },
+            "renderInterval": {
+              "samples": 0,
+              "meanMs": null,
+              "p50Ms": null,
+              "p95Ms": null
+            }
+          }
+        }
+      }
+    },
+    {
+      "elapsedMs": 540492.3000000119,
+      "completed": 12145,
+      "advanced": true,
+      "health": {
+        "phase": "running",
+        "delegate": "GPU",
+        "framesSent": 12310,
+        "resultsReceived": 12309,
+        "restarts": 0,
+        "lastLatencyMs": 7,
+        "inputWidth": 480,
+        "inputHeight": 270,
+        "startupMs": 2528.300000011921,
+        "handStartupMs": 4396.5,
+        "pixelRatio": 1,
+        "performance": {
+          "windowMs": 5000,
+          "observedMs": 5000,
+          "rates": {
+            "captureHz": 23,
+            "faceHz": 23,
+            "handHz": 8,
+            "renderHz": 0,
+            "animationHz": 59.8,
+            "cameraHz": 29.8
+          },
+          "timings": {
+            "captureDraw": {
+              "samples": 116,
+              "meanMs": 4.725862069890417,
+              "p50Ms": 4.399999976158142,
+              "p95Ms": 7.100000023841858
+            },
+            "bitmap": {
+              "samples": 116,
+              "meanMs": 0.0775862089518843,
+              "p50Ms": 0.09999996423721313,
+              "p95Ms": 0.19999998807907104
+            },
+            "faceInference": {
+              "samples": 115,
+              "meanMs": 7.239999995542609,
+              "p50Ms": 6.5,
+              "p95Ms": 12.099999964237213
+            },
+            "handInference": {
+              "samples": 40,
+              "meanMs": 13.447500002384185,
+              "p50Ms": 12.799999952316284,
+              "p95Ms": 18.600000023841858
+            },
+            "fit": {
+              "samples": 115,
+              "meanMs": 0.0043478266052577805,
+              "p50Ms": 0,
+              "p95Ms": 0
+            },
+            "renderSubmission": {
+              "samples": 0,
+              "meanMs": null,
+              "p50Ms": null,
+              "p95Ms": null
+            },
+            "captureToSubmission": {
+              "samples": 0,
+              "meanMs": null,
+              "p50Ms": null,
+              "p95Ms": null
+            },
+            "resultAge": {
+              "samples": 115,
+              "meanMs": 7.549565219360849,
+              "p50Ms": 6.699999988079071,
+              "p95Ms": 12.600000023841858
+            },
+            "renderInterval": {
+              "samples": 0,
+              "meanMs": null,
+              "p50Ms": null,
+              "p95Ms": null
+            }
+          }
+        }
+      }
+    },
+    {
+      "elapsedMs": 600506.8999999762,
+      "completed": 13555,
+      "advanced": true,
+      "health": {
+        "phase": "running",
+        "delegate": "GPU",
+        "framesSent": 13726,
+        "resultsReceived": 13725,
+        "restarts": 0,
+        "lastLatencyMs": 7,
+        "inputWidth": 640,
+        "inputHeight": 360,
+        "startupMs": 2528.300000011921,
+        "handStartupMs": 4396.5,
+        "pixelRatio": 1,
+        "performance": {
+          "windowMs": 5000,
+          "observedMs": 5000,
+          "rates": {
+            "captureHz": 23.4,
+            "faceHz": 23.4,
+            "handHz": 7.8,
+            "renderHz": 0,
+            "animationHz": 59.8,
+            "cameraHz": 30.2
+          },
+          "timings": {
+            "captureDraw": {
+              "samples": 118,
+              "meanMs": 4.164406779458967,
+              "p50Ms": 4,
+              "p95Ms": 5.5
+            },
+            "bitmap": {
+              "samples": 118,
+              "meanMs": 0.07966101927272344,
+              "p50Ms": 0.09999996423721313,
+              "p95Ms": 0.19999998807907104
+            },
+            "faceInference": {
+              "samples": 117,
+              "meanMs": 7.073504269632519,
+              "p50Ms": 6.699999988079071,
+              "p95Ms": 11.399999976158142
+            },
+            "handInference": {
+              "samples": 39,
+              "meanMs": 13.464102567770542,
+              "p50Ms": 13.199999988079071,
+              "p95Ms": 17.69999998807907
+            },
+            "fit": {
+              "samples": 117,
+              "meanMs": 0.007692307488531129,
+              "p50Ms": 0,
+              "p95Ms": 0.09999996423721313
+            },
+            "renderSubmission": {
+              "samples": 0,
+              "meanMs": null,
+              "p50Ms": null,
+              "p95Ms": null
+            },
+            "captureToSubmission": {
+              "samples": 0,
+              "meanMs": null,
+              "p50Ms": null,
+              "p95Ms": null
+            },
+            "resultAge": {
+              "samples": 117,
+              "meanMs": 7.370085472734566,
+              "p50Ms": 7,
+              "p95Ms": 11.699999988079071
+            },
+            "renderInterval": {
+              "samples": 0,
+              "meanMs": null,
+              "p50Ms": null,
+              "p95Ms": null
+            }
+          }
+        }
+      }
+    }
+  ],
+  "error": null,
+  "health": {
+    "phase": "stopped",
+    "delegate": "GPU",
+    "framesSent": 13728,
+    "resultsReceived": 13728,
+    "restarts": 0,
+    "lastLatencyMs": 7,
+    "inputWidth": 640,
+    "inputHeight": 360,
+    "startupMs": 2528.300000011921,
+    "handStartupMs": 4396.5,
+    "pixelRatio": 1,
+    "performance": {
+      "windowMs": 5000,
+      "observedMs": 5000,
+      "rates": {
+        "captureHz": 23.4,
+        "faceHz": 23.4,
+        "handHz": 7.8,
+        "renderHz": 0,
+        "animationHz": 59.8,
+        "cameraHz": 29.8
+      },
+      "timings": {
+        "captureDraw": {
+          "samples": 117,
+          "meanMs": 4.1487179485141725,
+          "p50Ms": 4,
+          "p95Ms": 5.5
+        },
+        "bitmap": {
+          "samples": 117,
+          "meanMs": 0.0786324815872388,
+          "p50Ms": 0.09999996423721313,
+          "p95Ms": 0.19999998807907104
+        },
+        "faceInference": {
+          "samples": 117,
+          "meanMs": 7.091452987785013,
+          "p50Ms": 6.699999988079071,
+          "p95Ms": 11.399999976158142
+        },
+        "handInference": {
+          "samples": 39,
+          "meanMs": 13.520512823875134,
+          "p50Ms": 13.199999988079071,
+          "p95Ms": 17.69999998807907
+        },
+        "fit": {
+          "samples": 117,
+          "meanMs": 0.007692307488531129,
+          "p50Ms": 0,
+          "p95Ms": 0.09999996423721313
+        },
+        "renderSubmission": {
+          "samples": 0,
+          "meanMs": null,
+          "p50Ms": null,
+          "p95Ms": null
+        },
+        "captureToSubmission": {
+          "samples": 0,
+          "meanMs": null,
+          "p50Ms": null,
+          "p95Ms": null
+        },
+        "resultAge": {
+          "samples": 117,
+          "meanMs": 7.386324789788988,
+          "p50Ms": 7,
+          "p95Ms": 11.699999988079071
+        },
+        "renderInterval": {
+          "samples": 0,
+          "meanMs": null,
+          "p50Ms": null,
+          "p95Ms": null
+        }
+      }
+    }
+  },
+  "result": {
+    "date": "2026-10-13",
+    "cameraRequested": false,
+    "sdk": "/@fs/C:/Projects/VTO/.benchmarks/sdk-db5ca25981bf/vto-sdk.js",
+    "protocol": 5,
+    "measuredMs": 600506.8999999762,
+    "completed": 13555,
+    "workerUrls": [
+      "http://127.0.0.1:5173/@fs/C:/Projects/VTO/.benchmarks/sdk-db5ca25981bf/assets/face-worker-qKTLBMGK.js"
+    ],
+    "terminated": 1,
+    "tracksStopped": true,
+    "elementsRemoved": true,
+    "health": {
+      "phase": "running",
+      "delegate": "GPU",
+      "framesSent": 13726,
+      "resultsReceived": 13725,
+      "restarts": 0,
+      "lastLatencyMs": 7,
+      "inputWidth": 640,
+      "inputHeight": 360,
+      "startupMs": 2528.300000011921,
+      "handStartupMs": 4396.5,
+      "pixelRatio": 1,
+      "performance": {
+        "windowMs": 5000,
+        "observedMs": 5000,
+        "rates": {
+          "captureHz": 23.4,
+          "faceHz": 23.4,
+          "handHz": 7.8,
+          "renderHz": 0,
+          "animationHz": 59.8,
+          "cameraHz": 30.2
+        },
+        "timings": {
+          "captureDraw": {
+            "samples": 118,
+            "meanMs": 4.164406779458967,
+            "p50Ms": 4,
+            "p95Ms": 5.5
+          },
+          "bitmap": {
+            "samples": 118,
+            "meanMs": 0.07966101927272344,
+            "p50Ms": 0.09999996423721313,
+            "p95Ms": 0.19999998807907104
+          },
+          "faceInference": {
+            "samples": 117,
+            "meanMs": 7.073504269632519,
+            "p50Ms": 6.699999988079071,
+            "p95Ms": 11.399999976158142
+          },
+          "handInference": {
+            "samples": 39,
+            "meanMs": 13.464102567770542,
+            "p50Ms": 13.199999988079071,
+            "p95Ms": 17.69999998807907
+          },
+          "fit": {
+            "samples": 117,
+            "meanMs": 0.007692307488531129,
+            "p50Ms": 0,
+            "p95Ms": 0.09999996423721313
+          },
+          "renderSubmission": {
+            "samples": 0,
+            "meanMs": null,
+            "p50Ms": null,
+            "p95Ms": null
+          },
+          "captureToSubmission": {
+            "samples": 0,
+            "meanMs": null,
+            "p50Ms": null,
+            "p95Ms": null
+          },
+          "resultAge": {
+            "samples": 117,
+            "meanMs": 7.370085472734566,
+            "p50Ms": 7,
+            "p95Ms": 11.699999988079071
+          },
+          "renderInterval": {
+            "samples": 0,
+            "meanMs": null,
+            "p50Ms": null,
+            "p95Ms": null
+          }
+        }
+      }
+    },
+    "pass": true,
+    "scope": "One 10-minute public SDK session, actual native face/hand graphs, blank synthetic stream. Explicit harness hand activation. Checks temporal buffer/runtime continuity and disposal only; no recognition, valid-fit rendering, heap snapshot or physical-device acceptance."
+  }
+}

@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="id"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><title>Pemeriksaan fitting 3D · Virtual Try-On</title></head>
+<body><main class="shell bench">
+  <p class="eyebrow">PEMERIKSAAN 3D · WAJAH SINTETIS</p>
+  <h1>Pemasangan dari tiga sudut.</h1>
+  <p class="lede">Model kepala dan sampel cahaya sintetis, tanpa kamera. Ubah jarak untuk melihat perspektif serta membandingkan respons material pada suasana hangat/dingin. Renderer ini juga dipakai oleh sesi kamera.</p>
+  <div class="bench-grid">
+    <figure><canvas id="front" aria-label="Pemasangan frontal"></canvas><figcaption>Frontal · 0°</figcaption></figure>
+    <figure><canvas id="oblique" aria-label="Pemasangan sudut 45 derajat"></canvas><figcaption>Menoleh · 45°</figcaption></figure>
+    <figure><canvas id="profile" aria-label="Pemasangan samping penuh 84 derajat"></canvas><figcaption id="profile-caption">Samping penuh · 84°</figcaption></figure>
+  </div>
+  <label for="distance-control">Jarak sintetis ke pangkal hidung · <output id="distance-value">30 cm</output></label>
+  <input id="distance-control" type="range" min="30" max="100" value="30" step="5">
+  <label for="pitch-control">Kemiringan kepala sintetis · <output id="pitch-value">0°</output> · nilai negatif: menengadah</label>
+  <input id="pitch-control" type="range" min="-80" max="80" value="0" step="5">
+  <label for="placement-control">Posisi kacamata sintetis · 0: wajah, 100: atas kepala</label>
+  <input id="placement-control" type="range" min="0" max="100" value="0" step="5">
+  <div class="bench-actions"><label>Bingkai <select id="asset"><option value="0">Contour · acetate</option><option value="1">Linea · metal</option><option value="2">Round Spectacles · CC0 PBR</option></select></label><label>Profil <select id="profile-side"><option value="1">Kanan · 84°</option><option value="-1">Kiri · −84°</option></select></label><label>Cahaya <select id="lighting-mode"><option value="default">Renderer dasar</option><option value="warm">Cahaya sintetis hangat</option><option value="cool">Cahaya sintetis dingin</option></select></label><label><input id="effects-mode" type="checkbox" checked> Efek tangkai VTOGlasses</label><label><input id="occlusion" type="checkbox" checked> Tutup gagang di belakang wajah &amp; telinga</label><button class="secondary" id="rerun">Ulangi pemeriksaan GPU</button><button class="secondary" id="soak">Uji 20 pergantian aset</button><button class="secondary" id="motion">Uji gerak 180 frame</button></div>
+  <p class="bench-result" id="result" role="status" aria-live="polite">Menyiapkan model dan renderer…</p>
+  <p class="footnote">Ini pengujian sintetis untuk renderer, bukan bukti kecocokan pada wajah atau perangkat nyata.</p><a href="/">Kembali ke kamera</a>
+</main><script type="module" src="/src/fit-check.ts"></script></body></html>

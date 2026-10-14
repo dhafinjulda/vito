@@ -1,0 +1,55 @@
+{
+  "date": "2026-10-12",
+  "url": "http://127.0.0.1:4173/fit-check.html",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+  "cameraRequested": false,
+  "runs": [
+    {
+      "asset": "0",
+      "distance": 30,
+      "result": "pass",
+      "placement": {
+        "headVisiblePixels": 923,
+        "changedPixels": 3900,
+        "maskUnchanged": true,
+        "pass": true
+      }
+    },
+    {
+      "asset": "0",
+      "distance": 100,
+      "result": "pass",
+      "placement": {
+        "headVisiblePixels": 142,
+        "changedPixels": 414,
+        "maskUnchanged": true,
+        "pass": true
+      }
+    },
+    {
+      "asset": "1",
+      "distance": 30,
+      "result": "pass",
+      "placement": {
+        "headVisiblePixels": 619,
+        "changedPixels": 3528,
+        "maskUnchanged": true,
+        "pass": true
+      }
+    },
+    {
+      "asset": "1",
+      "distance": 100,
+      "result": "pass",
+      "placement": {
+        "headVisiblePixels": 126,
+        "changedPixels": 384,
+        "maskUnchanged": true,
+        "pass": true
+      }
+    }
+  ],
+  "limitations": "Synthetic head and real GLB GPU rendering only. Confirms nonempty crown rendering and mask invariance, not real hands, hair segmentation, physical contact, or device performance.",
+  "consoleErrors": 0,
+  "consoleWarnings": 0
+}

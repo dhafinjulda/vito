@@ -1,0 +1,64 @@
+
+> @vto/sdk@0.1.0 prepack C:\Projects\VTO\packages\sdk
+> pnpm run build
+
+
+> @vto/sdk@0.1.0 build C:\Projects\VTO\packages\sdk
+> vite build && tsc -p tsconfig.build.json --emitDeclarationOnly --declaration --noEmit false --outDir dist/types && node ../../scripts/copy-sdk-notices.mjs
+
+vite v6.3.7 building for production...
+transforming...
+✓ 30 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/assets/face-worker-CZkKssiX.js  179.52 kB
+dist/vto-sdk.js                      127.49 kB │ gzip: 36.72 kB │ map: 328.15 kB
+✓ built in 1.11s
+Included third-party notices and license texts in SDK distribution.
+📦  @vto/sdk@0.1.0
+Tarball Contents
+dist/assets/face-worker-CZkKssiX.js
+dist/assets/face-worker-CZkKssiX.js.map
+dist/licenses/MediaPipe.txt
+dist/licenses/Three.txt
+dist/licenses/WebAR.rocks.face-MIT.txt
+dist/THIRD_PARTY_NOTICES.md
+dist/types/assets/AssetReadiness.d.ts
+dist/types/diagnostics/FeaturePolicy.d.ts
+dist/types/diagnostics/QualityGovernor.d.ts
+dist/types/diagnostics/RuntimeMetrics.d.ts
+dist/types/glasses/asset-metadata.d.ts
+dist/types/glasses/calibration.d.ts
+dist/types/glasses/coordinates.d.ts
+dist/types/glasses/face-topology.d.ts
+dist/types/glasses/fitting.d.ts
+dist/types/glasses/pose.d.ts
+dist/types/glasses/PosePresentation.d.ts
+dist/types/glasses/PoseSmoother.d.ts
+dist/types/index.d.ts
+dist/types/interaction/GlassesInteraction.d.ts
+dist/types/interaction/HandGrip.d.ts
+dist/types/interaction/HandIdentity.d.ts
+dist/types/interaction/placement.d.ts
+dist/types/rendering/CameraBackground.d.ts
+dist/types/rendering/GlassesRenderer.d.ts
+dist/types/rendering/HairMask.d.ts
+dist/types/rendering/HandOccluder.d.ts
+dist/types/rendering/HeadOccluder.d.ts
+dist/types/rendering/LensOptics.d.ts
+dist/types/rendering/LocalAmbientEstimator.d.ts
+dist/types/rendering/TempleEffects.d.ts
+dist/types/tracking/face.worker.d.ts
+dist/types/tracking/FrameClock.d.ts
+dist/types/tracking/HairTracker.d.ts
+dist/types/tracking/HandCadence.d.ts
+dist/types/tracking/protocol.d.ts
+dist/types/tracking/runtime-assets.d.ts
+dist/types/tracking/SourceGeometry.d.ts
+dist/types/types.d.ts
+dist/vto-sdk.js
+dist/vto-sdk.js.map
+package.json
+README.md
+Tarball Details
+C:\Projects\VTO\.benchmarks\packages\vto-sdk-0.1.0.tgz

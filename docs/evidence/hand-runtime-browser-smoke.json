@@ -1,0 +1,35 @@
+{
+  "date": "2026-10-12",
+  "url": "http://127.0.0.1:5173/diagnostics.html",
+  "result": "PASS",
+  "runtime": "The emitted classic SDK worker initialized Face Landmarker and optional Hand Landmarker, warmed on a synthetic blank canvas, and returned no face/no hand for the transferred blank ImageBitmap.",
+  "cameraRequested": false,
+  "videoElements": 0,
+  "uncaughtPageErrors": [],
+  "freeHoldingProtocolSmoke": {
+    "verified": true,
+    "protocol": "face result, independent hand result and frame-done completion",
+    "blankFrameCompletedBothModels": true,
+    "cameraRequested": false,
+    "pageErrors": [],
+    "liveGestureAcceptance": false
+  },
+  "console": {
+    "errorLevelEntries": 1,
+    "errorEntry": "INFO: Created TensorFlow Lite XNNPACK delegate for CPU.",
+    "warnings": 4,
+    "warningSummary": "MediaPipe native graph logs: face blendshape XNNPACK default, OpenGL error checking disabled twice, and normalized ROI projection warning."
+  },
+  "productionUiSmoke": {
+    "url": "http://127.0.0.1:4173/",
+    "handToggleEnabled": true,
+    "headAndFaceButtonsUpdatedTransientState": true,
+    "status": "Siap dimulai",
+    "sdkVideoElements": 1,
+    "cameraStreamAttached": false,
+    "handModelRequestsBeforeStart": 0,
+    "consoleErrors": 0,
+    "consoleWarnings": 0
+  },
+  "limitations": "Desktop headless Chromium only. Blank-frame initialization/inference and idle UI were exercised; no real hand or camera input, live grasp reliability, anatomical hair/hand occlusion, mobile compatibility, or live inference budget acceptance."
+}

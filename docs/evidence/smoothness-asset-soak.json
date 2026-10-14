@@ -1,0 +1,52 @@
+{
+  "status": "soak-pass",
+  "text": "LULUS · 20 pergantian tiga aset pada 3 renderer; aset awal dipulihkan. Sebelum warmup: 16/1, 13/1, 13/1; baseline hangat: 16/2, 13/2, 13/2; akhir: 16/2, 13/2, 13/2. Counter GPU, bukan bukti bebas heap leak.",
+  "checks": {
+    "cold": [
+      {
+        "geometries": 16,
+        "textures": 1
+      },
+      {
+        "geometries": 13,
+        "textures": 1
+      },
+      {
+        "geometries": 13,
+        "textures": 1
+      }
+    ],
+    "baseline": [
+      {
+        "geometries": 16,
+        "textures": 2
+      },
+      {
+        "geometries": 13,
+        "textures": 2
+      },
+      {
+        "geometries": 13,
+        "textures": 2
+      }
+    ],
+    "after": [
+      {
+        "geometries": 16,
+        "textures": 2
+      },
+      {
+        "geometries": 13,
+        "textures": 2
+      },
+      {
+        "geometries": 13,
+        "textures": 2
+      }
+    ],
+    "swaps": 20,
+    "warmedAssets": 3,
+    "pass": true,
+    "scope": "GPU geometry/texture counters after material warmup; not proof of absence of heap leaks."
+  }
+}

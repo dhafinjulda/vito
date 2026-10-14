@@ -1,0 +1,31 @@
+
+> @vto/asset-generator@0.1.0 prepack C:\Projects\VTO\packages\asset-generator
+> pnpm run build
+
+
+> @vto/asset-generator@0.1.0 build C:\Projects\VTO\packages\asset-generator
+> vite build && tsc -p tsconfig.build.json --emitDeclarationOnly --declaration --noEmit false --outDir dist/types && node ../../scripts/copy-generator-notices.mjs
+
+vite v6.3.7 building for production...
+transforming...
+✓ 7 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/asset-generator.js  92.15 kB │ gzip: 26.60 kB │ map: 246.13 kB
+✓ built in 391ms
+📦  @vto/asset-generator@0.1.0
+Tarball Contents
+dist/asset-generator.js
+dist/asset-generator.js.map
+dist/licenses/Three.txt
+dist/THIRD_PARTY_NOTICES.md
+dist/types/description.d.ts
+dist/types/export.d.ts
+dist/types/generate.d.ts
+dist/types/geometry.d.ts
+dist/types/index.d.ts
+dist/types/recipe.d.ts
+package.json
+README.md
+Tarball Details
+C:\Projects\VTO\.benchmarks\packages\vto-asset-generator-0.1.0.tgz

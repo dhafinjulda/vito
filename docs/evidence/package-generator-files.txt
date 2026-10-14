@@ -1,0 +1,12 @@
+package/dist/asset-generator.js
+package/package.json
+package/dist/asset-generator.js.map
+package/README.md
+package/dist/THIRD_PARTY_NOTICES.md
+package/dist/types/description.d.ts
+package/dist/types/export.d.ts
+package/dist/types/generate.d.ts
+package/dist/types/geometry.d.ts
+package/dist/types/index.d.ts
+package/dist/types/recipe.d.ts
+package/dist/licenses/Three.txt

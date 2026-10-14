@@ -1,0 +1,21 @@
+{
+  "name": "virtual-try-on-sdk-workspace",
+  "private": true,
+  "packageManager": "pnpm@10.11.0",
+  "scripts": {
+    "build": "node scripts/build-demo-glasses.mjs && node scripts/build-polyhaven-glasses.mjs && node scripts/validate-demo-glasses.mjs && pnpm --filter @vto/sdk build && pnpm --filter @vto/asset-generator build && node scripts/copy-worker.mjs && pnpm --filter vanilla-example build && pnpm --filter asset-studio-example build",
+    "typecheck": "pnpm --filter @vto/sdk typecheck && pnpm --filter @vto/asset-generator typecheck && pnpm --filter vanilla-example typecheck && pnpm --filter asset-studio-example typecheck",
+    "test": "pnpm --filter @vto/sdk test && pnpm --filter @vto/asset-generator test && node scripts/test-offline-cache.mjs",
+    "dev": "node scripts/build-demo-glasses.mjs && node scripts/build-polyhaven-glasses.mjs && node scripts/validate-demo-glasses.mjs && pnpm --filter @vto/sdk build && node scripts/copy-worker.mjs && pnpm --filter vanilla-example dev",
+    "validate:assets": "node scripts/validate-demo-glasses.mjs",
+    "preview": "pnpm --filter vanilla-example preview",
+    "dev:studio": "pnpm --filter @vto/sdk build && pnpm --filter @vto/asset-generator build && pnpm --filter asset-studio-example dev",
+    "preview:studio": "pnpm --filter asset-studio-example preview"
+  },
+  "devDependencies": {
+    "jsdom": "26.1.0",
+    "typescript": "~5.8.3",
+    "vite": "~6.3.5",
+    "vitest": "~3.1.2"
+  }
+}

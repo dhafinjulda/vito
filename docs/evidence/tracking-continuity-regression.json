@@ -1,0 +1,333 @@
+{
+  "date": "2026-10-12",
+  "regressionBefore": {
+    "restarts": 2,
+    "completionPackets": 0,
+    "workerUrl": "http://127.0.0.1:5173/@fs/C:/Projects/VTO/packages/sdk/dist/assets/face-worker.js",
+    "readyPackets": 3,
+    "responseHasFrameDone": false,
+    "explanation": "Actual public SDK plus actual served worker and synthetic blank stream reproduced one result per worker restart. No-store fetch of that fixed worker URL lacked frame-done while the newly built disk artifact included it. Earlier direct /vto-face-worker.js diagnostics and mocked workers did not exercise this delivery path.",
+    "resultPackets": 3
+  },
+  "actualWorkerContinuity": {
+    "date": "2026-10-12",
+    "cameraRequested": false,
+    "pass": true,
+    "status": "searching",
+    "health": {
+      "phase": "running",
+      "delegate": "GPU",
+      "framesSent": 194,
+      "resultsReceived": 193,
+      "restarts": 0,
+      "lastLatencyMs": 7,
+      "inputWidth": 640,
+      "inputHeight": 360
+    },
+    "packetCounts": {
+      "ready": 1,
+      "result": 203,
+      "frame-done": 203
+    },
+    "firstPackets": [
+      {
+        "type": "ready",
+        "protocolVersion": 3,
+        "delegate": "GPU",
+        "handTracking": "disabled"
+      },
+      {
+        "type": "result",
+        "timestamp": 359155.59999996424
+      },
+      {
+        "type": "frame-done",
+        "timestamp": 359155.59999996424
+      },
+      {
+        "type": "result",
+        "timestamp": 359202.09999996424
+      },
+      {
+        "type": "frame-done",
+        "timestamp": 359202.09999996424
+      },
+      {
+        "type": "result",
+        "timestamp": 359236.89999997616
+      },
+      {
+        "type": "frame-done",
+        "timestamp": 359236.89999997616
+      },
+      {
+        "type": "result",
+        "timestamp": 359268.6999999881
+      }
+    ],
+    "sources": [
+      {
+        "url": "http://127.0.0.1:5173/@fs/C:/Projects/VTO/packages/sdk/dist/assets/face-worker-dLHRjCyF.js",
+        "hasCompletion": true,
+        "hasDelegate": true
+      }
+    ],
+    "limitations": "Actual MediaPipe only receives synthetic blank canvas video. Verifies IPC/frame continuity and versioned delivery, not recognition of a person or device performance."
+  },
+  "actualCpuRecovery": {
+    "date": "2026-10-12",
+    "cameraRequested": false,
+    "pass": true,
+    "status": "searching",
+    "health": {
+      "phase": "running",
+      "delegate": "CPU",
+      "framesSent": 161,
+      "resultsReceived": 159,
+      "restarts": 1,
+      "lastLatencyMs": 6,
+      "inputWidth": 640,
+      "inputHeight": 360
+    },
+    "packetCounts": {
+      "ready": 2,
+      "result": 161,
+      "frame-done": 161
+    },
+    "dropped": 1,
+    "phases": [
+      "starting",
+      "running",
+      "recovering",
+      "running",
+      "stopped"
+    ],
+    "firstPackets": [
+      {
+        "type": "ready",
+        "protocolVersion": 3,
+        "delegate": "GPU",
+        "handTracking": "disabled"
+      },
+      {
+        "type": "ready",
+        "protocolVersion": 3,
+        "delegate": "CPU",
+        "handTracking": "disabled"
+      },
+      {
+        "type": "result",
+        "timestamp": 81364.19999998808
+      },
+      {
+        "type": "frame-done",
+        "timestamp": 81364.19999998808
+      },
+      {
+        "type": "result",
+        "timestamp": 81397.5
+      },
+      {
+        "type": "frame-done",
+        "timestamp": 81397.5
+      },
+      {
+        "type": "result",
+        "timestamp": 81431.10000002384
+      },
+      {
+        "type": "frame-done",
+        "timestamp": 81431.10000002384
+      }
+    ],
+    "sources": [
+      {
+        "url": "http://127.0.0.1:5173/@fs/C:/Projects/VTO/packages/sdk/dist/assets/face-worker-dLHRjCyF.js",
+        "hasCompletion": true,
+        "hasDelegate": true
+      },
+      {
+        "url": "http://127.0.0.1:5173/@fs/C:/Projects/VTO/packages/sdk/dist/assets/face-worker-dLHRjCyF.js",
+        "hasCompletion": true,
+        "hasDelegate": true
+      }
+    ],
+    "limitations": "Actual MediaPipe CPU recovery receives synthetic blank video; the first GPU frame is deliberately dropped. No physical camera, hardware GPU stall, face recognition or device performance acceptance."
+  },
+  "syntheticRendererRegression": {
+    "url": "http://127.0.0.1:5173/",
+    "cameraRequested": false,
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+    "pass": true,
+    "runs": [
+      {
+        "hands": false,
+        "phase": "face-before-hands",
+        "status": "tracking",
+        "availability": "disabled",
+        "visiblePixels": 3593,
+        "pass": true
+      },
+      {
+        "hands": false,
+        "phase": "visible-face",
+        "delay": 40,
+        "status": "tracking",
+        "visiblePixels": 3593,
+        "availability": "disabled",
+        "errors": [],
+        "lastStatus": {
+          "s": "tracking"
+        },
+        "pass": true
+      },
+      {
+        "hands": false,
+        "phase": "visible-face",
+        "delay": 250,
+        "status": "tracking",
+        "visiblePixels": 3593,
+        "availability": "disabled",
+        "errors": [],
+        "lastStatus": {
+          "s": "tracking"
+        },
+        "pass": true
+      },
+      {
+        "hands": false,
+        "phase": "visible-face",
+        "delay": 500,
+        "status": "tracking",
+        "visiblePixels": 3593,
+        "availability": "disabled",
+        "errors": [],
+        "lastStatus": {
+          "s": "tracking"
+        },
+        "pass": true
+      },
+      {
+        "hands": false,
+        "phase": "no-face",
+        "status": "searching",
+        "visiblePixels": 0,
+        "pass": true
+      },
+      {
+        "hands": false,
+        "phase": "reacquire",
+        "status": "tracking",
+        "visiblePixels": 3593,
+        "pass": true
+      },
+      {
+        "hands": false,
+        "phase": "expired-face",
+        "status": "searching",
+        "visiblePixels": 0,
+        "pass": true
+      },
+      {
+        "hands": false,
+        "phase": "stop",
+        "stopped": true,
+        "status": "idle",
+        "pass": true
+      },
+      {
+        "hands": true,
+        "phase": "face-before-hands",
+        "status": "tracking",
+        "availability": "loading",
+        "visiblePixels": 3593,
+        "pass": true
+      },
+      {
+        "hands": true,
+        "phase": "visible-face",
+        "delay": 40,
+        "status": "tracking",
+        "visiblePixels": 3593,
+        "availability": "ready",
+        "errors": [],
+        "lastStatus": {
+          "s": "tracking"
+        },
+        "pass": true
+      },
+      {
+        "hands": true,
+        "phase": "visible-face",
+        "delay": 250,
+        "status": "tracking",
+        "visiblePixels": 3593,
+        "availability": "ready",
+        "errors": [],
+        "lastStatus": {
+          "s": "tracking"
+        },
+        "pass": true
+      },
+      {
+        "hands": true,
+        "phase": "visible-face",
+        "delay": 500,
+        "status": "tracking",
+        "visiblePixels": 3593,
+        "availability": "ready",
+        "errors": [],
+        "lastStatus": {
+          "s": "tracking"
+        },
+        "pass": true
+      },
+      {
+        "hands": true,
+        "phase": "no-face",
+        "status": "searching",
+        "visiblePixels": 0,
+        "pass": true
+      },
+      {
+        "hands": true,
+        "phase": "reacquire",
+        "status": "tracking",
+        "visiblePixels": 3593,
+        "pass": true
+      },
+      {
+        "hands": true,
+        "phase": "expired-face",
+        "status": "searching",
+        "visiblePixels": 0,
+        "pass": true
+      },
+      {
+        "hands": true,
+        "phase": "stop",
+        "stopped": true,
+        "status": "idle",
+        "pass": true
+      }
+    ],
+    "limitations": "Synthetic face results from a local classic worker plus canvas captureStream through the built public SDK, actual video callbacks, GLB and WebGL readback. No real camera or MediaPipe face recognition acceptance."
+  },
+  "liveCameraSmoke": {
+    "handsEnabled": "After user faced the camera, tracking persisted with the optional hand runtime ready and no restart.",
+    "cameraRequested": true,
+    "userConfirmedFacingCamera": true,
+    "imagesSaved": false,
+    "limitations": "Only transient status/runtime counters inspected. No screenshot, visual alignment measurement, real grasp acceptance, hardware GPU-stall test, mobile qualification, or active-camera network capture.",
+    "posesSaved": false,
+    "manualResync": "Stopped/restarted through the button, returned to tracking, counters continued increasing.",
+    "stop": "Returned to idle with stopped health state.",
+    "faceOnly": "Tracking persisted across successive UI inspections with increasing frame/result counters and no restart.",
+    "landmarksSaved": false
+  },
+  "checks": {
+    "build": "exit 0",
+    "typecheck": "exit 0 across four projects",
+    "tests": "94 tests: 88 SDK + 6 generator; offline policy harness passed"
+  }
+}

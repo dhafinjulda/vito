@@ -1,0 +1,14 @@
+node_modules/
+dist/
+coverage/
+.DS_Store
+examples/vanilla/public/vto-face-worker.js
+examples/vanilla/src/generated-worker-url.ts
+.playwright-cli/
+.benchmarks/
+*.tgz
+.env
+.env.*
+!.env.example
+portrait-4x6.jpg
+release-artifacts/

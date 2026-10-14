@@ -1,0 +1,112 @@
+{
+  "phase": "complete",
+  "elapsedMs": 600470.2000000477,
+  "checkpoints": 10,
+  "error": null,
+  "result": {
+    "date": "2026-10-13",
+    "cameraRequested": false,
+    "sdk": "/@fs/C:/Projects/VTO/.benchmarks/sdk-c20b88e840d8/vto-sdk.js",
+    "protocol": 7,
+    "measuredMs": 600470.2000000477,
+    "completed": 16443,
+    "workerUrls": [
+      "http://127.0.0.1:5173/@fs/C:/Projects/VTO/.benchmarks/sdk-c20b88e840d8/assets/face-worker-D_-InCxR.js"
+    ],
+    "terminated": 1,
+    "tracksStopped": true,
+    "elementsRemoved": true,
+    "health": {
+      "phase": "running",
+      "delegate": "GPU",
+      "framesSent": 16560,
+      "resultsReceived": 16559,
+      "restarts": 0,
+      "lastLatencyMs": 15,
+      "inputWidth": 640,
+      "inputHeight": 360,
+      "hairTracking": "ready",
+      "cameraCompositing": "active",
+      "handStartupMs": 5750.299999952316,
+      "hairStartupMs": 3157.2999999523163,
+      "startupMs": 15444.300000011921,
+      "pixelRatio": 1,
+      "performance": {
+        "windowMs": 5000,
+        "observedMs": 5000,
+        "rates": {
+          "captureHz": 25.6,
+          "faceHz": 25.4,
+          "handHz": 8.6,
+          "renderHz": 29.8,
+          "animationHz": 60,
+          "cameraHz": 30
+        },
+        "timings": {
+          "captureDraw": {
+            "samples": 128,
+            "meanMs": 3.2039062501862645,
+            "p50Ms": 2.900000035762787,
+            "p95Ms": 5.199999988079071
+          },
+          "bitmap": {
+            "samples": 128,
+            "meanMs": 0.09062499785795808,
+            "p50Ms": 0.09999996423721313,
+            "p95Ms": 0.19999998807907104
+          },
+          "faceInference": {
+            "samples": 127,
+            "meanMs": 13.70708661285911,
+            "p50Ms": 13.199999988079071,
+            "p95Ms": 17.69999998807907
+          },
+          "handInference": {
+            "samples": 43,
+            "meanMs": 18.139534878176313,
+            "p50Ms": 18.19999998807907,
+            "p95Ms": 23.5
+          },
+          "hairInference": {
+            "samples": 0,
+            "meanMs": null,
+            "p50Ms": null,
+            "p95Ms": null
+          },
+          "fit": {
+            "samples": 127,
+            "meanMs": 0.01259842538458156,
+            "p50Ms": 0,
+            "p95Ms": 0.10000002384185791
+          },
+          "renderSubmission": {
+            "samples": 149,
+            "meanMs": 4.291946306324645,
+            "p50Ms": 4.300000011920929,
+            "p95Ms": 5.300000011920929
+          },
+          "captureToSubmission": {
+            "samples": 0,
+            "meanMs": null,
+            "p50Ms": null,
+            "p95Ms": null
+          },
+          "resultAge": {
+            "samples": 127,
+            "meanMs": 14.294488186442008,
+            "p50Ms": 13.700000047683716,
+            "p95Ms": 18.5
+          },
+          "renderInterval": {
+            "samples": 149,
+            "meanMs": 33.61476510043112,
+            "p50Ms": 33.30000001192093,
+            "p95Ms": 49.89999997615814
+          }
+        }
+      }
+    },
+    "pass": true,
+    "scope": "One 10-minute public SDK session, actual native face/hand graphs, blank synthetic stream. Explicit harness hand activation. Checks temporal buffer/runtime continuity and disposal only; no recognition, valid-fit rendering, heap snapshot or physical-device acceptance."
+  }
+}
