@@ -25,7 +25,7 @@ async page => {
       await session.start();await new Promise(r=>setTimeout(r,7000));
       const sources=await Promise.all(urls.map(async url=>{const t=await fetch(url,{cache:'no-store'}).then(r=>r.text());return {url,hasCompletion:t.includes('frame-done'),hasDelegate:t.includes('delegate:')};}));
       const packetCounts=packets.reduce((a,p)=>({...a,[p.type]:(a[p.type]??0)+1}),{});
-      const pass=health.phase==='running'&&health.restarts===0&&packetCounts.result>=50&&packetCounts['frame-done']>=50&&packets.find(p=>p.type==='ready').protocolVersion===7&&sources.every(s=>s.hasCompletion&&/face-worker-[\w-]+\.js/.test(s.url));
+      const pass=health.phase==='running'&&health.restarts===0&&packetCounts.result>=50&&packetCounts['frame-done']>=50&&packets.find(p=>p.type==='ready').protocolVersion===8&&sources.every(s=>s.hasCompletion&&/face-worker-[\w-]+\.js/.test(s.url));
       if(!pass)throw new Error(`Actual-worker continuity failed: ${JSON.stringify({health,packetCounts,sources})}`);
       return {date:'2026-10-13',cameraRequested:false,pass,status:session.status,health,packetCounts,firstPackets:packets.slice(0,8),sources,limitations:'Actual MediaPipe only receives synthetic blank canvas video. Verifies IPC/frame continuity and versioned delivery, not recognition of a person or device performance.'};
     }finally{session?.dispose();source.width=source.height=0;clearInterval(pump);host.remove();window.Worker=oldWorker;navigator.mediaDevices.getUserMedia=oldGum;}

@@ -1,0 +1,151 @@
+{
+  "pass": true,
+  "summaries": [
+    {
+      "group": "cold-runtime",
+      "attempts": 1,
+      "failures": 0,
+      "successfulSamples": 1,
+      "p50Ms": 7555.5,
+      "p95Ms": 7555.5
+    },
+    {
+      "group": "warm-runtime",
+      "attempts": 2,
+      "failures": 0,
+      "successfulSamples": 2,
+      "p50Ms": 1044.2999999998137,
+      "p95Ms": 1103.3000000002794
+    },
+    {
+      "group": "default-policy",
+      "attempts": 1,
+      "failures": 0,
+      "successfulSamples": 1,
+      "p50Ms": 7828.700000000186,
+      "p95Ms": 7828.700000000186
+    }
+  ],
+  "results": [
+    {
+      "mode": "cold-runtime",
+      "constructorToTrackerMs": 7555.5,
+      "startup": {
+        "cameraPendingMs": 0.5,
+        "assetWaitMs": 0.10000000009313226,
+        "trackerReadyMs": 7490.399999999907,
+        "firstFitSubmissionMs": null
+      },
+      "workerStartup": {
+        "filesetMs": 1,
+        "resourcePreparationMs": 1081.3000000002794,
+        "faceCreationMs": 513.8999999999069,
+        "faceWarmupMs": 5799.899999999907,
+        "optionalWarmupMs": 0
+      },
+      "delegate": "GPU",
+      "hairTracking": "disabled",
+      "cameraCompositing": "disabled",
+      "results": 11,
+      "restarts": 0,
+      "errors": [],
+      "calls": 1,
+      "workerUrls": [
+        "http://localhost:5173/@fs/C:/Projects/VTO/packages/sdk/dist/assets/face-worker-BR9D-gRF.js"
+      ],
+      "cleaned": true,
+      "pass": true
+    },
+    {
+      "mode": "warm-runtime-1",
+      "constructorToTrackerMs": 1103.3000000002794,
+      "startup": {
+        "cameraPendingMs": 0.2999999998137355,
+        "assetWaitMs": 0.09999999962747097,
+        "trackerReadyMs": 1016.6000000000931,
+        "firstFitSubmissionMs": null
+      },
+      "workerStartup": {
+        "filesetMs": 0.5,
+        "resourcePreparationMs": 7.699999999720603,
+        "faceCreationMs": 314.70000000018626,
+        "faceWarmupMs": 621.1000000000931,
+        "optionalWarmupMs": 0.09999999962747097
+      },
+      "delegate": "GPU",
+      "hairTracking": "disabled",
+      "cameraCompositing": "disabled",
+      "results": 13,
+      "restarts": 0,
+      "errors": [],
+      "calls": 1,
+      "workerUrls": [
+        "http://localhost:5173/@fs/C:/Projects/VTO/packages/sdk/dist/assets/face-worker-BR9D-gRF.js"
+      ],
+      "cleaned": true,
+      "pass": true
+    },
+    {
+      "mode": "warm-runtime-2",
+      "constructorToTrackerMs": 1044.2999999998137,
+      "startup": {
+        "cameraPendingMs": 0.3000000002793968,
+        "assetWaitMs": 0,
+        "trackerReadyMs": 967.9000000003725,
+        "firstFitSubmissionMs": null
+      },
+      "workerStartup": {
+        "filesetMs": 0.6000000000931323,
+        "resourcePreparationMs": 8.600000000093132,
+        "faceCreationMs": 333.6999999997206,
+        "faceWarmupMs": 560.1000000000931,
+        "optionalWarmupMs": 0.10000000009313226
+      },
+      "delegate": "GPU",
+      "hairTracking": "disabled",
+      "cameraCompositing": "disabled",
+      "results": 13,
+      "restarts": 0,
+      "errors": [],
+      "calls": 1,
+      "workerUrls": [
+        "http://localhost:5173/@fs/C:/Projects/VTO/packages/sdk/dist/assets/face-worker-BR9D-gRF.js"
+      ],
+      "cleaned": true,
+      "pass": true
+    },
+    {
+      "mode": "default-policy",
+      "constructorToTrackerMs": 7828.700000000186,
+      "startup": {
+        "cameraPendingMs": 0.39999999990686774,
+        "assetWaitMs": 0,
+        "trackerReadyMs": 7756.899999999907,
+        "firstFitSubmissionMs": null
+      },
+      "workerStartup": {
+        "filesetMs": 0.7999999998137355,
+        "resourcePreparationMs": 8.5,
+        "faceCreationMs": 297.79999999981374,
+        "faceWarmupMs": 668.1000000000931,
+        "optionalWarmupMs": 6684,
+        "hairCreationMs": 252.6999999997206,
+        "hairWarmupMs": 6430.799999999814
+      },
+      "delegate": "GPU",
+      "hairTracking": "ready",
+      "cameraCompositing": "active",
+      "results": 22,
+      "restarts": 0,
+      "errors": [],
+      "calls": 1,
+      "workerUrls": [
+        "http://localhost:5173/@fs/C:/Projects/VTO/packages/sdk/dist/assets/face-worker-BR9D-gRF.js"
+      ],
+      "cleaned": true,
+      "pass": true
+    }
+  ],
+  "scope": "Actual MediaPipe worker with blank synthetic video; cold/warm groups are face-only, final run resolves public default policy with hands off. Cohort mode uses three cleared-cache and five retained-cache attempts; small-sample successful-attempt quantiles describe these attempts only, with failures reported separately. Dedicated browser HTTP cache and pinned CacheStorage cleared before each cold attempt, retained for warm/default attempts. GPU/driver/shader caches and remote network conditions are not reset or controlled. Imported SDK module is already loaded; constructor-to-ready includes GLB work. No recognition/first usable fit/device/p95 acceptance. No physical camera or person data.",
+  "sdkCandidate": "a0032cf57f19"
+}

@@ -16,6 +16,19 @@ function task(labels=['background','hair']) {
 }
 function blankCanvas(){vi.stubGlobal('OffscreenCanvas',class {width=640;height=360;getContext(){return {fillStyle:'',fillRect(){}};}});vi.stubGlobal('createImageBitmap',vi.fn(async()=>({close:vi.fn()})));}
 describe('local optional hair task',()=>{
+  it('separates native creation from blank inference and resets unreached phases',async()=>{
+    blankCanvas();const tracker=new HairTracker(),native=task();let clock=0;
+    const now=vi.spyOn(performance,'now').mockImplementation(()=>clock);
+    create.mockImplementation(async()=>{clock+=25;return native;});
+    native.segmentForVideo.mockImplementation(()=>{clock+=75;});
+    try {
+      expect(await tracker.initialize({} as never,'/hair.tflite','GPU')).toBe(true);
+      expect(tracker.startupTimings).toEqual({creationMs:25,warmupMs:75});
+      tracker.close();create.mockRejectedValue(new Error('unavailable'));
+      expect(await tracker.initialize({} as never,'/hair.tflite','CPU')).toBe(false);
+      expect(tracker.startupTimings.warmupMs).toBeNull();
+    } finally {now.mockRestore();tracker.close();}
+  });
   it('closes a repeatedly over-budget graph and discards the final confidence buffer',async()=>{
     blankCanvas();const tracker=new HairTracker(),native=task();create.mockResolvedValue(native);await tracker.initialize({} as never,'/hair.tflite','GPU');
     const now=vi.spyOn(performance,'now');

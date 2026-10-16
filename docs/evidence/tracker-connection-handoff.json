@@ -1,0 +1,40 @@
+{
+  "pass": true,
+  "results": [
+    {
+      "mode": "handoff",
+      "pass": true,
+      "cameraCalls": 0,
+      "workers": 1,
+      "terminated": 1,
+      "readyMs": 8227.899999999907,
+      "completionMs": 36.299999999813735,
+      "handoff": true,
+      "cancelled": false
+    },
+    {
+      "mode": "cancel-loading",
+      "pass": true,
+      "cameraCalls": 0,
+      "workers": 1,
+      "terminated": 1,
+      "readyMs": null,
+      "completionMs": null,
+      "handoff": false,
+      "cancelled": true
+    },
+    {
+      "mode": "dispose-prepared",
+      "pass": true,
+      "cameraCalls": 0,
+      "workers": 1,
+      "terminated": 1,
+      "readyMs": 1141.6000000000931,
+      "completionMs": null,
+      "handoff": false,
+      "cancelled": false
+    }
+  ],
+  "scope": "Actual built MediaPipe worker with source-level SDK ownership/startup/connection controllers. No public prepare API or full session handoff. Blank synthetic face inference skips hair sampling. No camera/person data or raw packets persisted. Timings are uncontrolled desktop software durations, not device or speedup acceptance.",
+  "sdkCandidate": "6e75f2da0b5a"
+}

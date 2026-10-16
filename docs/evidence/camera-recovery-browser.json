@@ -1,0 +1,57 @@
+{
+  "pass": true,
+  "results": [
+    {
+      "copy": "Akses kamera diblokir oleh izin atau kebijakan browser. Periksa izin kamera situs, lalu tekan Mulai kamera.",
+      "calls": 1,
+      "audioFalse": true,
+      "overflow": false,
+      "name": "NotAllowedError",
+      "startEnabled": true,
+      "retryEnabled": true,
+      "pass": true
+    },
+    {
+      "copy": "Kamera tidak ditemukan. Hubungkan atau aktifkan kamera, lalu tekan Mulai kamera.",
+      "calls": 1,
+      "audioFalse": true,
+      "overflow": false,
+      "name": "NotFoundError",
+      "startEnabled": true,
+      "retryEnabled": true,
+      "pass": true
+    },
+    {
+      "copy": "Kamera belum dapat digunakan. Tutup aplikasi lain yang memakai kamera, periksa kamera, lalu tekan Mulai kamera.",
+      "calls": 1,
+      "audioFalse": true,
+      "overflow": false,
+      "name": "NotReadableError",
+      "startEnabled": true,
+      "retryEnabled": true,
+      "pass": true
+    },
+    {
+      "copy": "Kamera belum bisa dimulai. Periksa kamera lalu tekan Mulai kamera. Pilihan bingkai tetap bisa dilihat tanpa kamera.",
+      "calls": 1,
+      "audioFalse": true,
+      "overflow": false,
+      "name": "AbortError",
+      "startEnabled": true,
+      "retryEnabled": true,
+      "pass": true
+    },
+    {
+      "copy": "Kamera memerlukan HTTPS dan browser yang mendukung. Buka situs aman di browser lain. Pilihan bingkai tetap bisa dilihat tanpa kamera.",
+      "calls": 0,
+      "audioFalse": true,
+      "overflow": false,
+      "name": "unsupported",
+      "startEnabled": true,
+      "retryEnabled": true,
+      "pass": true
+    }
+  ],
+  "scope": "Reference UI at 390px with deliberately rejected acquisition or absent API. No camera stream requested from hardware, no native permission prompt/device qualification. Error copy and retry controls only; no personal data.",
+  "sdkCandidate": "4f2e1ff673a8"
+}

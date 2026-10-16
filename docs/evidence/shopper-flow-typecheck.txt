@@ -1,0 +1,3 @@
+
+> vanilla-example@ typecheck C:\Projects\VTO\examples\vanilla
+> tsc --noEmit

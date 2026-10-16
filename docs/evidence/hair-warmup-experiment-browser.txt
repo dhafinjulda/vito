@@ -1,0 +1,25 @@
+### Result
+{"pass":true,"results":[{"pass":true,"width":640,"height":360,"startup":{"creationMs":1960.7999999999302,"warmupMs":4764.100000000093},"samples":[{"wallMs":50.59999999997672,"inferenceMs":50.59999999997672,"width":640,"height":360},{"wallMs":17.899999999906868,"inferenceMs":17.899999999906868,"width":640,"height":360},{"wallMs":18.900000000023283,"inferenceMs":18.900000000023283,"width":640,"height":360}]},{"pass":true,"width":256,"height":256,"startup":{"creationMs":181.10000000009313,"warmupMs":384.5},"samples":[{"wallMs":56.800000000046566,"inferenceMs":56.59999999997672,"width":640,"height":360},{"wallMs":25.100000000093132,"inferenceMs":25.100000000093132,"width":640,"height":360},{"wallMs":23.900000000023283,"inferenceMs":23.900000000023283,"width":640,"height":360}]},{"pass":true,"width":256,"height":256,"startup":{"creationMs":238.70000000006985,"warmupMs":397.5},"samples":[{"wallMs":54.90000000002328,"inferenceMs":54.70000000006985,"width":640,"height":360},{"wallMs":24.800000000046566,"inferenceMs":24.800000000046566,"width":640,"height":360},{"wallMs":22.400000000023283,"inferenceMs":22.199999999953434,"width":640,"height":360}]},{"pass":true,"width":640,"height":360,"startup":{"creationMs":222.70000000006985,"warmupMs":400.69999999995343},"samples":[{"wallMs":49.29999999993015,"inferenceMs":49.09999999997672,"width":640,"height":360},{"wallMs":27.900000000023283,"inferenceMs":27.900000000023283,"width":640,"height":360},{"wallMs":23.5,"inferenceMs":23.5,"width":640,"height":360}]}],"scope":"Source-level HairTracker experiment; alternating normal/small/small/normal warmup with three 640x360 synthetic blank inferences each. Retained browser HTTP/GPU caches, uncontrolled network, GPU requested with existing CPU fallback. No face/camera, appearance acceptance or production change. Wall timings include mask copy, not GPU completion."}
+### Ran Playwright code
+```js
+await (async page=>{
+  const results=[];
+  for(const [width,height] of [[640,360],[256,256],[256,256],[640,360]]){
+    results.push(await page.evaluate(({width,height})=>new Promise(resolve=>{
+      const worker=new Worker('/@fs/C:/Projects/VTO/.benchmarks/hair-warmup/worker.js');
+      const finish=value=>{clearTimeout(timer);worker.terminate();resolve(value);};
+      const timer=setTimeout(()=>finish({pass:false,width,height,error:'Experiment deadline'}),45000);
+      worker.onmessage=e=>finish(e.data);worker.onerror=e=>finish({pass:false,width,height,error:e.message});
+      worker.postMessage({width,height});
+    }),{width,height}));
+  }
+  return {pass:results.every(r=>r.pass),results,scope:'Source-level HairTracker experiment; alternating normal/small/small/normal warmup with three 640x360 synthetic blank inferences each. Retained browser HTTP/GPU caches, uncontrolled network, GPU requested with existing CPU fallback. No face/camera, appearance acceptance or production change. Wall timings include mask copy, not GPU completion.'};
+}
+)(page);
+```
+### Page
+- Page URL: http://localhost:5173/
+- Page Title: Virtual Try-On · Vanilla SDK Example
+- Console: 0 errors, 8 warnings
+### Events
+- New console entries: .playwright-cli\console-2026-10-15T06-29-59-048Z.log#L1-L28

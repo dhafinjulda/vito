@@ -1,0 +1,13 @@
+
+> vito-sdk@0.1.1 build C:\Projects\VTO\packages\sdk
+> vite build && tsc -p tsconfig.build.json --emitDeclarationOnly --declaration --noEmit false --outDir dist/types && node ../../scripts/copy-sdk-notices.mjs && node ../../scripts/copy-project-license.mjs sdk
+
+vite v6.3.7 building for production...
+transforming...
+✓ 35 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/assets/face-worker-BR9D-gRF.js  180.63 kB
+dist/vto-sdk.js                      134.50 kB │ gzip: 38.57 kB │ map: 356.39 kB
+✓ built in 2.33s
+Included third-party notices and license texts in SDK distribution.

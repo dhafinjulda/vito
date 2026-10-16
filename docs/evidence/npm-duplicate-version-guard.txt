@@ -1,0 +1,10 @@
+file:///C:/Projects/VTO/scripts/npm-release-plan.mjs:15
+  if(response.status===200)throw Error(`${plan.name}@${plan.version} already exists; increment the package version before release.`);
+                                 ^
+
+Error: vito-sdk@0.1.1 already exists; increment the package version before release.
+    at assertUnpublished (file:///C:/Projects/VTO/scripts/npm-release-plan.mjs:15:34)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async file:///C:/Projects/VTO/scripts/npm-release-plan.mjs:26:48
+
+Node.js v22.15.1

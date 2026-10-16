@@ -1,0 +1,233 @@
+{
+  "recordedDate": "2026-10-15",
+  "label": "shopper-tracker-startup",
+  "entrySha256": "4dcd79095a6213c4cd491c435ec03839cf292b16e869a35f00485e19727b8f17",
+  "sdkModulePath": ".benchmarks/sdk-4dcd79095a62/vto-sdk.js",
+  "files": [
+    {
+      "path": "packages/sdk/src/assets/AssetReadiness.ts",
+      "sha256": "1d75afe6ed786e280bea0b74667645b467ff09ea8f011399481a6d9b7736f929"
+    },
+    {
+      "path": "packages/sdk/src/assets/waitForResource.ts",
+      "sha256": "3e96464c064e15f419977650b4c467aeebe326da3b5b3eab50b551511f405b3e"
+    },
+    {
+      "path": "packages/sdk/src/branding/CameraBrandmark.ts",
+      "sha256": "51773b4e93300fa5645cc903d8338325a32d150ace87e11d22b52f375a17caf5"
+    },
+    {
+      "path": "packages/sdk/src/diagnostics/FeaturePolicy.ts",
+      "sha256": "553fe0172aa722d233b2ae3bee12a7ac8c2de89414f9612d115d9e14cf86e602"
+    },
+    {
+      "path": "packages/sdk/src/diagnostics/QualityGovernor.ts",
+      "sha256": "ce836cccf909f22d4e73435157ff69a085b3c543cd7311a972faf174d7c615c9"
+    },
+    {
+      "path": "packages/sdk/src/diagnostics/RuntimeMetrics.ts",
+      "sha256": "8b670e9d3dfa5cc9f146457e55c4ea76ef9de70d11e2b9dc4996ca631b0ae6f5"
+    },
+    {
+      "path": "packages/sdk/src/diagnostics/StartupMetrics.ts",
+      "sha256": "8b62dea36648f66c4f3f450895939ffb1feafb3b4bb747fc811935c4eca50c76"
+    },
+    {
+      "path": "packages/sdk/src/glasses/asset-metadata.ts",
+      "sha256": "fd3501eb65e7dc934cd20c042d8d39e72f16969ec7d7e1a29575c2eae3eadb26"
+    },
+    {
+      "path": "packages/sdk/src/glasses/calibration.ts",
+      "sha256": "b01b68a8aa1d3e33e7c0fdd323caa0a36091ebfa6da9e32d60710981628ea845"
+    },
+    {
+      "path": "packages/sdk/src/glasses/coordinates.ts",
+      "sha256": "b893a94c89ffea5d05f1f980f1501d1d3968f31fbcb6cbab4b30f81108cc0233"
+    },
+    {
+      "path": "packages/sdk/src/glasses/face-topology.ts",
+      "sha256": "1a0c48b1342f2d41a73a2078c39df90070217e3b9ccd15a84641802864842041"
+    },
+    {
+      "path": "packages/sdk/src/glasses/fitting.ts",
+      "sha256": "944b8658ded993fff0ad351de4cce49015d3f166ffc5e413806448275115b67d"
+    },
+    {
+      "path": "packages/sdk/src/glasses/pose.ts",
+      "sha256": "52b4a989d986d319192cfc42dbee76af74a5039bd81757309544883c56cc4223"
+    },
+    {
+      "path": "packages/sdk/src/glasses/PosePresentation.ts",
+      "sha256": "c15a452734ad520120b3be82f807c3cc673e030d4e6e98a956b7418d5e3a9cca"
+    },
+    {
+      "path": "packages/sdk/src/glasses/PoseSmoother.ts",
+      "sha256": "9a805c806bc545c1c4215b50cb34e0baa28a97cfa84f4b2031fad21430d7c393"
+    },
+    {
+      "path": "packages/sdk/src/index.ts",
+      "sha256": "99ae299ec316ed2c593a1fd90dc046af4ccb0ce859a11f0668da4f52d8e8ec85"
+    },
+    {
+      "path": "packages/sdk/src/interaction/GlassesInteraction.ts",
+      "sha256": "97fab80eeadae42521d18b5c3ea5d3dde681cf0e62e902bc010eeb53cda0fe57"
+    },
+    {
+      "path": "packages/sdk/src/interaction/HandGrip.ts",
+      "sha256": "2e1629f95c3f6708fdde9f493de40037e2b3ea91d8bc235116f0cf530ed174eb"
+    },
+    {
+      "path": "packages/sdk/src/interaction/HandIdentity.ts",
+      "sha256": "78fb4421997c6aac7ea0362000b29cb58ea8dd8ed743db34a7d935ca1ce33dea"
+    },
+    {
+      "path": "packages/sdk/src/interaction/placement.ts",
+      "sha256": "4bf8a08cd8118d562b52c6a0de81b9d70b9dd465e242a6b7bcab35751453c4c4"
+    },
+    {
+      "path": "packages/sdk/src/rendering/CameraBackground.ts",
+      "sha256": "a3dcc6391cb896abb4328cebeec97a1c278fb3b4a63ef5642fb6fb511974e84c"
+    },
+    {
+      "path": "packages/sdk/src/rendering/GlassesRenderer.ts",
+      "sha256": "96dd076123d0a70e4ce911df7b2d92b272ba89c95f8620949b0c28c37303a13a"
+    },
+    {
+      "path": "packages/sdk/src/rendering/HairMask.ts",
+      "sha256": "a1503c80ee64e06cc85216e9f8ef7dee60fedcd973cef37ea15783e36a3d617a"
+    },
+    {
+      "path": "packages/sdk/src/rendering/HandOccluder.ts",
+      "sha256": "ea944a770efd25b01e759ac6f968387f2e338c21990cc7460133f9a2aaf81b53"
+    },
+    {
+      "path": "packages/sdk/src/rendering/HeadOccluder.ts",
+      "sha256": "e452b69ce9956b6645921babb6f264bd5122bec810ed20cdcd73c8ea4a18a361"
+    },
+    {
+      "path": "packages/sdk/src/rendering/LensOptics.ts",
+      "sha256": "bbc2e821764e6988702bba83f346fb5d00497c5def8c48d8c78e6fce72a235ca"
+    },
+    {
+      "path": "packages/sdk/src/rendering/LocalAmbientEstimator.ts",
+      "sha256": "3715eb246f3f18aec353ed1e87a40867a2fe4f41b3ef74c7174db40f1afc5a91"
+    },
+    {
+      "path": "packages/sdk/src/rendering/TempleEffects.ts",
+      "sha256": "c05a05344a1308e0fea439922b337434fbde74b97f08c52225636ce5ef78baae"
+    },
+    {
+      "path": "packages/sdk/src/tracking/face.worker.ts",
+      "sha256": "8b922ebf6e388cfdb1c57ebf1f383096672448550cb909b1d91a23bf010bf694"
+    },
+    {
+      "path": "packages/sdk/src/tracking/FrameClock.ts",
+      "sha256": "2d8eab730b09b3a1f150b6be4d4652cd5b9c2738cc594177fc1a45f0c1f5a9f3"
+    },
+    {
+      "path": "packages/sdk/src/tracking/HairTracker.ts",
+      "sha256": "3eee794388ef6d5cb58b37d280c3ab2376e61bc15f65aa8f8de77c2e302b60e5"
+    },
+    {
+      "path": "packages/sdk/src/tracking/HandCadence.ts",
+      "sha256": "67a025471d07a0a5db848094f47abcaaecfc96d51c4d5b6ca9482051cd58b09d"
+    },
+    {
+      "path": "packages/sdk/src/tracking/protocol.ts",
+      "sha256": "f9169a13862d1c0663392413f746b20684893b1f753a02bd7cf9abc64ab399ff"
+    },
+    {
+      "path": "packages/sdk/src/tracking/runtime-assets.ts",
+      "sha256": "83c854b5ebff0b24ff2b5264712c3dece13ff1767438db8a091e66799df1516a"
+    },
+    {
+      "path": "packages/sdk/src/tracking/SourceGeometry.ts",
+      "sha256": "86374769d0798062ffbc60bf5a66a18b1f058a2de787d84f7dc37fcef228f1f1"
+    },
+    {
+      "path": "packages/sdk/src/tracking/TrackerStartup.ts",
+      "sha256": "207a6b0f11b1f73a7b72f1c9b58dd0add8f93d807730ab8cc2c342f695a596ef"
+    },
+    {
+      "path": "packages/sdk/src/tracking/TrackerWorkerOwner.ts",
+      "sha256": "d53b9cb02c7984ece6b9a1f3a7062526c881ee2ada45fc616babd3c1c40226c0"
+    },
+    {
+      "path": "packages/sdk/src/types.ts",
+      "sha256": "f40468333e4f202a1c79a26d8a794e967adce85d51bd9a99bdc8de3c60ecf658"
+    },
+    {
+      "path": "packages/sdk/src/vite-env.d.ts",
+      "sha256": "f8f2e633578c7137a3956eecb91a73c3ff4a45a0c7b0db8bccda7803427524de"
+    },
+    {
+      "path": "packages/sdk/dist/assets/face-worker-BR9D-gRF.js",
+      "sha256": "9d9f069c19f94304c7bf6c03f825ea0e5a8234a3ce32fb9d754a2973d25062e0"
+    },
+    {
+      "path": "packages/sdk/dist/assets/face-worker-BR9D-gRF.js.map",
+      "sha256": "f4990e9ca8497c2f8a2c14cf5c349996eee3dabbb8cd768041802aecdf68719b"
+    }
+  ],
+  "scope": "Source hashes at snapshot time and built entry/worker hashes. Source/build parity requires an immediately preceding successful build; this script does not establish it. No camera/person data. Frozen dist is local and ignored.",
+  "package": {
+    "name": "vito-sdk",
+    "version": "0.1.1",
+    "type": "module",
+    "private": false,
+    "exports": {
+      ".": {
+        "types": "./dist/types/index.d.ts",
+        "import": "./dist/vto-sdk.js"
+      }
+    },
+    "files": [
+      "dist",
+      "LICENSE",
+      "NOTICE"
+    ],
+    "scripts": {
+      "build": "vite build && tsc -p tsconfig.build.json --emitDeclarationOnly --declaration --noEmit false --outDir dist/types && node ../../scripts/copy-sdk-notices.mjs && node ../../scripts/copy-project-license.mjs sdk",
+      "typecheck": "tsc --noEmit",
+      "test": "vitest run",
+      "prepack": "pnpm run build"
+    },
+    "dependencies": {
+      "@types/three": "0.176.0",
+      "@mediapipe/tasks-vision": "0.10.22-rc.20250304",
+      "three": "0.176.0"
+    },
+    "description": "Framework-agnostic browser SDK for local glasses virtual try-on",
+    "main": "./dist/vto-sdk.js",
+    "module": "./dist/vto-sdk.js",
+    "types": "./dist/types/index.d.ts",
+    "license": "CPAL-1.0",
+    "engines": {
+      "node": ">=20.19.0"
+    },
+    "keywords": [
+      "virtual-try-on",
+      "glasses",
+      "browser",
+      "typescript",
+      "threejs",
+      "webar",
+      "mediapipe",
+      "face-tracking",
+      "sdk"
+    ],
+    "publishConfig": {
+      "access": "public"
+    },
+    "author": "Dhafin Julda Riyanto",
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/dhafinjulda/vito.git",
+      "directory": "packages/sdk"
+    },
+    "homepage": "https://github.com/dhafinjulda/vito/tree/main/packages/sdk#readme",
+    "bugs": {
+      "url": "https://github.com/dhafinjulda/vito/issues"
+    }
+  }
+}

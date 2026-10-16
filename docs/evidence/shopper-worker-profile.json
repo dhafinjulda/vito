@@ -1,0 +1,87 @@
+{
+  "pass": true,
+  "results": [
+    {
+      "mode": "cold-runtime",
+      "constructorToTrackerMs": 8533.299999999814,
+      "startup": {
+        "cameraPendingMs": 2.7999999998137355,
+        "assetWaitMs": 0.10000000009313226,
+        "trackerReadyMs": 8461.80000000028,
+        "firstFitSubmissionMs": null
+      },
+      "workerStartup": {
+        "filesetMs": 1.2999999998137355,
+        "resourcePreparationMs": 4342,
+        "faceCreationMs": 236.10000000009313,
+        "faceWarmupMs": 3714.1999999997206,
+        "optionalWarmupMs": 0.10000000009313226
+      },
+      "delegate": "GPU",
+      "results": 28,
+      "restarts": 0,
+      "errors": [],
+      "calls": 1,
+      "workerUrls": [
+        "http://localhost:5173/@fs/C:/Projects/VTO/packages/sdk/dist/assets/face-worker-BbvdxtH-.js"
+      ],
+      "cleaned": true,
+      "pass": true
+    },
+    {
+      "mode": "warm-runtime-1",
+      "constructorToTrackerMs": 769,
+      "startup": {
+        "cameraPendingMs": 0.19999999972060323,
+        "assetWaitMs": 0.10000000009313226,
+        "trackerReadyMs": 702.6000000000931,
+        "firstFitSubmissionMs": null
+      },
+      "workerStartup": {
+        "filesetMs": 0.6000000000931323,
+        "resourcePreparationMs": 8.799999999813735,
+        "faceCreationMs": 219,
+        "faceWarmupMs": 407.3000000002794,
+        "optionalWarmupMs": 0.19999999972060323
+      },
+      "delegate": "GPU",
+      "results": 29,
+      "restarts": 0,
+      "errors": [],
+      "calls": 1,
+      "workerUrls": [
+        "http://localhost:5173/@fs/C:/Projects/VTO/packages/sdk/dist/assets/face-worker-BbvdxtH-.js"
+      ],
+      "cleaned": true,
+      "pass": true
+    },
+    {
+      "mode": "warm-runtime-2",
+      "constructorToTrackerMs": 748.2000000001863,
+      "startup": {
+        "cameraPendingMs": 0.3000000002793968,
+        "assetWaitMs": 0.10000000009313226,
+        "trackerReadyMs": 683.8999999999069,
+        "firstFitSubmissionMs": null
+      },
+      "workerStartup": {
+        "filesetMs": 0.6000000000931323,
+        "resourcePreparationMs": 7.5,
+        "faceCreationMs": 218.60000000009313,
+        "faceWarmupMs": 402.09999999962747,
+        "optionalWarmupMs": 0
+      },
+      "delegate": "GPU",
+      "results": 15,
+      "restarts": 0,
+      "errors": [],
+      "calls": 1,
+      "workerUrls": [
+        "http://localhost:5173/@fs/C:/Projects/VTO/packages/sdk/dist/assets/face-worker-BbvdxtH-.js"
+      ],
+      "cleaned": true,
+      "pass": true
+    }
+  ],
+  "scope": "Actual MediaPipe face worker with blank synthetic video, optional hair/hands/compositing off. Dedicated browser HTTP cache and pinned CacheStorage cleared before first run, retained for two warm runs. Imported SDK module is already loaded; constructor-to-ready includes GLB work. No recognition/first usable fit/device/p95 acceptance. No physical camera or person data."
+}

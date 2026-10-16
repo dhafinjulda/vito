@@ -22,7 +22,7 @@ async page => {
     const workers=[];
     const code=`let delay=40,hasFace=true,hands=false,paused=false;const fixture=${JSON.stringify({landmarks:fixture.landmarks,matrix:fixture.matrix})};
       onmessage=({data:m})=>{if(m.type==='mode'){delay=m.delay;hasFace=m.hasFace;paused=!!m.paused;return;}
-      if(m.type==='init'){postMessage({type:'ready',protocolVersion:7,delegate:m.delegate,handTracking:m.handModelAssetPath?'loading':'disabled'});return;}
+      if(m.type==='init'){postMessage({type:'ready',protocolVersion:8,delegate:m.delegate,handTracking:m.handModelAssetPath?'loading':'disabled'});return;}
       if(m.type==='enable-hands'){setTimeout(()=>{hands=true;postMessage({type:'hand-ready'});},750);return;}
       if(m.type==='frame'){if(paused){m.bitmap.close();return;}const face=hasFace;setTimeout(()=>{postMessage({type:'result',landmarks:face?fixture.landmarks:null,faceMatrix:face?fixture.matrix:null,timestampMs:m.timestampMs});if(hands)postMessage({type:'hand-result',hands:[],timestampMs:m.timestampMs});m.bitmap.close();postMessage({type:'frame-done',timestampMs:m.timestampMs});},delay);}};`;
     const url=URL.createObjectURL(new Blob([code],{type:'text/javascript'}));

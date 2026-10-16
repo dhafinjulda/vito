@@ -1,0 +1,69 @@
+
+> virtual-try-on-sdk-workspace@ test C:\Projects\VTO
+> pnpm --filter vito-sdk test && pnpm --filter vito-asset-generator test && node scripts/test-offline-cache.mjs
+
+
+> vito-sdk@0.1.1 test C:\Projects\VTO\packages\sdk
+> vitest run
+
+
+ RUN  v3.1.4 C:/Projects/VTO/packages/sdk
+
+ ✓ test/runtime-assets.test.ts (5 tests) 47ms
+ ✓ test/hand-identity.test.ts (10 tests) 26ms
+ ✓ test/asset-readiness.test.ts (9 tests) 28ms
+ ✓ test/temple-effects.test.ts (6 tests) 35ms
+ ✓ test/pose-presentation.test.ts (22 tests) 104ms
+ ✓ test/hand-grip.test.ts (10 tests) 48ms
+ ✓ test/two-hand-interaction.test.ts (15 tests) 100ms
+ ✓ test/premium-rendering.test.ts (4 tests) 90ms
+ ✓ test/interaction.test.ts (11 tests) 111ms
+ ✓ test/tracking-refinement.test.ts (11 tests) 130ms
+ ✓ test/fitting.test.ts (18 tests) 143ms
+ ✓ test/hand-cadence.test.ts (7 tests) 22ms
+ ✓ test/worker-hands.test.ts (13 tests) 1376ms
+   ✓ optional hands in the shared face worker > does not initialize a hand task in the default path and closes each shared bitmap once  546ms
+ ✓ test/hair-tracker.test.ts (3 tests) 36ms
+ ✓ test/hand-occluder.test.ts (16 tests) 217ms
+ ✓ test/asset-metadata.test.ts (31 tests) 224ms
+ ✓ test/calibration.test.ts (4 tests) 36ms
+ ✓ test/ambient-estimator.test.ts (3 tests) 25ms
+ ✓ test/quality-governor.test.ts (4 tests) 14ms
+ ✓ test/pose.test.ts (3 tests) 14ms
+ ✓ test/feature-policy.test.ts (3 tests) 21ms
+ ✓ test/source-geometry.test.ts (3 tests) 17ms
+ ✓ test/runtime-metrics.test.ts (4 tests) 27ms
+ ✓ test/startup-metrics.test.ts (3 tests) 12ms
+ ✓ test/frame-clock.test.ts (2 tests) 10ms
+ ✓ test/resource-wait.test.ts (2 tests) 29ms
+ ✓ test/coordinates.test.ts (2 tests) 11ms
+ ✓ test/head-occlusion.test.ts (6 tests) 2065ms
+   ✓ rear temple occlusion > covers the full hook surface at yaw -84 / pitch 0 / roll 0  499ms
+   ✓ rear temple occlusion > covers the full hook surface at yaw 84 / pitch 0 / roll 0  413ms
+   ✓ rear temple occlusion > covers the full hook surface at yaw -45 / pitch 0 / roll 0  306ms
+ ✓ test/session.test.ts (46 tests) 833ms
+
+ Test Files  29 passed (29)
+      Tests  276 passed (276)
+   Start at  11:57:20
+   Duration  9.87s (transform 10.51s, setup 0ms, collect 26.19s, tests 5.85s, environment 5.90s, prepare 18.25s)
+
+
+> vito-asset-generator@0.1.0 test C:\Projects\VTO\packages\asset-generator
+> vitest run
+
+
+ RUN  v3.1.4 C:/Projects/VTO/packages/asset-generator
+
+ ✓ test/generator.test.ts (6 tests) 319ms
+ ✓ test/generation.test.ts (82 tests) 647ms
+ ✓ test/asset-compatibility.test.ts (20 tests) 2512ms
+   ✓ generated assets follow the SDK coordinate and material contract > keeps every rim, endpiece, hinge, temple and metal nose pad connected across styles and boundary dimensions  614ms
+   ✓ generated assets follow the SDK coordinate and material contract > exports the same bytes for the same recipe without timestamps or random node identifiers  1300ms
+
+ Test Files  3 passed (3)
+      Tests  108 passed (108)
+   Start at  11:57:32
+   Duration  4.22s (transform 609ms, setup 0ms, collect 1.74s, tests 3.48s, environment 2ms, prepare 1.29s)
+
+Offline cache policy passed: versioned shell, pinned runtime allowlist, cache reuse, and private/unknown requests excluded.

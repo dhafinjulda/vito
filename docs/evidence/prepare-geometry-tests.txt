@@ -1,0 +1,48 @@
+
+> vito-sdk@0.1.1 test C:\Projects\VTO\packages\sdk
+> vitest run
+
+
+ RUN  v3.1.4 C:/Projects/VTO/packages/sdk
+
+ ✓ test/asset-readiness.test.ts (9 tests) 27ms
+ ✓ test/hand-identity.test.ts (10 tests) 23ms
+ ✓ test/runtime-assets.test.ts (5 tests) 37ms
+ ✓ test/pose-presentation.test.ts (22 tests) 54ms
+ ✓ test/temple-effects.test.ts (6 tests) 37ms
+ ✓ test/hand-grip.test.ts (10 tests) 30ms
+ ✓ test/two-hand-interaction.test.ts (15 tests) 71ms
+ ✓ test/premium-rendering.test.ts (4 tests) 46ms
+ ✓ test/interaction.test.ts (11 tests) 61ms
+ ✓ test/tracking-refinement.test.ts (11 tests) 94ms
+ ✓ test/fitting.test.ts (18 tests) 129ms
+ ✓ test/hair-tracker.test.ts (4 tests) 34ms
+ ✓ test/worker-hands.test.ts (15 tests) 1088ms
+   ✓ optional hands in the shared face worker > warms face, hands and hair at activation geometry before acknowledging  387ms
+ ✓ test/hand-cadence.test.ts (7 tests) 19ms
+ ✓ test/hand-occluder.test.ts (16 tests) 141ms
+ ✓ test/asset-metadata.test.ts (31 tests) 210ms
+ ✓ test/calibration.test.ts (4 tests) 29ms
+ ✓ test/ambient-estimator.test.ts (3 tests) 23ms
+ ✓ test/quality-governor.test.ts (4 tests) 11ms
+ ✓ test/pose.test.ts (3 tests) 13ms
+ ✓ test/runtime-metrics.test.ts (4 tests) 26ms
+ ✓ test/source-geometry.test.ts (3 tests) 13ms
+ ✓ test/tracker-connection.test.ts (3 tests) 24ms
+ ✓ test/tracker-startup.test.ts (4 tests) 35ms
+ ✓ test/startup-metrics.test.ts (3 tests) 12ms
+ ✓ test/feature-policy.test.ts (3 tests) 19ms
+ ✓ test/tracker-worker-owner.test.ts (2 tests) 15ms
+ ✓ test/resource-wait.test.ts (2 tests) 30ms
+ ✓ test/coordinates.test.ts (2 tests) 8ms
+ ✓ test/frame-clock.test.ts (2 tests) 9ms
+ ✓ test/head-occlusion.test.ts (6 tests) 1753ms
+   ✓ rear temple occlusion > covers the full hook surface at yaw -84 / pitch 0 / roll 0  467ms
+   ✓ rear temple occlusion > covers the full hook surface at yaw 84 / pitch 0 / roll 0  387ms
+   ✓ rear temple occlusion > covers the full hook surface at yaw -84 / pitch -20 / roll -15  304ms
+ ✓ test/session.test.ts (62 tests) 1046ms
+
+ Test Files  32 passed (32)
+      Tests  304 passed (304)
+   Start at  15:12:51
+   Duration  7.12s (transform 10.97s, setup 0ms, collect 25.52s, tests 5.17s, environment 3.57s, prepare 15.04s)

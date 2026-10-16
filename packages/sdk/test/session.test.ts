@@ -9,11 +9,11 @@
 // @vitest-environment jsdom
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
-const rendererMocks = vi.hoisted(() => ({ failure: null as Error | null, instances: [] as Array<{ load: ReturnType<typeof vi.fn>; render: ReturnType<typeof vi.fn>; resize: ReturnType<typeof vi.fn>; setPose: ReturnType<typeof vi.fn>; clearLocalAmbientSample: ReturnType<typeof vi.fn>; updateAmbientFromVideo: ReturnType<typeof vi.fn>; dispose: ReturnType<typeof vi.fn>;disableCameraCompositing:ReturnType<typeof vi.fn>;disableHairOcclusion:ReturnType<typeof vi.fn>;setHairMask:ReturnType<typeof vi.fn>;clearHairMask:ReturnType<typeof vi.fn> }> }));
+const rendererMocks = vi.hoisted(() => ({ failure: null as Error | null, initialLoad: null as Promise<void>|null, instances: [] as Array<{ load: ReturnType<typeof vi.fn>; render: ReturnType<typeof vi.fn>; resize: ReturnType<typeof vi.fn>; setPose: ReturnType<typeof vi.fn>; clearLocalAmbientSample: ReturnType<typeof vi.fn>; updateAmbientFromVideo: ReturnType<typeof vi.fn>; dispose: ReturnType<typeof vi.fn>;disableCameraCompositing:ReturnType<typeof vi.fn>;disableHairOcclusion:ReturnType<typeof vi.fn>;setHairMask:ReturnType<typeof vi.fn>;clearHairMask:ReturnType<typeof vi.fn> }> }));
 
 vi.mock('../src/rendering/GlassesRenderer', () => ({
   GlassesRenderer: class {
-    load = vi.fn().mockResolvedValue(undefined);
+    load = vi.fn().mockImplementation(()=>rendererMocks.initialLoad??Promise.resolve());
     render = vi.fn();
     resize = vi.fn();
     setPose = vi.fn().mockReturnValue({ visible: true, source: 'face-matrix', yawDegrees: 0, pitchDegrees: 0, guidance: 'ready' });
@@ -34,7 +34,7 @@ vi.mock('../src/rendering/GlassesRenderer', () => ({
   },
 }));
 
-import { createVirtualTryOn } from '../src/index';
+import { createVirtualTryOn,CameraAccessError } from '../src/index';
 import { TRACKER_PROTOCOL_VERSION } from '../src/tracking/protocol';
 import type { VirtualTryOnOptions } from '../src/types';
 
@@ -43,10 +43,13 @@ class TestWorker {
   static protocolVersion = TRACKER_PROTOCOL_VERSION;
   static prepared=false;
   static hangOptional=false;
+  static failFaceOnly=false;
   onmessage: ((event: MessageEvent) => void) | null = null;
   onerror: (() => void) | null = null;
   postMessage = vi.fn((message: { type: string; handModelAssetPath?: string;hairModelAssetPath?:string }) => {
+    if(message.type==='warmup')queueMicrotask(()=>this.onmessage?.({data:{type:'warmup-ready'}} as MessageEvent));
     if (message.type === 'init') queueMicrotask(() => {
+      if(TestWorker.failFaceOnly&&!message.handModelAssetPath&&!message.hairModelAssetPath){this.onmessage?.({data:{type:'error',message:'Face-only initialization failed'}} as MessageEvent);return;}
       if(TestWorker.prepared)this.onmessage?.({data:{type:'face-ready'}} as MessageEvent);
       if(TestWorker.hangOptional&&(message.handModelAssetPath||message.hairModelAssetPath)){this.onmessage?.({data:{type:'hand-loading'}} as MessageEvent);return;}
       this.onmessage?.({ data: { type: 'ready', protocolVersion:TestWorker.protocolVersion, handTracking: message.handModelAssetPath ? TestWorker.prepared?'ready':'loading' : 'disabled',...(TestWorker.prepared?{hairTracking:message.hairModelAssetPath?'ready':'disabled'}:{}) } } as MessageEvent);
@@ -88,6 +91,215 @@ function setup(getUserMedia: ReturnType<typeof vi.fn>, options: Partial<VirtualT
 }
 
 describe('Virtual Try-On camera lifecycle', () => {
+  it.each(['NotAllowedError','NotFoundError','NotReadableError','AbortError'])('releases prepared ownership and reports one typed %s camera error',async name=>{
+    const native=new DOMException('Camera failure',name),onError=vi.fn(),gum=vi.fn().mockRejectedValue(native);
+    const {session}=setup(gum,{onError});await session.prepare();
+    const error=await session.start().catch(e=>e);
+    expect(error).toBeInstanceOf(CameraAccessError);expect(error.cause).toBe(native);expect(error.name).toBe(name);
+    expect(onError).toHaveBeenCalledExactlyOnceWith(error);expect(session.status).toBe('error');
+    expect(TestWorker.instances[0]!.terminate).toHaveBeenCalledOnce();expect(gum.mock.calls[0]![0].audio).toBe(false);session.dispose();
+  });
+  it('permits explicit start retry after a blocked camera is corrected',async()=>{
+    const {stream,track}=streamWithTrack(),gum=vi.fn().mockRejectedValueOnce(new DOMException('Blocked','NotAllowedError')).mockResolvedValueOnce(stream);
+    const {session}=setup(gum);await expect(session.start()).rejects.toBeInstanceOf(CameraAccessError);
+    await session.start();expect(session.status).toBe('searching');session.dispose();expect(track.stop).toHaveBeenCalledOnce();
+  });
+  it('bounds failed optional preparation to one fallback and one final notification',async()=>{
+    vi.useFakeTimers();TestWorker.prepared=TestWorker.hangOptional=TestWorker.failFaceOnly=true;
+    const gum=vi.fn(),onError=vi.fn(),{session}=setup(gum,{hairOcclusion:{},resourceTimeoutMs:100,onError});
+    const result=session.prepare().catch(e=>e);await vi.advanceTimersByTimeAsync(101);
+    expect(await result).toMatchObject({message:'Face-only initialization failed'});
+    expect(TestWorker.instances).toHaveLength(2);expect(onError).toHaveBeenCalledOnce();expect(gum).not.toHaveBeenCalled();
+    for(const worker of TestWorker.instances)expect(worker.terminate).toHaveBeenCalledOnce();session.dispose();
+  });
+  it('prepares one face-only fallback after optional timeout and reuses it on start',async()=>{
+    vi.useFakeTimers();TestWorker.prepared=TestWorker.hangOptional=true;
+    const {stream,track}=streamWithTrack(),gum=vi.fn().mockResolvedValue(stream),onError=vi.fn(),health=vi.fn();
+    const {session}=setup(gum,{hairOcclusion:{},handInteraction:{},resourceTimeoutMs:100,onError,onTrackingHealthChange:health});
+    const preparation=session.prepare();await vi.advanceTimersByTimeAsync(101);await preparation;
+    expect(gum).not.toHaveBeenCalled();expect(onError).not.toHaveBeenCalled();expect(TestWorker.instances).toHaveLength(2);
+    expect(TestWorker.instances[0]!.terminate).toHaveBeenCalledOnce();
+    expect(TestWorker.instances[1]!.postMessage).toHaveBeenCalledWith(expect.objectContaining({type:'init',delegate:'CPU',hairModelAssetPath:undefined,handModelAssetPath:undefined}));
+    await session.start();expect(TestWorker.instances).toHaveLength(2);expect(gum).toHaveBeenCalledOnce();
+    expect(health.mock.calls.at(-1)![0]).toMatchObject({restarts:1,featureFallback:'optional-startup',hairTracking:'unavailable',preparation:{reused:true}});
+    session.dispose();expect(track.stop).toHaveBeenCalledOnce();expect(TestWorker.instances[1]!.terminate).toHaveBeenCalledOnce();
+  });
+  it('does not conceal a protocol mismatch with optional preparation fallback',async()=>{
+    TestWorker.prepared=true;TestWorker.protocolVersion=-1;
+    const onError=vi.fn(),{session}=setup(vi.fn(),{hairOcclusion:{},onError});
+    await expect(session.prepare()).rejects.toThrow('version');expect(TestWorker.instances).toHaveLength(1);
+    expect(onError).toHaveBeenCalledOnce();expect(TestWorker.instances[0]!.terminate).toHaveBeenCalledOnce();session.dispose();
+  });
+  it('bounds a stalled prepared geometry warmup and releases camera and worker',async()=>{
+    vi.useFakeTimers();const {stream,track}=streamWithTrack();
+    const {session}=setup(vi.fn().mockResolvedValue(stream),{resourceTimeoutMs:100});await session.prepare();
+    Object.defineProperty(HTMLVideoElement.prototype,'videoWidth',{configurable:true,get:()=>720});
+    Object.defineProperty(HTMLVideoElement.prototype,'videoHeight',{configurable:true,get:()=>1280});
+    TestWorker.instances[0]!.postMessage.mockImplementationOnce(()=>{});
+    const result=session.start().catch(e=>e);await vi.advanceTimersByTimeAsync(101);
+    expect(await result).toMatchObject({code:'tracker-timeout'});expect(track.stop).toHaveBeenCalledOnce();
+    expect(TestWorker.instances[0]!.terminate).toHaveBeenCalledOnce();session.dispose();
+  });
+  it('warms changed camera geometry on the prepared worker before dispatch',async()=>{
+    const {stream}=streamWithTrack(),health=vi.fn(),{session}=setup(vi.fn().mockResolvedValue(stream),{onTrackingHealthChange:health});
+    await session.prepare();const worker=TestWorker.instances[0]!;
+    Object.defineProperty(HTMLVideoElement.prototype,'videoWidth',{configurable:true,get:()=>720});
+    Object.defineProperty(HTMLVideoElement.prototype,'videoHeight',{configurable:true,get:()=>1280});
+    await session.start();expect(TestWorker.instances).toHaveLength(1);
+    expect(worker.postMessage).toHaveBeenCalledWith({type:'warmup',inputWidth:640,inputHeight:1138});
+    expect(health.mock.calls.at(-1)![0].preparation.activationWarmupMs).toBeGreaterThanOrEqual(0);session.dispose();
+  });
+  it('prepares without media and reuses exactly one initialized worker on start',async()=>{
+    const {stream,track}=streamWithTrack(),gum=vi.fn().mockResolvedValue(stream),health=vi.fn();
+    const {session}=setup(gum,{onTrackingHealthChange:health});
+    const first=session.prepare();expect(session.prepare()).toBe(first);await first;await session.prepare();
+    expect(gum).not.toHaveBeenCalled();expect(TestWorker.instances).toHaveLength(1);expect(session.status).toBe('idle');
+    const worker=TestWorker.instances[0]!;await session.start();
+    expect(gum).toHaveBeenCalledOnce();expect(TestWorker.instances).toHaveLength(1);
+    expect(worker.postMessage.mock.calls.filter(([m])=>m.type==='init')).toHaveLength(1);
+    expect(health.mock.calls.at(-1)![0].preparation).toMatchObject({reused:true});
+    session.stop();expect(track.stop).toHaveBeenCalledOnce();expect(worker.terminate).toHaveBeenCalledOnce();session.dispose();
+  });
+  it('shares in-flight preparation with concurrent explicit start and requests camera immediately',async()=>{
+    TestWorker.hangOptional=true;
+    const {stream}=streamWithTrack(),gum=vi.fn().mockResolvedValue(stream);
+    const {session}=setup(gum,{hairOcclusion:{}});
+    const preparation=session.prepare();for(let i=0;i<20&&!TestWorker.instances.length;i++)await Promise.resolve();
+    const start=session.start();expect(gum).toHaveBeenCalledOnce();expect(session.start()).toBe(start);
+    const worker=TestWorker.instances[0]!;
+    worker.onmessage?.({data:{type:'ready',protocolVersion:TRACKER_PROTOCOL_VERSION,hairTracking:'ready'}} as MessageEvent);
+    await preparation;await start;expect(TestWorker.instances).toHaveLength(1);session.dispose();
+  });
+  it('cancels preparation before assets complete without camera or worker acquisition',async()=>{
+    let finish!:()=>void;rendererMocks.initialLoad=new Promise<void>(r=>{finish=r;});
+    const gum=vi.fn(),{session}=setup(gum);
+    const pending=session.prepare();session.stop();await expect(pending).rejects.toMatchObject({name:'AbortError'});
+    finish();await Promise.resolve();expect(gum).not.toHaveBeenCalled();expect(TestWorker.instances).toHaveLength(0);session.dispose();
+  });
+  it('rejects prepared-stage reentrant disposal and releases the warmed worker',async()=>{
+    let session!:ReturnType<typeof createVirtualTryOn>;
+    ({session}=setup(vi.fn(),{onReadinessChange:stage=>{if(stage==='prepared')session.dispose();}}));
+    await expect(session.prepare()).rejects.toMatchObject({name:'AbortError'});
+    expect(TestWorker.instances[0]!.terminate).toHaveBeenCalledOnce();expect(session.status).toBe('disposed');
+  });
+  it('reinitializes instead of reusing preparation after an asset replacement',async()=>{
+    const {stream}=streamWithTrack(),{session}=setup(vi.fn().mockResolvedValue(stream));
+    await session.prepare();const old=TestWorker.instances[0]!;await session.setGlasses('/new.glb');await session.start();
+    expect(TestWorker.instances).toHaveLength(2);expect(old.terminate).toHaveBeenCalledOnce();session.dispose();
+  });
+  it('releases prepared workers on page hide and rejects prepare after disposal',async()=>{
+    const gum=vi.fn(),{session}=setup(gum);await session.prepare();
+    window.dispatchEvent(new Event('pagehide'));expect(TestWorker.instances[0]!.terminate).toHaveBeenCalledOnce();
+    expect(gum).not.toHaveBeenCalled();session.dispose();await expect(session.prepare()).rejects.toThrow('disposed');
+  });
+  it('times out camera-free preparation once and allows an explicit retry',async()=>{
+    vi.useFakeTimers();TestWorker.hangOptional=true;
+    const gum=vi.fn(),onError=vi.fn(),{session}=setup(gum,{hairOcclusion:{},resourceTimeoutMs:100,onError});
+    const result=session.prepare().catch(e=>e);await vi.advanceTimersByTimeAsync(101);
+    expect(await result).toMatchObject({code:'tracker-timeout'});expect(onError).toHaveBeenCalledOnce();
+    expect(TestWorker.instances[0]!.terminate).toHaveBeenCalledOnce();expect(gum).not.toHaveBeenCalled();
+    TestWorker.hangOptional=false;await session.prepare();expect(TestWorker.instances).toHaveLength(2);session.dispose();
+  });
+  it('stops late camera acquisition when concurrent preparation/start is cancelled',async()=>{
+    let resolve!:(s:MediaStream)=>void;const {stream,track}=streamWithTrack();
+    const {session}=setup(vi.fn(()=>new Promise(r=>{resolve=r;})));
+    await session.prepare();const start=session.start();session.stop();resolve(stream);await start;
+    expect(track.stop).toHaveBeenCalledOnce();expect(TestWorker.instances[0]!.terminate).toHaveBeenCalledOnce();session.dispose();
+  });
+  it('reports an initial asset preparation failure once without requesting a camera',async()=>{
+    rendererMocks.initialLoad=Promise.reject(new Error('Preparation GLB missing'));
+    const gum=vi.fn(),onError=vi.fn(),{session}=setup(gum,{onError});
+    await expect(session.prepare()).rejects.toThrow('Preparation GLB missing');
+    expect(onError).toHaveBeenCalledOnce();expect(gum).not.toHaveBeenCalled();session.dispose();
+  });
+  it('announces disposal cancellation after media and owned DOM are released',async()=>{
+    const {stream,track}=streamWithTrack();let released=false;
+    const {session,container}=setup(vi.fn().mockResolvedValue(stream),{onReadinessChange:stage=>{if(stage==='cancelled')released=track.stop.mock.calls.length===1&&container.children.length===0;}});
+    await session.start();session.dispose();expect(released).toBe(true);
+  });
+  it('bounds stalled video playback after acquisition and stops its track',async()=>{
+    vi.useFakeTimers();const {stream,track}=streamWithTrack(),onError=vi.fn();
+    const {session}=setup(vi.fn().mockResolvedValue(stream),{resourceTimeoutMs:100,onError});
+    vi.mocked(HTMLMediaElement.prototype.play).mockImplementation(()=>new Promise(()=>{}));
+    const start=session.start().catch(e=>e);await vi.advanceTimersByTimeAsync(101);
+    expect(await start).toMatchObject({code:'tracker-timeout'});expect(track.stop).toHaveBeenCalledOnce();
+    expect(onError).toHaveBeenCalledOnce();expect(TestWorker.instances).toHaveLength(0);session.dispose();
+  });
+  it('does not notify an obsolete initial asset failure after a replacement succeeds',async()=>{
+    let reject!:(error:Error)=>void;rendererMocks.initialLoad=new Promise((_,no)=>{reject=no;});
+    const onError=vi.fn(),{session}=setup(vi.fn(),{onError});rendererMocks.initialLoad=null;
+    await session.setGlasses('/replacement.glb');reject(new Error('Obsolete initial asset'));
+    await Promise.resolve();await Promise.resolve();await Promise.resolve();expect(onError).not.toHaveBeenCalled();session.dispose();
+  });
+  it('times out an unresponsive worker with a typed error and releases media',async()=>{
+    vi.useFakeTimers();const {stream,track}=streamWithTrack(),onError=vi.fn();
+    const {session}=setup(vi.fn().mockResolvedValue(stream),{resourceTimeoutMs:100,onError});
+    vi.stubGlobal('Worker',class extends TestWorker {postMessage=vi.fn();});
+    const start=session.start().catch(e=>e);await vi.advanceTimersByTimeAsync(101);
+    expect(await start).toMatchObject({code:'tracker-timeout',stage:'tracker',retryable:true});
+    expect(track.stop).toHaveBeenCalledOnce();expect(onError).toHaveBeenCalledOnce();
+    expect(TestWorker.instances[0]!.terminate).toHaveBeenCalledOnce();session.dispose();
+  });
+  it('does not apply the resource deadline to an unanswered camera permission request',async()=>{
+    vi.useFakeTimers();let grant!:(stream:MediaStream)=>void;const onError=vi.fn();
+    const {stream,track}=streamWithTrack(),{session}=setup(vi.fn(()=>new Promise(resolve=>{grant=resolve;})),{resourceTimeoutMs:100,onError});
+    const start=session.start();await vi.advanceTimersByTimeAsync(1000);
+    expect(session.status).toBe('requesting-camera');expect(onError).not.toHaveBeenCalled();
+    session.stop();grant(stream);await start;expect(track.stop).toHaveBeenCalledOnce();session.dispose();
+  });
+  it('honors cancellation from the permission-stage callback before requesting media',async()=>{
+    const gum=vi.fn(),stages:string[]=[];
+    const {session}=setup(gum,{onReadinessChange:stage=>{stages.push(stage);if(stage==='requesting-camera')session.stop();}});
+    await session.start();expect(gum).not.toHaveBeenCalled();expect(stages).toEqual(['requesting-camera','cancelled']);session.dispose();
+  });
+  it('does not restart frame dispatch after stop in the ready-stage callback',async()=>{
+    const {stream,track}=streamWithTrack(),{session}=setup(vi.fn().mockResolvedValue(stream),{onReadinessChange:stage=>{if(stage==='ready')session.stop();}});
+    await session.start();expect(session.status).toBe('idle');expect(track.stop).toHaveBeenCalledOnce();
+    expect(TestWorker.instances[0]!.terminate).toHaveBeenCalledOnce();session.dispose();
+  });
+  it('bounds a stalled initial asset, reports stages and permits a replacement retry',async()=>{
+    vi.useFakeTimers();rendererMocks.initialLoad=new Promise(()=>{});
+    const {stream,track}=streamWithTrack(),error=vi.fn(),stages=vi.fn();
+    const {session}=setup(vi.fn().mockResolvedValue(stream),{resourceTimeoutMs:100,onError:error,onReadinessChange:stages});
+    const start=session.start().catch(e=>e);await vi.advanceTimersByTimeAsync(101);
+    expect(await start).toMatchObject({code:'asset-timeout'});expect(error).toHaveBeenCalledOnce();
+    expect(track.stop).toHaveBeenCalled();expect(stages).toHaveBeenCalledWith('loading-asset');expect(stages).toHaveBeenCalledWith('error');
+    rendererMocks.initialLoad=null;await session.setGlasses('/valid.glb');await session.start();
+    expect(session.status).toBe('searching');expect(stages).toHaveBeenCalledWith('ready');session.dispose();
+  });
+  it('keeps first-fit submission empty for blank frames and clears startup diagnostics on stop',async()=>{
+    const {stream}=streamWithTrack(),health=vi.fn(),{session}=setup(vi.fn().mockResolvedValue(stream),{onTrackingHealthChange:health});
+    await session.start();
+    const startup=health.mock.calls.at(-1)![0].startup;
+    expect(startup.cameraPendingMs).toBeGreaterThanOrEqual(0);
+    expect(startup.assetWaitMs).toBeGreaterThanOrEqual(0);
+    expect(startup.trackerReadyMs).toBeGreaterThanOrEqual(0);
+    expect(startup.firstFitSubmissionMs).toBeNull();
+    session.stop();expect(Object.values(health.mock.calls.at(-1)![0].startup)).toEqual([null,null,null,null]);
+    session.dispose();
+  });
+  it('reports an initial asset failure once per start attempt and releases the camera',async()=>{
+    rendererMocks.failure=new Error('Initial asset unavailable');
+    const {stream,track}=streamWithTrack(),onError=vi.fn();
+    const {session}=setup(vi.fn().mockResolvedValue(stream),{onError});
+    await expect(session.start()).rejects.toThrow('Initial asset unavailable');
+    expect(onError).toHaveBeenCalledTimes(1);expect(track.stop).toHaveBeenCalledTimes(1);
+    expect(session.status).toBe('error');expect(TestWorker.instances).toHaveLength(0);
+    await expect(session.start()).rejects.toThrow('Initial asset unavailable');
+    expect(onError).toHaveBeenCalledTimes(2);session.dispose();
+  });
+  it('reports an initial load failure while idle without requiring camera start',async()=>{
+    rendererMocks.failure=new Error('Idle asset unavailable');const onError=vi.fn(),gum=vi.fn();
+    const {session}=setup(gum,{onError});
+    await vi.waitFor(()=>expect(onError).toHaveBeenCalledTimes(1));
+    expect(gum).not.toHaveBeenCalled();session.dispose();
+  });
+  it('does not report late initial load failures after disposal',async()=>{
+    rendererMocks.failure=new Error('Disposed asset unavailable');const onError=vi.fn();
+    const {session}=setup(vi.fn(),{onError});session.dispose();
+    await Promise.resolve();await Promise.resolve();await Promise.resolve();
+    expect(onError).not.toHaveBeenCalled();
+  });
   it('ignores in-flight face/hand/hair from a prior source size and resumes on a new capture',async()=>{
     const {stream,track}=streamWithTrack(),gum=vi.fn().mockResolvedValue(stream),health=vi.fn();
     const {session}=setup(gum,{handInteraction:{},hairOcclusion:{},onTrackingHealthChange:health});
@@ -167,10 +379,10 @@ describe('Virtual Try-On camera lifecycle', () => {
     session.dispose();expect(current.track.stop).toHaveBeenCalledOnce();
   });
   it('aborts startup waiting on an asset and permits a later independent start',async()=>{
-    const {stream}=streamWithTrack(),{session}=setup(vi.fn().mockResolvedValue(stream));await Promise.resolve();
+    const {stream}=streamWithTrack(),stages=vi.fn(),{session}=setup(vi.fn().mockResolvedValue(stream),{onReadinessChange:stages});await Promise.resolve();
     let resolve!:(value:void)=>void;rendererMocks.instances[0]!.load.mockImplementationOnce(()=>new Promise(r=>{resolve=r;}));
     const swap=session.setGlasses('/slow.glb'),start=session.start(),observed=start.catch(e=>e);
-    await Promise.resolve();await Promise.resolve();session.stop();
+    await vi.waitFor(()=>expect(stages).toHaveBeenCalledWith('loading-asset'));session.stop();
     expect(await observed).toMatchObject({name:'AbortError'});expect(TestWorker.instances).toHaveLength(0);
     const fresh=session.start();resolve();await swap;await fresh;expect(session.status).toBe('searching');session.dispose();
   });
@@ -327,9 +539,9 @@ describe('Virtual Try-On camera lifecycle', () => {
   beforeEach(() => {
     TestWorker.instances = [];
     TestWorker.protocolVersion = TRACKER_PROTOCOL_VERSION;
-    TestWorker.prepared=TestWorker.hangOptional=false;
+    TestWorker.prepared=TestWorker.hangOptional=TestWorker.failFaceOnly=false;
     rendererMocks.instances = [];
-    rendererMocks.failure = null;
+    rendererMocks.failure = null;rendererMocks.initialLoad=null;
   });
 
   afterEach(() => {
@@ -649,7 +861,7 @@ describe('Virtual Try-On camera lifecycle', () => {
 
     await expect(session.start()).rejects.toThrow('Permission denied');
     expect(session.status).toBe('error');
-    expect(onError).toHaveBeenCalledWith(denied);
+    expect(onError).toHaveBeenCalledWith(expect.objectContaining({code:'camera-access-blocked',name:'NotAllowedError',cause:denied}));
     session.dispose();
   });
 });

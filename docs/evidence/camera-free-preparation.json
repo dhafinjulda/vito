@@ -1,0 +1,54 @@
+{
+  "pass": true,
+  "results": [
+    {
+      "mode": "prepare-activate",
+      "pass": true,
+      "cameraCalls": 0,
+      "terminated": true,
+      "frames": 1,
+      "readyAt": 16901.100000000093,
+      "profile": {
+        "filesetMs": 0.5999999999767169,
+        "resourcePreparationMs": 5578,
+        "faceCreationMs": 242.40000000002328,
+        "faceWarmupMs": 4789.5,
+        "optionalWarmupMs": 6263.899999999907,
+        "hairCreationMs": 2581.5999999999767,
+        "hairWarmupMs": 3681.8000000000466
+      },
+      "activated": true,
+      "firstCompletionMs": 66
+    },
+    {
+      "mode": "cancel-loading",
+      "pass": true,
+      "cameraCalls": 0,
+      "terminated": true,
+      "frames": 0,
+      "readyAt": null,
+      "cancelled": true
+    },
+    {
+      "mode": "dispose-prepared",
+      "pass": true,
+      "cameraCalls": 0,
+      "terminated": true,
+      "frames": 0,
+      "readyAt": 1518.6000000000931,
+      "profile": {
+        "filesetMs": 0.5,
+        "resourcePreparationMs": 7.699999999953434,
+        "faceCreationMs": 269.60000000009313,
+        "faceWarmupMs": 591.6999999999534,
+        "optionalWarmupMs": 614.5999999998603,
+        "hairCreationMs": 188.0999999998603,
+        "hairWarmupMs": 425.80000000004657
+      },
+      "prepared": true
+    }
+  ],
+  "scope": "Actual built classic worker preparation proof, explicit hair enabled, no SDK session or public prepare API, camera acquisition replaced with a failing counter. One blank synthetic activation bitmap only; no recognition/appearance/device acceptance. Initial and prepared disposal terminate dedicated workers. No raw results persisted.",
+  "sdkCandidate": "7e443207d837",
+  "limits": "No SDK handoff implemented. Blank activation completes face inference only; face-gated hair sampling does not run. Camera counter is main-thread only; static worker source has no media acquisition path. Host terminate is ownership cleanup, not a native resource inspection."
+}

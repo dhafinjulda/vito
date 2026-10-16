@@ -8,6 +8,13 @@ Third-party material retains its own license. See LICENSE/NOTICE for full terms.
 
 This repository builds a framework-agnostic JavaScript/TypeScript SDK for browser glasses try-on. The Vanilla JS app in `examples/vanilla` is a reference integration. Camera video and face landmarks are processed locally in a dedicated worker; the SDK does not upload frames, landmarks, poses, or snapshots.
 
+Next development prioritizes shoppers: faster first try-on, clearer recovery,
+qualified phone/product appearance and easier live comparison. See the
+[shopper experience roadmap](docs/SHOPPER_EXPERIENCE_ROADMAP.md),
+[first iteration tickets](docs/SHOPPER_FIRST_SPRINT.md) and
+[implementation status](IMPLEMENTATION_PLAN.md). Proposed targets are planning
+goals; physical-device and shopper qualification remain open.
+
 ## Requirements
 
 - Node.js 20.19+ (workspace currently developed with Node 22.15.1)

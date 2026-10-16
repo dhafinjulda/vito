@@ -1,0 +1,99 @@
+### Result
+{"pass":true,"reports":[{"scenario":"generated-blob","status":"tracking","acquisitions":1,"cleaned":true,"errors":[],"codes":[],"stages":["requesting-camera","loading-asset","loading-runtime","ready","cancelled"],"startup":{"cameraPendingMs":0.39999999990686774,"assetWaitMs":0.10000000009313226,"trackerReadyMs":57.1999999997206,"firstFitSubmissionMs":285.1999999997206},"timing":{"wallMs":382.60000000009313,"cameraPendingMs":0.2999999998137355,"softwareControlledMs":382.3000000002794,"assetReadyMs":132.10000000009313,"trackerReadyMs":132.10000000009313,"afterCameraMs":307.10000000009313,"complete":true},"pass":true}],"scope":"Synthetic video/recognition; real GLB/GPU. Fresh/repeated GLB requests only, not cold/warm MediaPipe. Asset/tracker marks are public-start completion upper bounds; first usable is GPU-observed synthetic eyewear. No camera requested or personal data."}
+### Ran Playwright code
+```js
+await (async page => {
+  // Mocked recognition isolates SDK sequencing; GLB, video and WebGL are real.
+  const reports=[];
+  for(const scenario of ((new URL(page.url()).searchParams.has('baseline')||new URL(page.url()).searchParams.get('case')==='generated-blob')?['generated-blob']:['fresh-glb','repeat-glb','generated-blob','slow-cancel','slow-timeout','failed-glb'])) {
+    let release;
+    await page.evaluate(()=>{window.__shopperAssetBlocked=false;});
+    if(scenario==='slow-cancel'||scenario==='slow-timeout')await page.route('**/glasses.glb?shopper=*', async route=>{
+      await page.evaluate(()=>{window.__shopperAssetBlocked=true;});
+      await new Promise(resolve=>{release=resolve;});
+      await route.continue().catch(()=>{});
+    });
+    if(scenario==='failed-glb')await page.route('**/glasses.glb?shopper=*',route=>route.fulfill({status:404,body:'Synthetic missing asset'}));
+    try {
+      reports.push(await page.evaluate(async scenario=>{
+        const baseline=new URL(location.href).searchParams.get('baseline');
+        if(baseline&&!/^[a-f0-9]{12}$/.test(baseline))throw Error('Invalid baseline identifier');
+        const {createVirtualTryOn}=await import(baseline?'/@fs/C:/Projects/VTO/.benchmarks/sdk-'+baseline+'/vto-sdk.js':'/@fs/C:/Projects/VTO/packages/sdk/dist/vto-sdk.js');
+        const {syntheticFrame}=await import('/@fs/C:/Projects/VTO/packages/sdk/test/synthetic-frame.ts');
+        const {ShopperStartupTiming}=await import('/@fs/C:/Projects/VTO/scripts/shopper-startup-timing.mjs');
+        const {getDemoFit}=await import('/src/demo-assets.ts');
+        const timing=new ShopperStartupTiming(),NativeWorker=window.Worker,gum=navigator.mediaDevices.getUserMedia,getContext=HTMLCanvasElement.prototype.getContext;
+        const fixture=syntheticFrame(0,0,0,1280,720,30);
+        const url=URL.createObjectURL(new Blob([`const face=${JSON.stringify(fixture)};onmessage=({data:m})=>{if(m.type==='init')postMessage({type:'ready',protocolVersion:7,delegate:'CPU',handTracking:'disabled'});if(m.type==='frame'){postMessage({type:'result',landmarks:face.landmarks,faceMatrix:face.matrix,timestampMs:m.timestampMs});m.bitmap.close();postMessage({type:'frame-done',timestampMs:m.timestampMs});}};`],{type:'text/javascript'}));
+        const workers=[],tracks=[],errors=[],codes=[],stages=[],ownedBlobs=[];let acquisitions=0,terminated=0,session,health;
+        window.Worker=class extends NativeWorker{constructor(){super(url);workers.push(this);}terminate(){terminated++;super.terminate();}};
+        HTMLCanvasElement.prototype.getContext=function(type,opts){return getContext.call(this,type,type==='webgl2'?{...opts,preserveDrawingBuffer:true}:opts);};
+        const source=document.createElement('canvas');source.width=1280;source.height=720;const ctx=source.getContext('2d');
+        const pump=setInterval(()=>{ctx.fillStyle='#808080';ctx.fillRect(0,0,1280,720);},33);
+        navigator.mediaDevices.getUserMedia=async constraints=>{
+          if(constraints.audio!==false)throw Error('Audio requested');acquisitions++;
+          timing.mark('camera-request',performance.now());
+          const stream=source.captureStream(30);tracks.push(...stream.getTracks());
+          timing.mark('camera-settled',performance.now());return stream;
+        };
+        const host=document.createElement('div');host.style.cssText='width:640px;height:360px';document.body.append(host);
+        const delay=ms=>new Promise(r=>setTimeout(r,ms));
+        try {
+          timing.mark('entry',performance.now());
+          session=createVirtualTryOn({container:host,glassesUrl:'/glasses.glb?shopper='+ (scenario==='slow-cancel'?'slow':'shared'),fit:getDemoFit(),cameraCompositing:false,hairOcclusion:false,resourceTimeoutMs:scenario==='slow-timeout'?500:undefined,onReadinessChange:s=>stages.push(s),onError:e=>{errors.push(e.message);codes.push(e.code);},onTrackingHealthChange:h=>health=h});
+          const start=session.start();
+          if(scenario==='slow-cancel') {
+            const deadline=performance.now()+3000;while((!acquisitions||!window.__shopperAssetBlocked)&&performance.now()<deadline)await delay(10);
+            if(!window.__shopperAssetBlocked)throw Error('Slow GLB request was not observed');
+            session.stop();await Promise.race([start.catch(()=>{}),delay(1000).then(()=>{throw Error('Cancelled start did not settle');})]);
+          } else if(scenario==='slow-timeout'||scenario==='failed-glb') {
+            let failed=false;
+            await Promise.race([start.catch(()=>{failed=true;}),delay(3000).then(()=>{throw Error('Asset failure did not settle');})]);
+            if(!failed||session.status!=='error')throw Error('Failed asset did not fail safely');
+            if(scenario==='slow-timeout') {
+              if(codes[0]!=='asset-timeout'||!window.__shopperAssetBlocked)throw Error('Blocked asset did not time out');
+              timing.reset();timing.mark('entry',performance.now());await session.setGlasses('/glasses-alt.glb');await session.start();
+              if(session.status!=='searching'&&session.status!=='tracking')throw Error('Retry failed');
+            }
+          } else {
+            await Promise.race([start,delay(10000).then(()=>{throw Error('Startup timeout');})]);
+            // Public start completion bounds asset readiness, not exact parse time.
+            timing.mark('asset-ready',performance.now());timing.mark('tracker-ready',performance.now());
+            const deadline=performance.now()+5000;let rendered=false;
+            while(performance.now()<deadline) {
+              await delay(25);
+              if(session.status!=='tracking')continue;
+              const gl=session.canvas.getContext('webgl2');const bytes=new Uint8Array(gl.drawingBufferWidth*gl.drawingBufferHeight*4);
+              gl.readPixels(0,0,gl.drawingBufferWidth,gl.drawingBufferHeight,gl.RGBA,gl.UNSIGNED_BYTE,bytes);
+              let count=0;for(let i=3;i<bytes.length;i+=4)if(bytes[i]>0)count++;
+              if(count>100){rendered=true;break;}
+            }
+            if(!rendered)throw Error('No rendered eyewear pixels');timing.mark('first-usable',performance.now());
+            if(scenario==='generated-blob') {
+              const {generateGlassesAsset}=await import('/@fs/C:/Projects/VTO/packages/asset-generator/dist/asset-generator.js');
+              const asset=await generateGlassesAsset({description:'Kacamata bulat acetate hitam, lensa bening, 52-18-140'});
+              const generated=URL.createObjectURL(asset.blob);ownedBlobs.push(generated);await session.setGlasses(generated);
+              const until=performance.now()+5000;let count=0;
+              while(count<100&&performance.now()<until){
+                await delay(50);const gl=session.canvas.getContext('webgl2'),pixels=new Uint8Array(gl.drawingBufferWidth*gl.drawingBufferHeight*4);
+                gl.readPixels(0,0,gl.drawingBufferWidth,gl.drawingBufferHeight,gl.RGBA,gl.UNSIGNED_BYTE,pixels);
+                count=0;for(let i=3;i<pixels.length;i+=4)if(pixels[i]>0)count++;
+              }
+              if(count<100)throw Error('Generated blob GLB did not render');
+            }
+            await delay(550);
+            if(health.startup.firstFitSubmissionMs===null)throw Error('Fitted draw did not establish submission timing');
+          }
+          const status=session.status,startup=health?.startup;session.dispose();
+          const cleaned=tracks.every(t=>t.readyState==='ended')&&host.children.length===0&&terminated===workers.length;
+          return {scenario,status,acquisitions,cleaned,errors,codes,stages,startup,timing:timing.snapshot(),pass:cleaned&&acquisitions===(scenario==='slow-timeout'?2:1)&&(scenario==='slow-cancel'?status==='idle':scenario==='slow-timeout'?errors.length===1&&codes[0]==='asset-timeout':scenario==='failed-glb'?status==='error'&&errors.length===1:timing.snapshot().complete&&!errors.length)};
+        } finally {session?.dispose();clearInterval(pump);tracks.forEach(t=>t.stop());host.remove();source.width=source.height=0;window.Worker=NativeWorker;navigator.mediaDevices.getUserMedia=gum;HTMLCanvasElement.prototype.getContext=getContext;URL.revokeObjectURL(url);ownedBlobs.forEach(value=>URL.revokeObjectURL(value));}
+      },scenario));
+    } finally {release?.();await page.unrouteAll({behavior:'ignoreErrors'});}
+  }
+  const report={pass:reports.every(r=>r.pass),reports,scope:'Synthetic video/recognition; real GLB/GPU. Fresh/repeated GLB requests only, not cold/warm MediaPipe. Asset/tracker marks are public-start completion upper bounds; first usable is GPU-observed synthetic eyewear. No camera requested or personal data.'};
+  if(!report.pass)throw Error(JSON.stringify(report));
+  return report;
+}
+)(page);
+```

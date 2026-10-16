@@ -1,6 +1,6 @@
 # SDK-first implementation plan
 
-Updated 14 October 2026 (Asia/Jakarta). Product direction: browser SDK first; web/PWA is an SDK consumer example.
+Updated 15 October 2026 (Asia/Jakarta). Product direction: browser SDK first; web/PWA is an SDK consumer example.
 
 ## Decisions
 
@@ -16,6 +16,8 @@ Updated 14 October 2026 (Asia/Jakarta). Product direction: browser SDK first; we
 9. **Hand manipulation:** face fitting/rendering takes priority. Opt-in `handInteraction` prewarms Hand Landmarker in the same worker and shares one local bitmap/camera. All ten fingertips participate in proximity checks; each thumb supports four finger-pair grasps. Two geometric palm identities support rigid two-hand movement and contact-gated no-jump transfer. Fixed scale, two depth masks and current-pose rebasing preserve visual continuity; `setPlacement()` remains the button alternative. Separate face/hand/completion packets and sustained optional-budget fallback remain. Grip depth, skin masks, crown fit and physical forces remain approximate/unqualified; live/device acceptance is open. See `docs/HAND_INTERACTION.md`.
 10. **Runtime continuity and delivery:** content-address the emitted worker filename and validate protocol version 7 before sending frames. Associate results with the latest capture's source geometry revision and invalidate old mounts/masks on camera dimension changes. Normalize input on a transient 2D canvas (maximum width 640), keep independent capture/inference watchdogs and a bounded backup pump, and force CPU on inference recovery. Startup follows the latest requested asset; a failed swap preserves a valid model and restart. Optional `onTrackingHealthChange` exposes transient counters and feature fallback reasons.
 11. **Asset generation:** optional `generateGlassesAsset()` accepts a supported local description or explicit recipe and returns semantic GLB, fit/physicalFit, report and files. An application-owned interpreter is optional, validated and cancellable; no provider/network/key is built in. Portable scene-root metadata lets the core load generated GLBs from a single URL without importing the generator. Studio uses one generation action with advanced details; product fidelity remains template approximation.
+12. **Next development priority — shoppers:** the owner selected shoppers trying on glasses as the primary audience on 14 October. Prioritize a fast understandable first fit, actionable recovery, qualified product appearance on physical phones, and responsive live frame comparison. Developer APIs enable this experience; catalog/shortlist/commerce remain host-owned. Keep current worker/Three.js/GLB architecture and optional generator/hands boundaries. No new camera-derived persistence, uploads or remote telemetry. See [shopper experience roadmap](docs/SHOPPER_EXPERIENCE_ROADMAP.md) and [first iteration tickets](docs/SHOPPER_FIRST_SPRINT.md).
+13. **Startup readiness and resource ownership — 15 October:** add local typed readiness stages, per-resource deadlines and `ResourceTimeoutError`, preserving existing lifecycle/callbacks. GLB fetches are instance-owned and abortable; late parsing is invalidated/disposed, failed swaps retain valid models. Camera permission remains untimed; acquired media always stops on session failure/cancel/dispose. Worker timing separates preparation, native creation, blank warmup and optional work without persisting face data. Default effects remain guarded as before; evaluate optional hair startup cost from measured evidence rather than shifting compilation into live fitting.
 
 ## Repository and implementation boundaries
 
@@ -27,6 +29,263 @@ Updated 14 October 2026 (Asia/Jakarta). Product direction: browser SDK first; we
 
 ## Milestones and acceptance criteria
 
+**16 October GitHub/npm automation:** owner requested pushing current work and
+automated npm release infrastructure. Added stable package-tag GitHub Release
+publishing with OIDC/provenance, full validation/build/typecheck/tests, exact
+tarball publication and duplicate-version guards. Ordinary pushes remain CI only.
+Registry confirms SDK 0.1.1 and generator 0.1.0 already exist; no version bump/tag
+or publication is performed by setup. Local npm whoami returns E401, so per-package
+trusted-publisher configuration remains an external account step. See
+[release workflow](docs/NPM_RELEASE_WORKFLOW.md). GitHub delivery/check results
+are recorded after the push; no device-acceptance claims change.
+
+### Next program — M15–M19: shopper experience (in progress)
+
+**16 October iteration handoff:** feasible local software work is complete: 319 SDK and 108 generator tests, offline policy, workspace build/typecheck, responsive latest-choice reference browsing and final start/stop/retry UI checks pass. SDK candidate `4f2e1ff673a8`; configuration/source/asset inventory in `docs/evidence/shopper-final-candidate.json`. Owner confirms no physical target devices or licensed retail sample. Shopper observations and budget ratification remain open; M15/M16 are not accepted. See [iteration report](docs/SHOPPER_SPRINT_REPORT.md), [reference flow](docs/SHOPPER_REFERENCE_FLOW.md) and [recovery contract](docs/SDK_RECOVERY_CONTRACT.md). No publication.
+
+**15 October camera recovery:** typed `CameraAccessError`/`CameraErrorCode` now
+classifies acquisition-only blocked/not-found/unreadable/unsupported/unavailable
+failures, preserving native name/message and original cause. Reference copy offers
+specific recovery actions without claiming user denial or a proven busy-camera
+cause. Prompts remain untimed; no automatic permission retry or prepare acquisition.
+319 SDK tests, SDK build, workspace typecheck and five 390px controlled UI failures
+pass, including once-only errors, explicit retry and prepared-worker cleanup.
+Candidate `4f2e1ff673a8`; evidence `docs/evidence/camera-recovery-*` and frozen
+manifest. Initial playback scheduling regression was corrected with direct
+try/await/catch; final checks pass. Native prompts/embedding policy/physical devices
+remain unqualified. No publication.
+
+**15 October preparation fallback:** after face readiness, failed optional startup
+can prepare one face-only CPU replacement, releasing the failed worker first.
+Start adopts it and preserves `optional-startup`/restart state; no third init.
+Cancellation/protocol mismatch/obsolete assets do not trigger retry; failed
+fallback reports once and releases ownership. 307 SDK tests, SDK build/typecheck,
+and actual-MediaPipe stalled-hair browser recovery pass: no camera until start,
+one audio-off synthetic stream, advancing blank results, complete cleanup, no SDK
+error callbacks. Candidate `b87922de3e9c`; evidence `prepare-fallback-*` and frozen
+manifest. Four normal native prepare/portrait/concurrent/cancel cases also pass.
+No speedup, physical/recognized-fit or publication claim; acceptance
+gates remain open.
+
+**15 October geometry activation:** changed camera shape now receives same-worker
+blank face/optional warmup before live dispatch, bounded by startup waits and
+reported as preparation.activationWarmupMs inside start-to-ready. Protocol **8**
+requires this handshake; invalid/repeated/post-live warmup requests fail. 304 SDK
+tests, workspace build/typecheck, seven fitted/loading browser and four actual
+native preparation cases pass. Portrait sample: 140.3 ms activation, 274.9 ms
+start-to-ready, one worker/stream, audio false, advancing blank results and cleanup.
+Candidate `96bd701bde40`; evidence `docs/evidence/prepare-geometry-*` and frozen
+manifest. Synthetic desktop portrait is not physical-device/recognized-fit/live
+hair-mask qualification. No speedup or publication claimed; device/SKU/shopper
+acceptance remains open.
+
+**15 October public preparation implementation:** typed `prepare()` explicitly
+warms assets/one tracker without camera access; shared calls and concurrent start
+reuse one worker/init. Explicit start alone acquires media. Stop/page hide/dispose
+cancel and release; asset revision/feature eligibility guard reuse. Readiness
+`prepared` coexists with idle status; separate preparation timing discloses moved
+work. 300 SDK tests, SDK build, full workspace typecheck, seven fitted/loading cases
+and three public-API native prepare/concurrent/cancel browser cases pass. Native
+starts use one worker/stream, audio false, advancing blank results and cleanup;
+cancel uses no camera. Candidate `bcd003660b61`; evidence `public-prepare-*` and
+frozen manifest. One sample: 11,452.3 ms preparation, then 79.9 ms start-to-ready;
+no matched speedup/recognized-fit/device claim. README and reference stage copy
+updated; initial missing-stage typecheck was corrected. Physical/portrait/first
+hair-mask and shopper/SKU gates remain. No npm publication. Earlier proposed-only
+preparation notes below are historical and superseded by this update.
+
+**15 October connection handoff:** internal `TrackerConnection` now sends init once,
+routes worker/decode errors and supports guarded callback handoff without a second
+worker or packet queue. Normal SDK startup/recovery uses it. 291 SDK tests, SDK
+build, workspace typecheck and six fitted/loading SDK browser cases pass. Actual
+native-worker/controller proof passes handoff, loading cancel and prepared dispose:
+one owned/released worker per case, zero camera calls, 36.3 ms first blank face
+completion after handoff. Candidate `6e75f2da0b5a`; evidence
+`docs/evidence/tracker-connection-*` and frozen manifest. This is not public session
+preparation or physical acceptance. Next integrate session state, camera attachment
+and concurrent prepare/start/cancellation before exporting `prepare()`. No publish.
+
+**15 October startup controller:** `TrackerStartup` now owns readiness, protocol
+validation, total/once-per-optional-stage deadlines and settlement cleanup.
+Worker release/replacement cancels its owned wait; session-global ready resolvers
+and raw initialization timers are removed. 288 SDK tests, SDK build, full workspace
+typecheck, six fitted/loading browser cases and four native startup runs pass
+with native cleanup and zero errors/restarts. Candidate `4dcd79095a62`; evidence:
+`docs/evidence/tracker-startup-*` and frozen manifest. Optional fallback/live recovery
+policy and active message loop remain session-owned. Public preparation remains
+unimplemented; next separate initialization and callback handoff from camera
+acquisition. No speedup, physical acceptance or npm publication claimed.
+
+**15 October worker ownership implementation:** internal `TrackerWorkerOwner`
+now owns construction/replacement/release for session startup, stop, failure,
+optional fallback and recovery. Callbacks detach before termination; obsolete
+release cannot kill a replacement. 284 SDK tests, SDK build and post-build full
+workspace typecheck pass. Six synthetic public-SDK cases and four actual native
+startup runs pass, with cleanup and zero native restarts. Candidate `a0032cf57f19`;
+evidence `docs/evidence/worker-ownership-*`, frozen manifest and
+[sprint progress](docs/SHOPPER_SPRINT_PROGRESS.md). Initial concurrent typecheck
+hit declaration regeneration; sequential rerun passes. Public preparation remains
+unimplemented: next extract readiness/deadline/recovery policy behind ownership.
+No performance/device acceptance or npm publication claimed.
+
+**15 October preparation lifecycle:** proposed contract is documented in
+[camera-free preparation](docs/CAMERA_FREE_PREPARATION.md). Actual built-worker
+proof passes three camera-free prepare/activate/cancel/dispose cases, zero camera
+calls and terminated owned workers. First ready 16,901.1 ms; following blank face
+completion 66.0 ms; later prepared disposal ready 1,518.6 ms. Cache histories differ;
+no speedup, first hair-mask, recognized-fit or device qualification. Evidence:
+`docs/evidence/camera-free-preparation.json` / `.txt`. No exported `prepare()` yet.
+Next extract a single session-owned initialization/recovery controller, then test
+concurrent preparation/start, callback reentrancy, failure and cancellation before
+public integration. No production behavior or package publication changed.
+
+**15 October warmup-size decision:** source-level hair experiment passes eight
+initializations and 24 subsequent normal-size synthetic inferences across two
+reversed-order browsers. First-in-browser warmup is 4,764.1 ms at 640×360 and
+4,969.1 ms at 256×256; later either-size warmups are 384.5–445.7 ms. No size-based
+speedup established; retain production dimensions. Evidence, source/bundle hashes
+and reproduction: `docs/evidence/hair-warmup-experiment.json` and
+[sprint progress](docs/SHOPPER_SPRINT_PROGRESS.md). No production change or device
+acceptance. Next evaluate explicit camera-free preparation with cancellation and
+consent semantics; compilation remains outside live fitted-frame work.
+
+**15 October hair-phase continuation:** additive local hair creation/warmup diagnostics
+identify 504.5 ms creation versus 9,078.4 ms blank inference warmup in one
+11,161.8 ms default-policy attempt. Four actual-worker synthetic browser runs pass,
+with clean shutdown and zero SDK errors/restarts. 282 SDK tests, SDK build and
+workspace typecheck pass. Candidate `7e443207d837`; evidence and initial assertion
+correction: [sprint progress](docs/SHOPPER_SPRINT_PROGRESS.md), `shopper-hair-phases-*`
+in `docs/evidence`. No scheduling change, speedup or device acceptance claimed.
+Next investigate warmup cost with matched runs; prefetch alone cannot remove this
+measured first-inference delay.
+
+**15 October execution update:** phase profiling identifies 4,342.0 ms resource
+preparation and 3,714.2 ms first-inference warmup within an 8,533.3 ms initial cold
+face-only sample. A later resolved-default run spends 5,230.3 ms on optional hair
+preparation within 6,180.1 ms overall. Cache/network/GPU conditions differ; these
+samples do not demonstrate a speedup or close p95/phone/recognized-fit budgets.
+Raw phases and scopes: `docs/evidence/shopper-worker-profile*.json` / `.txt`.
+
+Repeated final-candidate desktop cohort: **9/9 pass**, zero SDK errors/restarts and
+complete synthetic stream/worker cleanup. Three cleared-runtime-cache face-only
+attempts: median 1,914.3 ms, sample p95 7,042.4 ms; five retained-cache attempts:
+median 1,262.2 ms, sample p95 1,317.8 ms. One resolved-default attempt: 12,319.1 ms,
+including 10,702.0 ms optional graph work. Next investigate optional initialization.
+Evidence/reproduction: `docs/evidence/shopper-startup-cohort.json` / `.txt` and
+`scripts/browser-shopper-native-startup.js` at `/?cohort=1`. Quantiles describe these
+successful samples only; cache clears do not reset GPU/shader caches or control
+network. No first-fit, population p95, device acceptance or speedup is established.
+
+Readiness stages, typed timeout reasons, bounded playback/asset/tracker waits,
+owned abortable GLB fetches, late-parse disposal and explicit retry are implemented.
+Vanilla shows actionable loading/error copy, supports retry without reload and
+does not repeatedly announce unchanged guidance. Camera permission remains
+untimed. External referenced texture parsing lacks abort support; embedded GLBs
+are recommended and late scene installation is prevented.
+
+Final SDK candidate `e18a506cf45d`: **281 SDK tests** pass; **108 generator tests**
+and offline cache policy passed separately. Full workspace build/typecheck pass
+(existing Three.js chunk warnings remain). Six synthetic public-SDK loading/GPU
+cases, generated-GLB compatibility/shaders, and UI retry/cancel/mobile-width checks
+pass; screenshots contain only synthetic video. Evidence: `shopper-loading-*` in
+`docs/evidence`, frozen final manifest, and [sprint progress](docs/SHOPPER_SPRINT_PROGRESS.md).
+The initial fixed-delay GPU/cancellation fixture failures and corrections are
+documented there. Physical phones, observed shoppers, licensed SKU and standardized
+repeated acceptance cohorts remain open; M15/M16 are not fully accepted. No npm
+publication occurred.
+
+**M15 execution started — 14 October:** workspace build and typecheck exit 0;
+local SDK baseline `7f7f707130a9` frozen immediately after build. Manifest:
+`docs/evidence/smoothness-shopper-sprint-manifest.json`; bundled GLB hashes:
+`docs/evidence/shopper-sprint-assets.json`. Logs: `shopper-sprint-build.txt` and
+`shopper-sprint-typecheck.txt` in `docs/evidence`. Initial restricted build could
+not launch (exit -4048); approved retry passed. No core runtime behavior changed.
+Added a camera-free single-attempt startup timing utility with passing Node
+synthetic assertions for constructor costs, camera pending, reset, invalid marks
+and readiness prerequisites. Browser timing integration/cold-warm runs remain
+open. See [sprint progress](docs/SHOPPER_SPRINT_PROGRESS.md) for drafted recovery,
+observation and reference-flow contracts. Physical phones, shopper observations,
+licensed supplier SKU and budget ratification are not accepted. No publication.
+
+**M15 browser continuation — 14 October:** four public-SDK synthetic Chromium
+cases pass: initial/repeated GLB startup with actual rendered eyewear pixels,
+explicitly blocked asset cancellation and 404 asset cleanup. Each uses one local
+synthetic stream with audio disabled; all tracks/workers/host elements clean up.
+Evidence: `docs/evidence/shopper-browser-startup.json` / `.txt`.
+Recognition is mocked and optional hair/compositing disabled; no cold/warm actual
+MediaPipe, default-feature, real camera, p95 or device qualification is claimed.
+Asset/tracker timestamps are public-start completion upper bounds. The 404 case
+exposes duplicate `onError` notifications from initial asset rejection and startup
+failure; record this as an open recovery-contract defect. Browser/server sandbox
+launch failures were followed by approved successful retries. `git diff --check`
+passes. Core runtime behavior remains unchanged.
+
+**M15 recovery defect fixed — 14 October:** active startup now owns reporting an
+initial asset rejection; idle load failures still notify and disposed consumers
+receive no late notification. Separate failed retries each report once. Three
+new lifecycle regressions pass; SDK suite **265/265**, SDK build and workspace
+typecheck exit 0. Four synthetic browser cases pass with exactly one missing-GLB
+error callback and complete cleanup. Evidence: `docs/evidence/shopper-error-*.txt`
+and `shopper-error-browser.json`; frozen candidate `3157024f16e2` in
+`smoothness-shopper-error-fix-manifest.json`. Previous duplicate-error evidence
+remains historical. No actual MediaPipe cold/warm or physical-device acceptance,
+new public API or publication is claimed.
+
+**M15 startup instrumentation — 14 October:** additive typed opt-in
+`TrackingHealth.startup` reports camera pending, post-playback asset wait, initial
+tracker readiness and first fresh fitted CPU submission; null unreached fields
+reset on stop/dispose. No raw history or face measurements; constructor loading,
+GPU completion and physical first-usable latency remain separate. SDK build,
+workspace typecheck and **269/269 SDK tests** pass. Four synthetic fitted-browser
+cases pass on final frozen SDK `2f6e6b49b42e`. Actual MediaPipe face/GPU smoke on
+`9cded6ada2cf`: one cleared-cache startup 7,585.9 ms, two retained-cache startups
+664.9/763.8 ms (constructor-to-tracker); each 15 blank-frame results, zero restarts,
+one synthetic stream, complete cleanup and null first-fit submission. Evidence:
+`docs/evidence/shopper-timing-*.txt`, `shopper-timing-browser.json`,
+`shopper-native-startup.json` / `.txt` and its build manifest. This is three
+unthrottled desktop initialization samples with optional effects off, not p95,
+recognized-face first fit, current-default/network budgets or phone acceptance.
+S02 remains partial; no publication or real-person recording.
+
+**Planning update — 14 October:** repository/public API/reference-flow and existing
+evidence reviewed; shopper-first roadmap, sequenced tickets and proposed success
+criteria created. The current device checklist is reconciled with implemented
+defaults. This update changes documentation only. No new runtime feature, build,
+test, camera session, physical-device result or npm publication is claimed.
+
+Documentation validation: 41 local Markdown links resolve, no trailing whitespace
+in the five touched documents, and `git diff --check` exits 0. The existing
+14 October registry-confirmation note is preserved. Independent roadmap review
+checked ordering, contract ownership, privacy and evidence boundaries; startup
+clock definitions and full-category network inspection were clarified.
+
+| Milestone | Status / dependency | Acceptance to close |
+|---|---|---|
+| M15 — Baseline and shopper discovery | In progress; profiling and synthetic/native evidence captured | Freeze build/worker/assets/defaults, define cold/warm and first-usable timing, observe 6–8 shoppers, baseline physical targets, rank friction and ratify budgets. |
+| M16 — Fast start and helpful recovery | In progress; readiness/deadlines/retry implemented, qualification open | Small additive readiness/reason contracts, bounded cancellable resources, camera-free preparation if justified, permission/asset/model/WebGL recovery and correct teardown. |
+| M17 — Trustworthy fit on phones | Planned; starts with M15, closes on candidate build | Qualify current defaults, one licensed calibrated SKU, synthetic alignment/occlusion regressions and recognized-face physical iOS/Android/desktop review. |
+| M18 — Browse and compare | Planned; M16 + M17 assets/budgets | Responsive latest-choice swaps, bounded preloading, live two-choice comparison and session product-ID shortlist in host/reference flow; localized accessible operation. |
+| M19 — Pilot and release qualification | Planned; M16–M18 | Repeat shopper pilot, every advertised device row accepted, clean packaged host integration, privacy/lifecycle/thermal checks and license/known-limit evidence. Publication remains separately authorized. |
+
+- [x] Shopper audience confirmed; roadmap and first-iteration tickets saved.
+- [x] Current-default device instructions corrected; earlier results remain dated.
+- [ ] M15 baseline, shopper observations and timing budgets accepted.
+- [ ] M16–M18 runtime/host improvements implemented and qualified.
+- [ ] M19 pilot and release gates completed for the frozen candidate.
+
+Proposed software-controlled warm first usable overlay p95 ≤3 s, cold ≤8 s on a controlled network,
+prepared frame switch p95 ≤500 ms, and software capture-to-submission p95 ≤150 ms
+are planning targets. Definitions/sample requirements are in the roadmap; they
+include constructor/preparation history, report total wall time and camera API
+pending time separately, and are not measured results or supported-device promises. Re-estimate nominal
+two-week iterations after M15. Physical phone access, shopper participation and a
+licensed supplier SKU are external dependencies; those gates remain open while
+independent contract/synthetic work proceeds.
+
+The roadmap is authoritative for next priorities. Existing feature plans remain
+implementation/evidence references; their historical default assumptions do not
+override the current SDK options or reconciled device checklist.
+
 ### M14 — npm package page documentation
 
 - [x] Inspect the live npm page and public registry metadata.
@@ -34,6 +293,12 @@ Updated 14 October 2026 (Asia/Jakarta). Product direction: browser SDK first; we
 - [x] Prepare SDK version0.1.1 with package-specific homepage and discovery keywords.
 - [x] Workspace typecheck and SDK prepack/build/publish dry-run pass (exit0).
 - [ ] Publish version0.1.1 after explicit owner authorization and verify the live README.
+
+**Later registry confirmation — 14 October:** public npm metadata now reports
+vito-sdk latest0.1.1, README heading “Vito SDK”, and no “not yet published”
+sentence. Publication was performed outside this agent turn. The registry has
+the corrected README; npm frontend cache/version selection was not verified
+in this confirmation. Do not republish the existing0.1.1 version.
 
 14 October observation: registry latest is0.1.0 for both vito-sdk and
 vito-asset-generator. The SDK registry README still said “not yet published”.
@@ -461,7 +726,7 @@ Acceptance: pinch at the actual frame acquires without jumping; translation/rota
 - Controlled live profile/distance and cross-subject acceptance is still needed. A desktop camera smoke reached tracking and passed asset-switch/stop checks, and the user reported completing bilateral turns. Those checks do not yet establish quantified alignment, jitter, lag, anatomical occlusion or distance-response accuracy.
 - The tracker uses one in-flight frame, a 3-second timeout, a 1,000 ms capture-age rejection limit, a 750 ms silence expiry for the mounted overlay, and at most two local worker restarts per camera session. A displayed accepted pose can therefore reach about 1,750 ms capture age before silence expiry in the worst case; genuine no-face/invisible results hide immediately. These are fallback bounds, not real-time performance targets. Recovery behavior is mocked/unit tested but not exercised against real device-specific MediaPipe stalls; target-specific inference budgets, recovery time, and repeated sessions still need device qualification.
 - Rotation uses MediaPipe's canonical-face transform; seven-span perspective fitting, crop/mirror, separate pose filters, local per-asset adjustments and face/head/ear depth occlusion are implemented. `estimatedDistanceCm` is optical-axis depth to bridge 168 based on canonical upper-face proportions (outer-eye GLB gauge 8.891718 cm), relative landmark Z and approximate 63° source FOV. It is not Euclidean ranging or a calibrated measurement. Camera intrinsics, face-size variation, lens/zoom error and SKU-specific fit envelopes need real-subject validation. Median consensus tolerates a minority of corrupted spans but not correlated errors across most anchors; bridge translation, facial deformations and landmark fallback still depend on model output. The latest filter cutoffs need live lag/jitter tuning; model detection accuracy and inference speed are unchanged and unmeasured here.
-- Ear and rear-head volumes are geometric estimates, not detected segmentation. They can over/under-occlude on unusual head shapes, ears, extreme poses or oversized assets; hair and hands are unmodeled. Clear lens materials add tint and reflections without refracting the camera DOM video. Validate the **entire rear hook**, not only its endpoint, and retained near-side temple segments on real users. User reports the former mask still leaked during a full profile; the new mask has synthetic ray/GPU acceptance, with live-user confirmation pending.
+- Ear and rear-head volumes are geometric estimates, not detected segmentation. They can over/under-occlude on unusual head shapes, ears, extreme poses or oversized assets. M9 adds guarded automatic hair masks; M11 adds opt-in two-hand contact/masks, with depth/anatomy still approximate. Camera/lens compositing and transmission are implemented with DOM/original-material fallback; actual appearance, optional-feature cost and recognized-face occlusion remain unqualified on physical phones. Validate the **entire rear hook**, not only its endpoint, and retained near-side temple segments on real users. The newer synthetic ray/GPU evidence does not close that live visual gate.
 - Two reference GLBs are synthetic demonstrations. The third model is a bundled generic Poly Haven CC0 asset for PBR/import testing; it is not a real SKU and its visual scale has not been calibrated against a person. Retail try-on requires licensed/calibrated product geometry, seller-provided dimensions, and product review.
 - iOS worker/WASM/WebGL compatibility, target performance, thermal behavior, and camera lifecycle remain unmeasured.
 - The offline cache allowlist and warm-cache behavior pass a Node service-worker harness. Production Chromium registration/control, synthetic worker inference, and a network-disabled shell reload plus worker/model inference are verified in `docs/evidence/offline-browser-smoke.json`. This does not verify active-camera network traffic; a network-panel inspection during a user camera session remains an explicit release gate.
@@ -479,3 +744,7 @@ Acceptance: pinch at the actual frame acquires without jumping; translation/rota
 - Matrix storage was verified against [MatrixData](https://github.com/google-ai-edge/mediapipe/blob/master/mediapipe/framework/formats/matrix_data.proto) and [serialization implementation](https://github.com/google-ai-edge/mediapipe/blob/master/mediapipe/framework/formats/matrix.cc): column-major by default, matching Three.js `Matrix4.fromArray()`.
 - Canonical topology attribution and license copies are in `THIRD_PARTY_NOTICES.md` and `scripts/assets`.
 - MediaPipe's official [Face Geometry documentation](https://chuoling.github.io/mediapipe/solutions/face_mesh.html#face-geometry-module) documents relative weak-perspective landmark Z, canonical centimeters and the need to match virtual camera parameters to the physical camera. Our distance estimate assumes that canonical face size; it does not establish real ranging accuracy.
+
+## 16 October release automation verification
+
+`pnpm test` passes 319 SDK + 108 generator tests, offline policy and two npm release-guard tests. Workflow YAML parses, tag identity checks pass, and a live registry preflight rejects existing SDK 0.1.1 as intended. Logs: `docs/evidence/github-release-tests.txt` and `npm-duplicate-version-guard.txt`. Newly added text evidence has trailing whitespace/blank EOF normalized only; results are unchanged. npm account configuration remains unavailable (local E401). No package version bump or publication.

@@ -1,0 +1,54 @@
+### Result
+{"pass":true,"summaries":[{"group":"cold-runtime","attempts":1,"failures":0,"successfulSamples":1,"p50Ms":6526.400000000023,"p95Ms":6526.400000000023},{"group":"warm-runtime","attempts":2,"failures":0,"successfulSamples":2,"p50Ms":786.4000000000233,"p95Ms":1158.0999999999767},{"group":"default-policy","attempts":1,"failures":0,"successfulSamples":1,"p50Ms":11161.800000000047,"p95Ms":11161.800000000047}],"results":[{"mode":"cold-runtime","constructorToTrackerMs":6526.400000000023,"startup":{"cameraPendingMs":1.3000000000465661,"assetWaitMs":0.2000000000698492,"trackerReadyMs":6469.5,"firstFitSubmissionMs":null},"workerStartup":{"filesetMs":1,"resourcePreparationMs":1581,"faceCreationMs":417.20000000006985,"faceWarmupMs":4350.29999999993,"optionalWarmupMs":0.09999999997671694},"delegate":"GPU","hairTracking":"disabled","cameraCompositing":"disabled","results":15,"restarts":0,"errors":[],"calls":1,"workerUrls":["http://localhost:5173/@fs/C:/Projects/VTO/packages/sdk/dist/assets/face-worker-BR9D-gRF.js"],"cleaned":true,"pass":true},{"mode":"warm-runtime-1","constructorToTrackerMs":786.4000000000233,"startup":{"cameraPendingMs":0.19999999995343387,"assetWaitMs":0,"trackerReadyMs":716.8000000000466,"firstFitSubmissionMs":null},"workerStartup":{"filesetMs":0.5999999999767169,"resourcePreparationMs":8.300000000046566,"faceCreationMs":218.5,"faceWarmupMs":431.19999999995343,"optionalWarmupMs":0.09999999997671694},"delegate":"GPU","hairTracking":"disabled","cameraCompositing":"disabled","results":15,"restarts":0,"errors":[],"calls":1,"workerUrls":["http://localhost:5173/@fs/C:/Projects/VTO/packages/sdk/dist/assets/face-worker-BR9D-gRF.js"],"cleaned":true,"pass":true},{"mode":"warm-runtime-2","constructorToTrackerMs":1158.0999999999767,"startup":{"cameraPendingMs":0.30000000004656613,"assetWaitMs":0.09999999997671694,"trackerReadyMs":1096,"firstFitSubmissionMs":null},"workerStartup":{"filesetMs":0.6000000000931323,"resourcePreparationMs":7.5,"faceCreationMs":237.29999999993015,"faceWarmupMs":797.4000000000233,"optionalWarmupMs":0},"delegate":"GPU","hairTracking":"disabled","cameraCompositing":"disabled","results":7,"restarts":0,"errors":[],"calls":1,"workerUrls":["http://localhost:5173/@fs/C:/Projects/VTO/packages/sdk/dist/assets/face-worker-BR9D-gRF.js"],"cleaned":true,"pass":true},{"mode":"default-policy","constructorToTrackerMs":11161.800000000047,"startup":{"cameraPendingMs":0.30000000004656613,"assetWaitMs":0,"trackerReadyMs":11084.79999999993,"firstFitSubmissionMs":null},"workerStartup":{"filesetMs":0.7000000000698492,"resourcePreparationMs":11.199999999953434,"faceCreationMs":425.19999999995343,"faceWarmupMs":897.2000000000698,"optionalWarmupMs":9583.400000000023,"hairCreationMs":504.5,"hairWarmupMs":9078.399999999907},"delegate":"GPU","hairTracking":"ready","cameraCompositing":"active","results":30,"restarts":0,"errors":[],"calls":1,"workerUrls":["http://localhost:5173/@fs/C:/Projects/VTO/packages/sdk/dist/assets/face-worker-BR9D-gRF.js"],"cleaned":true,"pass":true}],"scope":"Actual MediaPipe worker with blank synthetic video; cold/warm groups are face-only, final run resolves public default policy with hands off. Cohort mode uses three cleared-cache and five retained-cache attempts; small-sample successful-attempt quantiles describe these attempts only, with failures reported separately. Dedicated browser HTTP cache and pinned CacheStorage cleared before each cold attempt, retained for warm/default attempts. GPU/driver/shader caches and remote network conditions are not reset or controlled. Imported SDK module is already loaded; constructor-to-ready includes GLB work. No recognition/first usable fit/device/p95 acceptance. No physical camera or person data."}
+### Ran Playwright code
+```js
+await (async page=>{
+  const cdp=await page.context().newCDPSession(page);
+  await cdp.send('Network.enable');await cdp.send('Network.clearBrowserCache');await cdp.detach();
+  await page.evaluate(()=>caches.delete('vto-mediapipe-runtime-0.10.22-rc.20250304'));
+  const results=[];
+  const repeat=new URL(page.url()).searchParams.get('cohort')==='1';
+  const modes=repeat?[...Array.from({length:3},(_,i)=>'cold-runtime-'+i),...Array.from({length:5},(_,i)=>'warm-runtime-'+i),'default-policy']:['cold-runtime','warm-runtime-1','warm-runtime-2','default-policy'];
+  for(const mode of modes) {
+    if(repeat&&mode.startsWith('cold-runtime')) {
+      const client=await page.context().newCDPSession(page);await client.send('Network.enable');await client.send('Network.clearBrowserCache');await client.detach();
+      await page.evaluate(()=>caches.delete('vto-mediapipe-runtime-0.10.22-rc.20250304'));
+    }
+    results.push(await page.evaluate(async mode=>{
+      const {createVirtualTryOn}=await import('/@fs/C:/Projects/VTO/packages/sdk/dist/vto-sdk.js');
+      const originalGum=navigator.mediaDevices.getUserMedia,NativeWorker=window.Worker;
+      const workers=[],tracks=[],errors=[];let health,calls=0,terminated=0,session;
+      window.Worker=class extends NativeWorker{constructor(url,opts){super(url,opts);workers.push(String(url));}terminate(){terminated++;super.terminate();}};
+      const source=document.createElement('canvas');source.width=1280;source.height=720;const ctx=source.getContext('2d');
+      ctx.fillStyle='#808080';ctx.fillRect(0,0,1280,720);
+      const pump=setInterval(()=>{ctx.fillStyle='#808080';ctx.fillRect(0,0,1280,720);},33);
+      navigator.mediaDevices.getUserMedia=async options=>{if(options.audio!==false)throw Error('Audio requested');calls++;const stream=source.captureStream(30);tracks.push(...stream.getTracks());return stream;};
+      const host=document.createElement('div');host.style.cssText='width:640px;height:360px';document.body.append(host);
+      const delay=ms=>new Promise(r=>setTimeout(r,ms));let timer;
+      try {
+        const entry=performance.now();
+        session=createVirtualTryOn({container:host,glassesUrl:'/glasses.glb',cacheRuntimeAssets:true,...(mode==='default-policy'?{}:{hairOcclusion:false,cameraCompositing:false}),onError:e=>errors.push(e.message),onTrackingHealthChange:h=>health=h});
+        await Promise.race([session.start(),new Promise((_,reject)=>{timer=setTimeout(()=>reject(Error('Native startup timeout')),45000);})]);
+        clearTimeout(timer);const constructorToTrackerMs=performance.now()-entry;
+        await delay(1000);const result={mode,constructorToTrackerMs,startup:health.startup,workerStartup:health.workerStartup,delegate:health.delegate,hairTracking:health.hairTracking,cameraCompositing:health.cameraCompositing,results:health.resultsReceived,restarts:health.restarts,errors,calls,workerUrls:workers};
+        session.dispose();result.cleaned=tracks.every(t=>t.readyState==='ended')&&terminated===workers.length&&host.children.length===0;
+        result.pass=result.cleaned&&calls===1&&!errors.length&&result.results>0&&result.restarts===0&&result.startup.trackerReadyMs!==null&&result.startup.firstFitSubmissionMs===null;
+        return result;
+      }catch(error){return {mode,pass:false,error:String(error)};}
+      finally{clearTimeout(timer);session?.dispose();clearInterval(pump);tracks.forEach(t=>t.stop());source.width=source.height=0;host.remove();window.Worker=NativeWorker;navigator.mediaDevices.getUserMedia=originalGum;}
+    },mode));
+  }
+  const summaries=['cold-runtime','warm-runtime','default-policy'].map(group=>{
+    const attempts=results.filter(r=>r.mode.startsWith(group)),values=attempts.filter(r=>r.pass).map(r=>r.constructorToTrackerMs).sort((a,b)=>a-b);
+    return {group,attempts:attempts.length,failures:attempts.filter(r=>!r.pass).length,successfulSamples:values.length,p50Ms:values.length?values[Math.ceil(values.length*.5)-1]:null,p95Ms:values.length?values[Math.ceil(values.length*.95)-1]:null};
+  });
+  return {pass:results.every(r=>r.pass),summaries,results,scope:"Actual MediaPipe worker with blank synthetic video; cold/warm groups are face-only, final run resolves public default policy with hands off. Cohort mode uses three cleared-cache and five retained-cache attempts; small-sample successful-attempt quantiles describe these attempts only, with failures reported separately. Dedicated browser HTTP cache and pinned CacheStorage cleared before each cold attempt, retained for warm/default attempts. GPU/driver/shader caches and remote network conditions are not reset or controlled. Imported SDK module is already loaded; constructor-to-ready includes GLB work. No recognition/first usable fit/device/p95 acceptance. No physical camera or person data."};
+}
+)(page);
+```
+### Page
+- Page URL: http://localhost:5173/
+- Page Title: Virtual Try-On · Vanilla SDK Example
+- Console: 4 errors, 10 warnings
+### Events
+- New console entries: .playwright-cli\console-2026-10-15T06-26-39-463Z.log#L1-L25

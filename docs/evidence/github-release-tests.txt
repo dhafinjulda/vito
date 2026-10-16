@@ -1,0 +1,96 @@
+
+> virtual-try-on-sdk-workspace@ test C:\Projects\VTO
+> pnpm --filter vito-sdk test && pnpm --filter vito-asset-generator test && node scripts/test-offline-cache.mjs && node scripts/test-npm-release.mjs
+
+
+> vito-sdk@0.1.1 test C:\Projects\VTO\packages\sdk
+> vitest run
+
+
+ RUN  v3.1.4 C:/Projects/VTO/packages/sdk
+
+ ✓ test/asset-readiness.test.ts (9 tests) 19ms
+ ✓ test/runtime-assets.test.ts (5 tests) 33ms
+ ✓ test/hand-identity.test.ts (10 tests) 18ms
+ ✓ test/pose-presentation.test.ts (22 tests) 40ms
+ ✓ test/temple-effects.test.ts (6 tests) 27ms
+ ✓ test/hand-grip.test.ts (10 tests) 39ms
+ ✓ test/two-hand-interaction.test.ts (15 tests) 63ms
+ ✓ test/premium-rendering.test.ts (4 tests) 49ms
+ ✓ test/interaction.test.ts (11 tests) 56ms
+ ✓ test/tracking-refinement.test.ts (11 tests) 75ms
+ ✓ test/fitting.test.ts (18 tests) 123ms
+ ✓ test/worker-hands.test.ts (15 tests) 809ms
+   ✓ optional hands in the shared face worker > warms face, hands and hair at activation geometry before acknowledging  308ms
+ ✓ test/hand-occluder.test.ts (16 tests) 104ms
+ ✓ test/asset-metadata.test.ts (31 tests) 148ms
+ ✓ test/hand-cadence.test.ts (7 tests) 23ms
+ ✓ test/hair-tracker.test.ts (4 tests) 62ms
+ ✓ test/calibration.test.ts (4 tests) 33ms
+ ✓ test/ambient-estimator.test.ts (3 tests) 23ms
+ ✓ test/quality-governor.test.ts (4 tests) 13ms
+ ✓ test/pose.test.ts (3 tests) 14ms
+ ✓ test/startup-metrics.test.ts (3 tests) 12ms
+ ✓ test/source-geometry.test.ts (3 tests) 13ms
+ ✓ test/feature-policy.test.ts (3 tests) 18ms
+ ✓ test/runtime-metrics.test.ts (4 tests) 25ms
+ ✓ test/frame-clock.test.ts (2 tests) 10ms
+ ✓ test/resource-wait.test.ts (2 tests) 24ms
+ ✓ test/tracker-worker-owner.test.ts (2 tests) 14ms
+ ✓ test/tracker-connection.test.ts (3 tests) 23ms
+ ✓ test/tracker-startup.test.ts (4 tests) 30ms
+ ✓ test/coordinates.test.ts (2 tests) 9ms
+ ✓ test/camera-access-error.test.ts (7 tests) 18ms
+ ✓ test/head-occlusion.test.ts (6 tests) 2030ms
+   ✓ rear temple occlusion > covers the full hook surface at yaw -84 / pitch 0 / roll 0  521ms
+   ✓ rear temple occlusion > covers the full hook surface at yaw 84 / pitch 0 / roll 0  349ms
+   ✓ rear temple occlusion > covers the full hook surface at yaw -84 / pitch -20 / roll -15  397ms
+   ✓ rear temple occlusion > covers the full hook surface at yaw 84 / pitch 20 / roll 15  315ms
+ ✓ test/session.test.ts (70 tests) 1097ms
+
+ Test Files  33 passed (33)
+      Tests  319 passed (319)
+   Start at  14:36:48
+   Duration  7.91s (transform 7.41s, setup 0ms, collect 19.36s, tests 5.09s, environment 4.42s, prepare 16.56s)
+
+
+> vito-asset-generator@0.1.0 test C:\Projects\VTO\packages\asset-generator
+> vitest run
+
+
+ RUN  v3.1.4 C:/Projects/VTO/packages/asset-generator
+
+ ✓ test/generator.test.ts (6 tests) 285ms
+ ✓ test/generation.test.ts (82 tests) 502ms
+ ✓ test/asset-compatibility.test.ts (20 tests) 2206ms
+   ✓ generated assets follow the SDK coordinate and material contract > keeps every rim, endpiece, hinge, temple and metal nose pad connected across styles and boundary dimensions  450ms
+   ✓ generated assets follow the SDK coordinate and material contract > exports the same bytes for the same recipe without timestamps or random node identifiers  1201ms
+
+ Test Files  3 passed (3)
+      Tests  108 passed (108)
+   Start at  14:36:58
+   Duration  3.49s (transform 426ms, setup 0ms, collect 1.21s, tests 2.99s, environment 1ms, prepare 902ms)
+
+Offline cache policy passed: versioned shell, pinned runtime allowlist, cache reuse, and private/unknown requests excluded.
+TAP version 13
+# Subtest: independent package releases require exact stable identity
+ok 1 - independent package releases require exact stable identity
+  ---
+  duration_ms: 3.6997
+  type: 'test'
+  ...
+# Subtest: registry check rejects duplicate versions and fails closed on registry errors
+ok 2 - registry check rejects duplicate versions and fails closed on registry errors
+  ---
+  duration_ms: 4.392
+  type: 'test'
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 2
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 30.92

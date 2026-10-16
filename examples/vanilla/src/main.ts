@@ -6,7 +6,7 @@
  * Initial Developer: Dhafin Julda Riyanto. Provided AS IS, without warranty.
  * Third-party portions retain their licenses; see THIRD_PARTY_NOTICES.md.
  */
-import { createVirtualTryOn, type SessionStatus, type GlassesAsset } from 'vito-sdk';
+import { createVirtualTryOn, ResourceTimeoutError, CameraAccessError, type SessionStatus, type GlassesAsset } from 'vito-sdk';
 import { demoGlassesManifest, getDemoFit, getDemoGlassesAssets } from './demo-assets';
 import { registerOfflineExample } from './offline';
 import './style.css';
@@ -31,6 +31,14 @@ let fit = getDemoFit();
 const glasses: GlassesAsset[] = getDemoGlassesAssets();
 const descriptions = demoGlassesManifest.assets.map((asset) => asset.description);
 let selected = 0;
+let requested:number|null=null,selectionRevision=0;
+const productState=element<HTMLElement>('#product-state');
+const productNames=products.map(product=>product.querySelector('strong')!.textContent!);
+function renderProductSelection(text:string) {
+  products.forEach((product,index)=>{product.setAttribute('aria-pressed',String(index===selected));product.setAttribute('aria-busy',String(index===requested));});
+  if(productState.textContent!==text)productState.textContent=text;
+  [size,height,depth].forEach(input=>input.disabled=requested!==null);
+}
 let holding=false;
 const experiments=new URLSearchParams(location.search);
 const compositing=element<HTMLInputElement>('#camera-compositing');
@@ -50,6 +58,11 @@ function createSession() { return createVirtualTryOn({
   cameraCompositing:compositing.checked,lensOptics:compositing.checked?{ior:1.5,thicknessMm:2,transmission:0.95}:undefined,
   hairOcclusion:hairOcclusion.checked?undefined:false,cameraFov:Number(cameraFov.value),
   faceReferenceEyeSpanCm:eyeReference.value.trim()?Number(eyeReference.value):undefined,
+  onReadinessChange(stage) {
+    const copy={idle:'Siap dimulai.', 'requesting-camera':'Izinkan kamera melalui permintaan browser. Anda bisa menghentikan proses kapan saja.', 'loading-asset':'Memuat bingkai pilihan…', 'loading-runtime':'Menyiapkan pelacakan lokal. Pertama kali mungkin perlu mengunduh model.', 'initializing-tracker':'Menyiapkan model pelacakan di perangkat ini…', 'warming-tracker':'Menyelesaikan persiapan kamera…',prepared:'Persiapan selesai. Tekan Mulai kamera saat siap.',ready:'Posisikan wajah di tengah.',cancelled:'Kamera dihentikan. Tekan Mulai kamera untuk mencoba lagi.',error:''};
+    if(copy[stage]&&message.textContent!==copy[stage])message.textContent=copy[stage];
+    if(stage==='loading-asset')element<HTMLElement>('#empty-hint').hidden=true;
+  },
   onTrackingHealthChange(health) {
     const phase={stopped:'Dihentikan',starting:'Menyiapkan',running:'Berjalan',recovering:'Menyambungkan ulang',failed:'Gagal'}[health.phase];
     element<HTMLElement>('#tracking-health').textContent=`${phase} · ${health.delegate??'backend belum siap'} · frame terkirim ${health.framesSent} · hasil diterima ${health.resultsReceived} · restart ${health.restarts} · waktu hasil ${health.lastLatencyMs??'—'} ms · input ${health.inputWidth}×${health.inputHeight} · rambut ${health.hairTracking??'disabled'} · compositing ${health.cameraCompositing??'disabled'} · fallback ${health.featureFallback??'—'}`;
@@ -90,25 +103,36 @@ function createSession() { return createVirtualTryOn({
     const distanceCm = Math.round(state.estimatedDistanceCm / 5) * 5;
     distance.textContent = `Jarak ≈ ${distanceCm} cm · Yaw ${yaw}° · Pitch ${pitch}°`;
     const guidance = { ready: 'Menoleh perlahan untuk melihat bentuk bingkai dari samping.', 'move-closer': 'Dekatkan wajah sedikit agar pemasangan lebih jelas.', 'center-face': 'Geser wajah ke tengah pratinjau.', 'turn-slightly': 'Kembali sedikit menghadap kamera agar wajah tetap terbaca.' };
-    message.textContent = guidance[state.guidance];
+    if(message.textContent!==guidance[state.guidance])message.textContent = guidance[state.guidance];
     if (state.visible) statusText.textContent = holding?'Kacamata dipegang':Math.abs(state.yawDegrees) > 30 ? 'Tampilan samping' : 'Terpasang';
   },
   onError(error) {
-    message.textContent = error.name === 'NotAllowedError' ? 'Akses kamera belum diizinkan. Izinkan kamera melalui pengaturan browser, lalu coba lagi.' : error.name === 'NotFoundError' ? 'Kamera tidak ditemukan. Hubungkan kamera lalu coba lagi.' : `Pemasangan gagal: ${error.message}. Muat ulang halaman untuk mencoba lagi.`;
+    resyncButton.disabled=false;
+    const cameraCopy={
+      'camera-access-blocked':'Akses kamera diblokir oleh izin atau kebijakan browser. Periksa izin kamera situs, lalu tekan Mulai kamera.',
+      'camera-not-found':'Kamera tidak ditemukan. Hubungkan atau aktifkan kamera, lalu tekan Mulai kamera.',
+      'camera-unreadable':'Kamera belum dapat digunakan. Tutup aplikasi lain yang memakai kamera, periksa kamera, lalu tekan Mulai kamera.',
+      'camera-unsupported':'Kamera memerlukan HTTPS dan browser yang mendukung. Buka situs aman di browser lain. Pilihan bingkai tetap bisa dilihat tanpa kamera.',
+      'camera-unavailable':'Kamera belum bisa dimulai. Periksa kamera lalu tekan Mulai kamera. Pilihan bingkai tetap bisa dilihat tanpa kamera.',
+    };
+    message.textContent = error instanceof CameraAccessError ? cameraCopy[error.code] : error instanceof ResourceTimeoutError ? error.stage==='asset'?'Bingkai terlalu lama dimuat. Pilih bingkai lain atau tekan Sambungkan ulang untuk mencoba lagi.':'Pelacakan belum siap. Periksa koneksi lalu tekan Sambungkan ulang.' : 'Pemasangan belum berhasil. Tekan Sambungkan ulang atau pilih bingkai lain. Anda tetap bisa melihat pilihan bingkai tanpa kamera.';
   },
 }); }
 let session = createSession();
 function recreateSession() {
   if(!cameraFov.checkValidity()||!eyeReference.checkValidity()) {
-    element<HTMLElement>('#calibration-message').textContent='Periksa rentang FOV dan ukuran referensi.';startButton.disabled=true;return;
+    element<HTMLElement>('#calibration-message').textContent='Periksa rentang FOV dan ukuran referensi.';startButton.disabled=true;return false;
   }
+  selectionRevision++;requested=null;
   session.dispose();
   session = createSession();
+  renderProductSelection(`Pilihan: ${productNames[selected]}.`);
   handToggle.disabled=false;candidateControls.forEach(control=>control.disabled=false);
   element<HTMLElement>('#calibration-message').textContent='Konfigurasi lokal siap. Tekan Mulai kamera.';
   statusText.textContent = labels.idle; indicator.dataset.state = 'idle'; startButton.disabled = false; stopButton.disabled = true;
   message.textContent = 'Tekan Mulai kamera untuk memulai sesi lokal.';
   updateFit();
+  return true;
 }
 handToggle.addEventListener('change',recreateSession);
 candidateControls.forEach(control=>control.addEventListener('change',recreateSession));
@@ -121,7 +145,7 @@ startButton.addEventListener('click', async () => {
 });
 stopButton.addEventListener('click', () => session.stop());
 resyncButton.addEventListener('click', async () => {
-  session.stop();
+  if(!recreateSession())return;
   try {await session.start();} catch { /* SDK reports failures. */ }
 });
 
@@ -134,19 +158,22 @@ function updateFit() {
 function resetFit() { size.value = '100'; height.value = '0'; depth.value = '6'; updateFit(); }
 [size, height, depth].forEach(input => input.addEventListener('input', updateFit));
 element<HTMLButtonElement>('#reset-fit').addEventListener('click', resetFit);
-products.forEach(button => button.addEventListener('click', async () => {
-  const next = Number(button.dataset.product);
-  if (next === selected) return;
-  products.forEach(product => { product.disabled = true; });
-  [size, height, depth].forEach(input => { input.disabled = true; });
+async function selectProduct(next:number) {
+  if(next===requested||(next===selected&&requested===null))return;
+  const revision=++selectionRevision,target=session;
+  requested=next;
+  renderProductSelection(`Memuat ${productNames[next]}… Pilihan aktif: ${productNames[selected]}.`);
   try {
-    await session.setGlasses(glasses[next]!);
-    selected = next;
-    fit = getDemoFit(selected);
-    resetFit();
-    products.forEach((product, index) => product.setAttribute('aria-pressed', String(index === selected)));
-    element<HTMLElement>('#product-description').textContent = descriptions[selected]!;
-  } catch { message.textContent = 'Bingkai gagal dimuat. Pilih model lagi atau muat ulang halaman.'; }
-  finally { products.forEach(product => { product.disabled = false; }); [size, height, depth].forEach(input => { input.disabled = false; }); }
-}));
+    await target.setGlasses(glasses[next]!);
+    if(revision!==selectionRevision||target!==session)return;
+    selected=next;requested=null;fit=getDemoFit(selected);resetFit();
+    element<HTMLElement>('#product-description').textContent=descriptions[selected]!;
+    renderProductSelection(`Bingkai aktif: ${productNames[selected]}.`);
+  }catch {
+    if(revision!==selectionRevision||target!==session)return;
+    requested=null;
+    renderProductSelection(`${productNames[next]} gagal dimuat. Pilihan aktif tetap ${productNames[selected]}. Pilih bingkai lain untuk mencoba lagi.`);
+  }
+}
+products.forEach(button=>button.addEventListener('click',()=>void selectProduct(Number(button.dataset.product))));
 window.addEventListener('pagehide', () => session.dispose(), { once: true });

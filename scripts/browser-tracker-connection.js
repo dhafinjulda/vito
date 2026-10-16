@@ -1,0 +1,51 @@
+async page=>{
+  const results=[];
+  for(const mode of ['handoff','cancel-loading','dispose-prepared']){
+    results.push(await page.evaluate(async mode=>{
+      const {TrackerWorkerOwner}=await import('/@fs/C:/Projects/VTO/packages/sdk/src/tracking/TrackerWorkerOwner.ts');
+      const original=navigator.mediaDevices.getUserMedia;let cameraCalls=0,workers=0,terminated=0,owner,timer;
+      navigator.mediaDevices.getUserMedia=async()=>{cameraCalls++;throw Error('Unexpected camera');};
+      try{
+        const manifest=await fetch('/@fs/C:/Projects/VTO/docs/evidence/smoothness-shopper-prepare-geometry-manifest.json').then(r=>r.json());
+        const built=manifest.files.find(f=>/dist\/assets\/face-worker-.*\.js$/.test(f.path)).path;
+        const path=manifest.sdkModulePath.replace(/vto-sdk\.js$/, '')+'assets/'+built.split('/').pop();
+        owner=new TrackerWorkerOwner(()=>{
+          workers++;const worker=new Worker('/@fs/C:/Projects/VTO/'+path),terminate=worker.terminate.bind(worker);
+          worker.terminate=()=>{terminated++;terminate();};return worker;
+        });
+        const worker=owner.acquire(),startup=owner.beginStartup(worker,45000,12000),connection=owner.connect(worker,startup);
+        let cancelled=false,preparedPackets=0,activePackets=0;
+        connection.setHandlers({onMessage:({data})=>{
+          preparedPackets++;
+          if(mode==='cancel-loading'&&data.type==='startup-stage'){cancelled=true;owner.release();return;}
+          if(data.type==='hand-loading')startup.armOptional('hand');
+          if(data.type==='hair-loading')startup.armOptional('hair');
+          if(data.type==='hand-ready'||data.type==='hand-unavailable'||data.type==='hair-ready'||data.type==='hair-unavailable')startup.clearOptional();
+          if(data.type==='error')startup.fail(Error(data.message));
+          if(data.type==='ready'&&startup.validateReady(data.protocolVersion))startup.complete();
+        },onError:error=>startup.fail(error)});
+        const start=performance.now();
+        try {await connection.start({type:'init',wasmRoot:'https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.22-rc.20250304/wasm',modelAssetPath:'https://storage.googleapis.com/mediapipe-models/face_landmarker/face_landmarker/float16/1/face_landmarker.task',hairModelAssetPath:'https://storage.googleapis.com/mediapipe-models/image_segmenter/hair_segmenter/float32/1/hair_segmenter.tflite',prewarmOptional:true,cacheRuntimeAssets:true,inputWidth:640,inputHeight:360});}
+        catch(error){if(!cancelled)throw error;}
+        const readyMs=cancelled?null:performance.now()-start;
+        let completionMs=null,handoff=false;
+        if(mode==='handoff'){
+          const before=preparedPackets,activated=performance.now();
+          const completed=new Promise((resolve,reject)=>{
+            timer=setTimeout(()=>reject(Error('Handoff completion timeout')),10000);
+            handoff=connection.setHandlers({onMessage:({data})=>{activePackets++;if(data.type==='frame-done')resolve();if(data.type==='error')reject(Error(data.message));},onError:reject});
+          });
+          const canvas=new OffscreenCanvas(640,360),ctx=canvas.getContext('2d');ctx.fillStyle='#808080';ctx.fillRect(0,0,640,360);
+          const bitmap=await createImageBitmap(canvas);canvas.width=canvas.height=0;
+          try{worker.postMessage({type:'frame',bitmap,timestampMs:1000},[bitmap]);}catch(error){bitmap.close();throw error;}
+          await completed;completionMs=performance.now()-activated;
+          if(preparedPackets!==before)throw Error('Packet delivered to obsolete preparer');
+        }
+        owner.release();
+        return {mode,pass:cameraCalls===0&&workers===1&&terminated===1&&owner.current===null&&(mode!=='handoff'||handoff&&activePackets>0),cameraCalls,workers,terminated,readyMs,completionMs,handoff,cancelled};
+      }catch(error){return {mode,pass:false,error:String(error)};}
+      finally{clearTimeout(timer);owner?.release();navigator.mediaDevices.getUserMedia=original;}
+    },mode));
+  }
+  return {pass:results.every(r=>r.pass),results,scope:'Actual built MediaPipe worker with source-level SDK ownership/startup/connection controllers. No public prepare API or full session handoff. Blank synthetic face inference skips hair sampling. No camera/person data or raw packets persisted. Timings are uncontrolled desktop software durations, not device or speedup acceptance.'};
+}

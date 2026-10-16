@@ -1,0 +1,123 @@
+
+> vito-sdk@0.1.1 test C:\Projects\VTO\packages\sdk
+> vitest run
+
+
+ RUN  v3.1.4 C:/Projects/VTO/packages/sdk
+
+ ✓ test/hand-identity.test.ts (10 tests) 26ms
+ ✓ test/asset-readiness.test.ts (9 tests) 26ms
+ ✓ test/runtime-assets.test.ts (5 tests) 37ms
+ ✓ test/temple-effects.test.ts (6 tests) 32ms
+ ✓ test/pose-presentation.test.ts (22 tests) 51ms
+ ✓ test/hand-grip.test.ts (10 tests) 34ms
+ ✓ test/two-hand-interaction.test.ts (15 tests) 85ms
+ ✓ test/premium-rendering.test.ts (4 tests) 56ms
+ ✓ test/interaction.test.ts (11 tests) 72ms
+ ✓ test/tracking-refinement.test.ts (11 tests) 87ms
+ ✓ test/fitting.test.ts (18 tests) 126ms
+ ✓ test/worker-hands.test.ts (13 tests) 1001ms
+   ✓ optional hands in the shared face worker > does not initialize a hand task in the default path and closes each shared bitmap once  415ms
+ ✓ test/hand-occluder.test.ts (16 tests) 131ms
+ ✓ test/asset-metadata.test.ts (31 tests) 172ms
+ ✓ test/hand-cadence.test.ts (7 tests) 24ms
+ ✓ test/hair-tracker.test.ts (3 tests) 32ms
+ ✓ test/calibration.test.ts (4 tests) 33ms
+ ✓ test/ambient-estimator.test.ts (3 tests) 23ms
+ ✓ test/quality-governor.test.ts (4 tests) 13ms
+ ✓ test/runtime-metrics.test.ts (4 tests) 34ms
+ ✓ test/pose.test.ts (3 tests) 12ms
+ ✓ test/frame-clock.test.ts (2 tests) 11ms
+ ✓ test/startup-metrics.test.ts (3 tests) 13ms
+ ✓ test/feature-policy.test.ts (3 tests) 19ms
+ ✓ test/coordinates.test.ts (2 tests) 13ms
+ ✓ test/source-geometry.test.ts (3 tests) 13ms
+ ✓ test/resource-wait.test.ts (2 tests) 26ms
+ ✓ test/head-occlusion.test.ts (6 tests) 1812ms
+   ✓ rear temple occlusion > covers the full hook surface at yaw -84 / pitch 0 / roll 0  463ms
+   ✓ rear temple occlusion > covers the full hook surface at yaw 84 / pitch 0 / roll 0  316ms
+ ❯ test/session.test.ts (50 tests | 1 failed) 1208ms
+   ✓ Virtual Try-On camera lifecycle > bounds stalled video playback after acquisition and stops its track 90ms
+   ✓ Virtual Try-On camera lifecycle > does not notify an obsolete initial asset failure after a replacement succeeds 13ms
+   ✓ Virtual Try-On camera lifecycle > times out an unresponsive worker with a typed error and releases media 20ms
+   ✓ Virtual Try-On camera lifecycle > does not apply the resource deadline to an unanswered camera permission request 12ms
+   ✓ Virtual Try-On camera lifecycle > honors cancellation from the permission-stage callback before requesting media 10ms
+   ✓ Virtual Try-On camera lifecycle > does not restart frame dispatch after stop in the ready-stage callback 14ms
+   ✓ Virtual Try-On camera lifecycle > bounds a stalled initial asset, reports stages and permits a replacement retry 20ms
+   ✓ Virtual Try-On camera lifecycle > keeps first-fit submission empty for blank frames and clears startup diagnostics on stop 16ms
+   ✓ Virtual Try-On camera lifecycle > reports an initial asset failure once per start attempt and releases the camera 18ms
+   ✓ Virtual Try-On camera lifecycle > reports an initial load failure while idle without requiring camera start 73ms
+   ✓ Virtual Try-On camera lifecycle > does not report late initial load failures after disposal 7ms
+   ✓ Virtual Try-On camera lifecycle > ignores in-flight face/hand/hair from a prior source size and resumes on a new capture 15ms
+   ✓ Virtual Try-On camera lifecycle > closes an asynchronous bitmap whose source changed and returned before transfer 14ms
+   ✓ Virtual Try-On camera lifecycle > reports sustained hand fallback while preserving tracking and button placement 14ms
+   ✓ Virtual Try-On camera lifecycle > can restart with the retained model after a replacement asset fails 16ms
+   ✓ Virtual Try-On camera lifecycle > waits for the latest replacement before preparing the tracker 12ms
+   ✓ Virtual Try-On camera lifecycle > immediately starts a new generation after canceling an unsettled permission request 18ms
+   × Virtual Try-On camera lifecycle > aborts startup waiting on an asset and permits a later independent start 64ms
+     → expected undefined to match object { name: 'AbortError' }
+   ✓ Virtual Try-On camera lifecycle > uses auto motion/adaptive/compositing defaults and honors explicit opt-outs 14ms
+   ✓ Virtual Try-On camera lifecycle > does not request graph compilation after a prewarmed first face result 16ms
+   ✓ Virtual Try-On camera lifecycle > retries an optional startup hang once with face-only CPU without reacquiring the camera 17ms
+   ✓ Virtual Try-On camera lifecycle > falls back to DOM preview/original lenses after one optional draw exception without stopping the camera 17ms
+   ✓ Virtual Try-On camera lifecycle > rejects invalid premium configuration before creating elements or requesting a camera 6ms
+   ✓ Virtual Try-On camera lifecycle > does not mistake an advancing playback clock for decoded frames when video callbacks stop 17ms
+   ✓ Virtual Try-On camera lifecycle > stops feeding a frozen decoded video and does not refresh a visible face from late worker packets 16ms
+   ✓ Virtual Try-On camera lifecycle > serializes optional hair initialization after first-face render and hand readiness 11ms
+   ✓ Virtual Try-On camera lifecycle > allows explicit placement without starting a camera, and resets at stop 14ms
+   ✓ Virtual Try-On camera lifecycle > keeps hands opt-in and passes a custom model only when enabled 23ms
+   ✓ Virtual Try-On camera lifecycle > accepts usable 250 ms face results and only requests hands after a visible fit 17ms
+   ✓ Virtual Try-On camera lifecycle > renders 500 ms face results while retaining a bounded age limit 30ms
+   ✓ Virtual Try-On camera lifecycle > renders 900 ms face results while retaining a bounded age limit 15ms
+   ✓ Virtual Try-On camera lifecycle > never enables hands for invisible face fits 18ms
+   ✓ Virtual Try-On camera lifecycle > degrades hand inference failure to buttons while preserving the camera/face session 31ms
+   ✓ Virtual Try-On camera lifecycle > requests video without audio and stops all resources idempotently 19ms
+   ✓ Virtual Try-On camera lifecycle > rejects a cached incompatible worker before sending camera frames 50ms
+   ✓ Virtual Try-On camera lifecycle > captures bounded RGBA input when video-frame callbacks stop arriving 52ms
+   ✓ Virtual Try-On camera lifecycle > separates capture timeout and closes a late bitmap without unlocking the recovered frame 24ms
+   ✓ Virtual Try-On camera lifecycle > shares concurrent start requests and releases resources over twenty camera cycles 168ms
+   ✓ Virtual Try-On camera lifecycle > does not create a worker if stopped while video playback is still starting 14ms
+   ✓ Virtual Try-On camera lifecycle > releases the camera if the WebGL graphics context is lost 27ms
+   ✓ Virtual Try-On camera lifecycle > stops camera startup if graphics/asset initialization fails 14ms
+   ✓ Virtual Try-On camera lifecycle > maps predictive presentation to the captured video time, not the later receipt time 13ms
+   ✓ Virtual Try-On camera lifecycle > sends a captured frame only to the worker and accepts a fresh local tracking result 16ms
+   ✓ Virtual Try-On camera lifecycle > does not queue another bitmap after a face result while hands still own the current frame 11ms
+   ✓ Virtual Try-On camera lifecycle > restarts a hung tracker locally and stops cleanly when bounded recovery is exhausted 26ms
+   ✓ Virtual Try-On camera lifecycle > bounds hand graph compilation separately and restores the normal inference watchdog 15ms
+   ✓ Virtual Try-On camera lifecycle > does not let repeated hand-loading packets renew the initialization deadline 16ms
+   ✓ Virtual Try-On camera lifecycle > restarts a crashed worker without reacquiring the local camera 12ms
+   ✓ Virtual Try-On camera lifecycle > stops a stream that resolves after camera start was cancelled 9ms
+   ✓ Virtual Try-On camera lifecycle > reports denied camera access and permits cleanup 11ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  test/session.test.ts > Virtual Try-On camera lifecycle > aborts startup waiting on an asset and permits a later independent start
+AssertionError: expected undefined to match object { name: 'AbortError' }
+
+- Expected:
+{
+  "name": "AbortError",
+}
+
++ Received:
+undefined
+
+ ❯ test/session.test.ts:257:28
+    255|     const swap=session.setGlasses('/slow.glb'),start=session.start(),o…
+    256|     await Promise.resolve();await Promise.resolve();session.stop();
+    257|     expect(await observed).toMatchObject({name:'AbortError'});expect(T…
+       |                            ^
+    258|     const fresh=session.start();resolve();await swap;await fresh;expec…
+    259|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 28 passed (29)
+      Tests  1 failed | 279 passed (280)
+   Start at  12:03:23
+   Duration  9.82s (transform 7.66s, setup 0ms, collect 19.89s, tests 5.22s, environment 5.41s, prepare 14.80s)
+
+C:\Projects\VTO\packages\sdk:
+ ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  vito-sdk@0.1.1 test: `vitest run`
+Exit status 1

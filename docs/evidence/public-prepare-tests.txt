@@ -1,0 +1,47 @@
+
+> vito-sdk@0.1.1 test C:\Projects\VTO\packages\sdk
+> vitest run
+
+
+ RUN  v3.1.4 C:/Projects/VTO/packages/sdk
+
+ ✓ test/hand-identity.test.ts (10 tests) 25ms
+ ✓ test/asset-readiness.test.ts (9 tests) 30ms
+ ✓ test/runtime-assets.test.ts (5 tests) 39ms
+ ✓ test/temple-effects.test.ts (6 tests) 33ms
+ ✓ test/pose-presentation.test.ts (22 tests) 60ms
+ ✓ test/hand-grip.test.ts (10 tests) 38ms
+ ✓ test/two-hand-interaction.test.ts (15 tests) 73ms
+ ✓ test/premium-rendering.test.ts (4 tests) 74ms
+ ✓ test/interaction.test.ts (11 tests) 82ms
+ ✓ test/tracking-refinement.test.ts (11 tests) 100ms
+ ✓ test/fitting.test.ts (18 tests) 120ms
+ ✓ test/worker-hands.test.ts (13 tests) 845ms
+   ✓ optional hands in the shared face worker > does not initialize a hand task in the default path and closes each shared bitmap once  355ms
+ ✓ test/hand-occluder.test.ts (16 tests) 111ms
+ ✓ test/asset-metadata.test.ts (31 tests) 158ms
+ ✓ test/hand-cadence.test.ts (7 tests) 23ms
+ ✓ test/hair-tracker.test.ts (4 tests) 36ms
+ ✓ test/calibration.test.ts (4 tests) 33ms
+ ✓ test/ambient-estimator.test.ts (3 tests) 24ms
+ ✓ test/quality-governor.test.ts (4 tests) 14ms
+ ✓ test/runtime-metrics.test.ts (4 tests) 26ms
+ ✓ test/source-geometry.test.ts (3 tests) 14ms
+ ✓ test/tracker-connection.test.ts (3 tests) 24ms
+ ✓ test/feature-policy.test.ts (3 tests) 20ms
+ ✓ test/tracker-startup.test.ts (4 tests) 35ms
+ ✓ test/pose.test.ts (3 tests) 14ms
+ ✓ test/tracker-worker-owner.test.ts (2 tests) 19ms
+ ✓ test/startup-metrics.test.ts (3 tests) 12ms
+ ✓ test/frame-clock.test.ts (2 tests) 10ms
+ ✓ test/resource-wait.test.ts (2 tests) 30ms
+ ✓ test/coordinates.test.ts (2 tests) 12ms
+ ✓ test/head-occlusion.test.ts (6 tests) 1673ms
+   ✓ rear temple occlusion > covers the full hook surface at yaw -84 / pitch 0 / roll 0  547ms
+   ✓ rear temple occlusion > covers the full hook surface at yaw 84 / pitch 0 / roll 0  367ms
+ ✓ test/session.test.ts (60 tests) 765ms
+
+ Test Files  32 passed (32)
+      Tests  300 passed (300)
+   Start at  15:05:32
+   Duration  7.35s (transform 7.40s, setup 0ms, collect 18.84s, tests 4.57s, environment 3.00s, prepare 19.74s)

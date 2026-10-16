@@ -1,0 +1,90 @@
+
+> virtual-try-on-sdk-workspace@ build C:\Projects\VTO
+> node scripts/build-demo-glasses.mjs && node scripts/build-polyhaven-glasses.mjs && node scripts/validate-demo-glasses.mjs && pnpm --filter vito-sdk build && pnpm --filter vito-asset-generator build && node scripts/copy-worker.mjs && pnpm --filter vanilla-example build && pnpm --filter asset-studio-example build
+
+glasses.glb: 256740 bytes
+glasses-alt.glb: 274468 bytes
+round-spectacles.glb: 274384 bytes
+round-spectacles-cc0: wrote 3292684 byte GLB with embedded 1K PBR textures
+PASS contour-acetate-demo: metadata, fit, dimensions, and 12 named GLB nodes
+PASS linea-metal-demo: metadata, fit, dimensions, and 14 named GLB nodes
+PASS round-spectacles-cc0: metadata, fit, dimensions, and 1 named GLB nodes
+Validated 3 demo/test GLBs against the shared calibration manifest.
+
+> vito-sdk@0.1.1 build C:\Projects\VTO\packages\sdk
+> vite build && tsc -p tsconfig.build.json --emitDeclarationOnly --declaration --noEmit false --outDir dist/types && node ../../scripts/copy-sdk-notices.mjs && node ../../scripts/copy-project-license.mjs sdk
+
+vite v6.3.7 building for production...
+transforming...
+✓ 33 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/assets/face-worker-BbvdxtH-.js  180.20 kB
+dist/vto-sdk.js                      133.29 kB │ gzip: 38.25 kB │ map: 353.13 kB
+✓ built in 3.48s
+Included third-party notices and license texts in SDK distribution.
+
+> vito-asset-generator@0.1.0 build C:\Projects\VTO\packages\asset-generator
+> vite build && tsc -p tsconfig.build.json --emitDeclarationOnly --declaration --noEmit false --outDir dist/types && node ../../scripts/copy-generator-notices.mjs && node ../../scripts/copy-project-license.mjs asset-generator
+
+vite v6.3.7 building for production...
+transforming...
+✓ 7 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/asset-generator.js  92.15 kB │ gzip: 26.60 kB │ map: 248.27 kB
+✓ built in 496ms
+Prepared the self-contained classic MediaPipe worker for the Vanilla example.
+
+> vanilla-example@ build C:\Projects\VTO\examples\vanilla
+> vite build && node ../../scripts/verify-offline-build.mjs
+
+vite v6.3.7 building for production...
+transforming...
+✓ 43 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/performance-check.html                     1.03 kB │ gzip:   0.62 kB
+dist/diagnostics.html                           1.41 kB │ gzip:   0.75 kB
+dist/.vite/manifest.json                        2.15 kB │ gzip:   0.48 kB
+dist/fit-check.html                             3.45 kB │ gzip:   1.43 kB
+dist/index.html                                 7.20 kB │ gzip:   2.58 kB
+dist/assets/face-worker-BbvdxtH--C69X6Cve.js  180.20 kB
+dist/assets/style-bSjS8WkE.css                  5.95 kB │ gzip:   2.13 kB
+dist/assets/offline-DwlxH-YQ.js                 0.19 kB │ gzip:   0.16 kB
+dist/assets/style-CWoJ2Fc_.js                   0.71 kB │ gzip:   0.40 kB
+dist/assets/demo-assets-mEohPFvZ.js             2.42 kB │ gzip:   0.99 kB
+dist/assets/diagnostics-Cxnw7ebM.js             2.93 kB │ gzip:   1.44 kB
+dist/assets/performance-CtIlWZL3.js             3.98 kB │ gzip:   1.93 kB
+dist/assets/three-loaders-BdTky-CE.js          46.63 kB │ gzip:  13.95 kB
+dist/assets/fitting-BU9e6lww.js               106.53 kB │ gzip:  35.71 kB
+dist/assets/main-alTXLvsQ.js                  118.10 kB │ gzip:  38.90 kB
+dist/assets/three-core-BCBHTKP3.js            523.61 kB │ gzip: 132.11 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 3.27s
+Offline production build verified: 20 local resources, content cache 85203eb78681, pinned MediaPipe allowlist, and deployment headers.
+
+> asset-studio-example@ build C:\Projects\VTO\examples\asset-studio
+> vite build
+
+vite v6.3.7 building for production...
+transforming...
+✓ 11 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                                 8.37 kB │ gzip:   2.50 kB
+dist/assets/face-worker-BbvdxtH--C69X6Cve.js  180.20 kB
+dist/assets/index-Pkw6kxOJ.css                  6.71 kB │ gzip:   2.22 kB
+dist/assets/three-loaders-B_y-jQl9.js          46.63 kB │ gzip:  13.94 kB
+dist/assets/index-BL1K6q7j.js                 182.48 kB │ gzip:  60.42 kB
+dist/assets/three-core-MstsdVUu.js            555.89 kB │ gzip: 141.91 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 4.22s

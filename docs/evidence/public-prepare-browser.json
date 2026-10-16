@@ -1,0 +1,86 @@
+{
+  "pass": true,
+  "results": [
+    {
+      "mode": "prepared-start",
+      "preparedWithoutCamera": true,
+      "cameraCalls": 1,
+      "workers": 1,
+      "results": 13,
+      "preparation": {
+        "durationMs": 11452.299999999814,
+        "reused": true
+      },
+      "startup": {
+        "cameraPendingMs": 27.100000000558794,
+        "assetWaitMs": 0,
+        "trackerReadyMs": 79.90000000037253,
+        "firstFitSubmissionMs": null
+      },
+      "stages": [
+        "loading-asset",
+        "loading-runtime",
+        "initializing-tracker",
+        "warming-tracker",
+        "prepared",
+        "requesting-camera",
+        "loading-asset",
+        "loading-runtime",
+        "ready",
+        "cancelled"
+      ],
+      "errors": [],
+      "terminated": 1,
+      "cleaned": true,
+      "pass": true
+    },
+    {
+      "mode": "concurrent-start",
+      "preparedWithoutCamera": true,
+      "cameraCalls": 1,
+      "workers": 1,
+      "results": 13,
+      "preparation": {
+        "durationMs": 1563.7000000001863,
+        "reused": true
+      },
+      "startup": {
+        "cameraPendingMs": 0.2999999998137355,
+        "assetWaitMs": 0.10000000055879354,
+        "trackerReadyMs": 1564.3999999994412,
+        "firstFitSubmissionMs": null
+      },
+      "stages": [
+        "requesting-camera",
+        "loading-asset",
+        "loading-runtime",
+        "loading-asset",
+        "loading-runtime",
+        "ready",
+        "cancelled"
+      ],
+      "errors": [],
+      "terminated": 1,
+      "cleaned": true,
+      "pass": true
+    },
+    {
+      "mode": "cancel-warmup",
+      "pass": true,
+      "rejected": true,
+      "cameraCalls": 0,
+      "workers": 1,
+      "terminated": 1,
+      "stages": [
+        "loading-asset",
+        "loading-runtime",
+        "initializing-tracker",
+        "warming-tracker",
+        "cancelled"
+      ],
+      "errors": []
+    }
+  ],
+  "scope": "Public SDK prepare/start, actual native worker, resolved default effects/hands off, synthetic blank local video only. No physical camera/person data, recognized fit, activated hair masks, device or speedup acceptance. SDK module is preloaded; cache/GPU/network uncontrolled.",
+  "sdkCandidate": "bcd003660b61"
+}

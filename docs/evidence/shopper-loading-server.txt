@@ -1,0 +1,32 @@
+
+> vanilla-example@ dev C:\Projects\VTO\examples\vanilla
+> vite --host 0.0.0.0 "--host" "127.0.0.1"
+
+
+  VITE v6.3.7  ready in 751 ms
+
+  ➜  Local:   http://127.0.0.1:5173/
+11.49.48 [vite] (client) page reload src/main.ts
+11.51.40 [vite] (client) page reload C:/Projects/VTO/packages/sdk/dist/assets/face-worker-BbvdxtH-.js
+11.51.40 [vite] (client) page reload C:/Projects/VTO/packages/sdk/dist/vto-sdk.js
+11.51.40 [vite] (client) Pre-transform error: Failed to load url /@fs/C:/Projects/VTO/packages/sdk/dist/vto-sdk.js (resolved id: C:/Projects/VTO/packages/sdk/dist/vto-sdk.js) in C:/Projects/VTO/examples/vanilla/src/main.ts. Does the file exist?
+11.51.40 [vite] (client) page reload C:/Projects/VTO/packages/sdk/dist/vto-sdk.js
+11.55.36 [vite] (client) page reload C:/Projects/VTO/packages/sdk/dist/vto-sdk.js
+11.55.36 [vite] (client) Pre-transform error: Failed to load url /@fs/C:/Projects/VTO/packages/sdk/dist/vto-sdk.js (resolved id: C:/Projects/VTO/packages/sdk/dist/vto-sdk.js) in C:/Projects/VTO/examples/vanilla/src/main.ts. Does the file exist?
+11.55.37 [vite] (client) page reload C:/Projects/VTO/packages/sdk/dist/vto-sdk.js
+11.57.17 [vite] (client) hmr update /src/style.css
+11.57.26 [vite] (client) page reload C:/Projects/VTO/packages/sdk/dist/vto-sdk.js
+11.57.26 [vite] (client) Pre-transform error: Failed to load url /@fs/C:/Projects/VTO/packages/sdk/dist/vto-sdk.js (resolved id: C:/Projects/VTO/packages/sdk/dist/vto-sdk.js) in C:/Projects/VTO/examples/vanilla/src/main.ts. Does the file exist?
+11.57.27 [vite] (client) page reload C:/Projects/VTO/packages/sdk/dist/vto-sdk.js
+11.57.36 [vite] (client) page reload C:/Projects/VTO/packages/asset-generator/dist/asset-generator.js
+11.57.36 [vite] (client) page reload C:/Projects/VTO/packages/asset-generator/dist/asset-generator.js
+12.03.29 [vite] (client) page reload C:/Projects/VTO/packages/sdk/dist/vto-sdk.js
+12.03.30 [vite] (client) Pre-transform error: Failed to load url /@fs/C:/Projects/VTO/packages/sdk/dist/vto-sdk.js (resolved id: C:/Projects/VTO/packages/sdk/dist/vto-sdk.js) in C:/Projects/VTO/examples/vanilla/src/main.ts. Does the file exist?
+12.03.30 [vite] (client) page reload C:/Projects/VTO/packages/sdk/dist/vto-sdk.js
+12.03.39 [vite] (client) page reload C:/Projects/VTO/packages/asset-generator/dist/asset-generator.js
+12.03.39 [vite] (client) page reload C:/Projects/VTO/packages/asset-generator/dist/asset-generator.js
+12.06.17 [vite] (client) page reload C:/Projects/VTO/packages/sdk/dist/vto-sdk.js
+12.06.17 [vite] (client) Pre-transform error: Failed to load url /@fs/C:/Projects/VTO/packages/sdk/dist/vto-sdk.js (resolved id: C:/Projects/VTO/packages/sdk/dist/vto-sdk.js) in C:/Projects/VTO/examples/vanilla/src/main.ts. Does the file exist?
+12.06.17 [vite] (client) page reload C:/Projects/VTO/packages/sdk/dist/vto-sdk.js
+12.06.25 [vite] (client) page reload C:/Projects/VTO/packages/asset-generator/dist/asset-generator.js
+12.06.25 [vite] (client) page reload C:/Projects/VTO/packages/asset-generator/dist/asset-generator.js

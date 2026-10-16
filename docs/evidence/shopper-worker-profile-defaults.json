@@ -1,0 +1,122 @@
+{
+  "pass": true,
+  "results": [
+    {
+      "mode": "cold-runtime",
+      "constructorToTrackerMs": 2689.7999999998137,
+      "startup": {
+        "cameraPendingMs": 0.2999999998137355,
+        "assetWaitMs": 0,
+        "trackerReadyMs": 2633.9000000003725,
+        "firstFitSubmissionMs": null
+      },
+      "workerStartup": {
+        "filesetMs": 0.599999999627471,
+        "resourcePreparationMs": 1506.4000000003725,
+        "faceCreationMs": 327.89999999990687,
+        "faceWarmupMs": 725.1000000000931,
+        "optionalWarmupMs": 0.09999999962747097
+      },
+      "delegate": "GPU",
+      "hairTracking": "disabled",
+      "cameraCompositing": "disabled",
+      "results": 13,
+      "restarts": 0,
+      "errors": [],
+      "calls": 1,
+      "workerUrls": [
+        "http://localhost:5173/@fs/C:/Projects/VTO/packages/sdk/dist/assets/face-worker-BbvdxtH-.js"
+      ],
+      "cleaned": true,
+      "pass": true
+    },
+    {
+      "mode": "warm-runtime-1",
+      "constructorToTrackerMs": 736.1000000000931,
+      "startup": {
+        "cameraPendingMs": 0.3000000002793968,
+        "assetWaitMs": 0,
+        "trackerReadyMs": 677.5,
+        "firstFitSubmissionMs": null
+      },
+      "workerStartup": {
+        "filesetMs": 0.599999999627471,
+        "resourcePreparationMs": 6.600000000093132,
+        "faceCreationMs": 223.89999999990687,
+        "faceWarmupMs": 397.20000000018626,
+        "optionalWarmupMs": 0
+      },
+      "delegate": "GPU",
+      "hairTracking": "disabled",
+      "cameraCompositing": "disabled",
+      "results": 28,
+      "restarts": 0,
+      "errors": [],
+      "calls": 1,
+      "workerUrls": [
+        "http://localhost:5173/@fs/C:/Projects/VTO/packages/sdk/dist/assets/face-worker-BbvdxtH-.js"
+      ],
+      "cleaned": true,
+      "pass": true
+    },
+    {
+      "mode": "warm-runtime-2",
+      "constructorToTrackerMs": 761.8999999999069,
+      "startup": {
+        "cameraPendingMs": 0.20000000018626451,
+        "assetWaitMs": 0.10000000009313226,
+        "trackerReadyMs": 708.2000000001863,
+        "firstFitSubmissionMs": null
+      },
+      "workerStartup": {
+        "filesetMs": 0.6000000000931323,
+        "resourcePreparationMs": 5.699999999720603,
+        "faceCreationMs": 214.90000000037253,
+        "faceWarmupMs": 435.1999999997206,
+        "optionalWarmupMs": 0
+      },
+      "delegate": "GPU",
+      "hairTracking": "disabled",
+      "cameraCompositing": "disabled",
+      "results": 14,
+      "restarts": 0,
+      "errors": [],
+      "calls": 1,
+      "workerUrls": [
+        "http://localhost:5173/@fs/C:/Projects/VTO/packages/sdk/dist/assets/face-worker-BbvdxtH-.js"
+      ],
+      "cleaned": true,
+      "pass": true
+    },
+    {
+      "mode": "default-policy",
+      "constructorToTrackerMs": 6180.100000000093,
+      "startup": {
+        "cameraPendingMs": 0.3000000002793968,
+        "assetWaitMs": 0,
+        "trackerReadyMs": 6118.9000000003725,
+        "firstFitSubmissionMs": null
+      },
+      "workerStartup": {
+        "filesetMs": 0.5,
+        "resourcePreparationMs": 7.300000000279397,
+        "faceCreationMs": 246.09999999962747,
+        "faceWarmupMs": 537.9000000003725,
+        "optionalWarmupMs": 5230.299999999814
+      },
+      "delegate": "GPU",
+      "hairTracking": "ready",
+      "cameraCompositing": "active",
+      "results": 13,
+      "restarts": 0,
+      "errors": [],
+      "calls": 1,
+      "workerUrls": [
+        "http://localhost:5173/@fs/C:/Projects/VTO/packages/sdk/dist/assets/face-worker-BbvdxtH-.js"
+      ],
+      "cleaned": true,
+      "pass": true
+    }
+  ],
+  "scope": "Actual MediaPipe worker with blank synthetic video; first three runs are face-only, fourth resolves SDK public default policy with hands off. Dedicated browser HTTP cache and pinned CacheStorage cleared before first run, retained for two warm runs. Imported SDK module is already loaded; constructor-to-ready includes GLB work. No recognition/first usable fit/device/p95 acceptance. No physical camera or person data."
+}

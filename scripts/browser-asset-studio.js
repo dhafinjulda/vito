@@ -73,7 +73,7 @@ async page => {
   await page.evaluate(async()=>{
     const {syntheticFrame}=await import('/@fs/C:/Projects/VTO/packages/sdk/test/synthetic-frame.ts');
     const f=syntheticFrame(0,0,0,1280,720,40);
-    const code=`const f=${JSON.stringify(f)};onmessage=({data:m})=>{if(m.type==='init'){postMessage({type:'face-ready'});postMessage({type:'ready',protocolVersion:7,delegate:'GPU',handTracking:'disabled',hairTracking:'disabled'});}if(m.type==='frame'){postMessage({type:'result',landmarks:f.landmarks,faceMatrix:f.matrix,timestampMs:m.timestampMs,faceInferenceMs:8});m.bitmap.close();postMessage({type:'frame-done',timestampMs:m.timestampMs});}};`;
+    const code=`const f=${JSON.stringify(f)};onmessage=({data:m})=>{if(m.type==='init'){postMessage({type:'face-ready'});postMessage({type:'ready',protocolVersion:8,delegate:'GPU',handTracking:'disabled',hairTracking:'disabled'});}if(m.type==='frame'){postMessage({type:'result',landmarks:f.landmarks,faceMatrix:f.matrix,timestampMs:m.timestampMs,faceInferenceMs:8});m.bitmap.close();postMessage({type:'frame-done',timestampMs:m.timestampMs});}};`;
     const native=window.Worker,url=URL.createObjectURL(new Blob([code],{type:'text/javascript'}));
     window.__studioTest.workerUrl=url;
     window.Worker=class extends native{constructor(){super(url);window.__studioTest.worker=this;this.addEventListener('message',({data})=>{window.__studioTest.lastPacket=data.type;window.__studioTest.packetCount=(window.__studioTest.packetCount??0)+1;});}};

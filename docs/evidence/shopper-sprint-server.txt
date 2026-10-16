@@ -1,0 +1,20 @@
+
+> vanilla-example@ dev C:\Projects\VTO\examples\vanilla
+> vite --host 0.0.0.0 "--host" "127.0.0.1"
+
+19.07.25 [vite] (client) Re-optimizing dependencies because lockfile has changed
+
+  VITE v6.3.7  ready in 375 ms
+
+  ➜  Local:   http://127.0.0.1:5173/
+19.32.43 [vite] (client) page reload C:/Projects/VTO/packages/sdk/dist/vto-sdk.js
+19.32.43 [vite] (client) page reload C:/Projects/VTO/packages/sdk/dist/vto-sdk.js
+19.32.43 [vite] (client) page reload C:/Projects/VTO/packages/sdk/dist/vto-sdk.js
+19.52.44 [vite] (client) page reload C:/Projects/VTO/packages/sdk/dist/vto-sdk.js
+19.52.45 [vite] (client) page reload C:/Projects/VTO/packages/sdk/dist/vto-sdk.js
+19.56.23 [vite] (client) page reload C:/Projects/VTO/packages/sdk/dist/assets/face-worker-CZkKssiX.js
+19.56.23 [vite] (client) page reload C:/Projects/VTO/packages/sdk/dist/vto-sdk.js
+19.56.23 [vite] (client) Pre-transform error: Failed to load url /@fs/C:/Projects/VTO/packages/sdk/dist/vto-sdk.js (resolved id: C:/Projects/VTO/packages/sdk/dist/vto-sdk.js) in C:/Projects/VTO/examples/vanilla/src/main.ts. Does the file exist?
+19.56.24 [vite] (client) page reload C:/Projects/VTO/packages/sdk/dist/vto-sdk.js
+20.47.31 [vite] (client) page reload C:/Projects/VTO/packages/sdk/dist/vto-sdk.js
+20.47.31 [vite] (client) page reload C:/Projects/VTO/packages/sdk/dist/vto-sdk.js
