@@ -748,3 +748,5 @@ Acceptance: pinch at the actual frame acquires without jumping; translation/rota
 ## 16 October release automation verification
 
 `pnpm test` passes 319 SDK + 108 generator tests, offline policy and two npm release-guard tests. Workflow YAML parses, tag identity checks pass, and a live registry preflight rejects existing SDK 0.1.1 as intended. Logs: `docs/evidence/github-release-tests.txt` and `npm-duplicate-version-guard.txt`. Newly added text evidence has trailing whitespace/blank EOF normalized only; results are unchanged. npm account configuration remains unavailable (local E401). No package version bump or publication.
+
+**GitHub delivery — 16 October:** implementation/workflow commit `1f13ec52e269a34043668ee3eca6bcc484bc506c` pushed to `origin/codex/public-release`; PR https://github.com/dhafinjulda/vito/pull/1 targets main. Remote SHA verified, initial GitHub CI queued (run 38868447967). This documentation follow-up changes no implementation. Workflow is in the PR and must be merged before normal default-branch release operation; npm trusted-publisher account setup is still required. No release/tag or package publication performed.
