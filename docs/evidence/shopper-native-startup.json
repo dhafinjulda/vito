@@ -1,0 +1,66 @@
+{
+  "pass": true,
+  "results": [
+    {
+      "mode": "cold-runtime",
+      "constructorToTrackerMs": 7585.899999976158,
+      "startup": {
+        "cameraPendingMs": 1.6999999284744263,
+        "assetWaitMs": 0.19999992847442627,
+        "trackerReadyMs": 7506.800000071526,
+        "firstFitSubmissionMs": null
+      },
+      "delegate": "GPU",
+      "results": 15,
+      "restarts": 0,
+      "errors": [],
+      "calls": 1,
+      "workerUrls": [
+        "http://localhost:5173/@fs/C:/Projects/VTO/packages/sdk/dist/assets/face-worker-CZkKssiX.js"
+      ],
+      "cleaned": true,
+      "pass": true
+    },
+    {
+      "mode": "warm-runtime-1",
+      "constructorToTrackerMs": 664.8999999761581,
+      "startup": {
+        "cameraPendingMs": 0.20000004768371582,
+        "assetWaitMs": 0,
+        "trackerReadyMs": 617,
+        "firstFitSubmissionMs": null
+      },
+      "delegate": "GPU",
+      "results": 15,
+      "restarts": 0,
+      "errors": [],
+      "calls": 1,
+      "workerUrls": [
+        "http://localhost:5173/@fs/C:/Projects/VTO/packages/sdk/dist/assets/face-worker-CZkKssiX.js"
+      ],
+      "cleaned": true,
+      "pass": true
+    },
+    {
+      "mode": "warm-runtime-2",
+      "constructorToTrackerMs": 763.7999999523163,
+      "startup": {
+        "cameraPendingMs": 0.19999992847442627,
+        "assetWaitMs": 0,
+        "trackerReadyMs": 713.1999999284744,
+        "firstFitSubmissionMs": null
+      },
+      "delegate": "GPU",
+      "results": 15,
+      "restarts": 0,
+      "errors": [],
+      "calls": 1,
+      "workerUrls": [
+        "http://localhost:5173/@fs/C:/Projects/VTO/packages/sdk/dist/assets/face-worker-CZkKssiX.js"
+      ],
+      "cleaned": true,
+      "pass": true
+    }
+  ],
+  "scope": "Actual MediaPipe face worker with blank synthetic video, optional hair/hands/compositing off. Dedicated browser HTTP cache and pinned CacheStorage cleared before first run, retained for two warm runs. Imported SDK module is already loaded; constructor-to-ready includes GLB work. No recognition/first usable fit/device/p95 acceptance. No physical camera or person data."
+}

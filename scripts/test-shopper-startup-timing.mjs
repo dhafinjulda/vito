@@ -1,0 +1,30 @@
+import assert from 'node:assert/strict';
+import {ShopperStartupTiming} from './shopper-startup-timing.mjs';
+const clock = new ShopperStartupTiming();
+clock.mark('entry', 100);
+clock.mark('asset-ready', 600); // Constructor loading counts, before consent.
+clock.mark('camera-request', 700);
+clock.mark('camera-settled', 5700);
+clock.mark('tracker-ready', 6700);
+clock.mark('first-usable', 7000);
+assert.deepEqual(clock.snapshot(), {wallMs:6900,cameraPendingMs:5000,softwareControlledMs:1900,assetReadyMs:500,trackerReadyMs:6600,afterCameraMs:1300,complete:true});
+assert.throws(() => clock.mark('first-usable', 7100));
+assert.throws(() => clock.mark('unknown', 7100));
+clock.reset();
+assert.equal(clock.snapshot().wallMs, null);
+assert.throws(() => clock.mark('tracker-ready', 1));
+clock.mark('entry', 0);
+clock.mark('camera-request', 0);
+assert.equal(clock.snapshot().softwareControlledMs, null); // Unanswered consent is not success.
+assert.throws(() => clock.mark('first-usable', 1));
+assert.throws(() => clock.mark('asset-ready', -1));
+assert.throws(() => clock.mark('asset-ready', NaN));
+clock.reset();
+clock.mark('entry', 0);
+clock.mark('camera-request', 10);
+clock.mark('camera-settled', 10);
+clock.mark('asset-ready', 15);
+clock.mark('tracker-ready', 20);
+clock.mark('first-usable', 25);
+assert.equal(clock.snapshot().softwareControlledMs, 25);
+console.log('Shopper timing checks passed: constructor work, pending consent, reset, invalid marks and zero-duration acquisition. Synthetic input only.');

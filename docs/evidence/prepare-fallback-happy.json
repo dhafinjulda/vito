@@ -1,0 +1,121 @@
+{
+  "pass": true,
+  "results": [
+    {
+      "mode": "prepared-start",
+      "preparedWithoutCamera": true,
+      "cameraCalls": 1,
+      "workers": 1,
+      "results": 14,
+      "preparation": {
+        "durationMs": 5146.699999999255,
+        "reused": true
+      },
+      "startup": {
+        "cameraPendingMs": 0.40000000037252903,
+        "assetWaitMs": 0,
+        "trackerReadyMs": 32.700000000186265,
+        "firstFitSubmissionMs": null
+      },
+      "stages": [
+        "loading-asset",
+        "loading-runtime",
+        "initializing-tracker",
+        "warming-tracker",
+        "prepared",
+        "requesting-camera",
+        "loading-asset",
+        "loading-runtime",
+        "ready",
+        "cancelled"
+      ],
+      "errors": [],
+      "terminated": 1,
+      "cleaned": true,
+      "pass": true
+    },
+    {
+      "mode": "portrait-start",
+      "preparedWithoutCamera": true,
+      "cameraCalls": 1,
+      "workers": 1,
+      "results": 30,
+      "preparation": {
+        "durationMs": 1286,
+        "reused": true,
+        "activationWarmupMs": 42.19999999925494
+      },
+      "startup": {
+        "cameraPendingMs": 0.2999999998137355,
+        "assetWaitMs": 0.09999999962747097,
+        "trackerReadyMs": 79.79999999981374,
+        "firstFitSubmissionMs": null
+      },
+      "stages": [
+        "loading-asset",
+        "loading-runtime",
+        "initializing-tracker",
+        "warming-tracker",
+        "prepared",
+        "requesting-camera",
+        "loading-asset",
+        "loading-runtime",
+        "warming-tracker",
+        "ready",
+        "cancelled"
+      ],
+      "errors": [],
+      "terminated": 1,
+      "cleaned": true,
+      "pass": true
+    },
+    {
+      "mode": "concurrent-start",
+      "preparedWithoutCamera": true,
+      "cameraCalls": 1,
+      "workers": 1,
+      "results": 14,
+      "preparation": {
+        "durationMs": 1633.5,
+        "reused": true
+      },
+      "startup": {
+        "cameraPendingMs": 0.2999999998137355,
+        "assetWaitMs": 0.20000000018626451,
+        "trackerReadyMs": 1634.0999999996275,
+        "firstFitSubmissionMs": null
+      },
+      "stages": [
+        "requesting-camera",
+        "loading-asset",
+        "loading-runtime",
+        "loading-asset",
+        "loading-runtime",
+        "ready",
+        "cancelled"
+      ],
+      "errors": [],
+      "terminated": 1,
+      "cleaned": true,
+      "pass": true
+    },
+    {
+      "mode": "cancel-warmup",
+      "pass": true,
+      "rejected": true,
+      "cameraCalls": 0,
+      "workers": 1,
+      "terminated": 1,
+      "stages": [
+        "loading-asset",
+        "loading-runtime",
+        "initializing-tracker",
+        "warming-tracker",
+        "cancelled"
+      ],
+      "errors": []
+    }
+  ],
+  "scope": "Public SDK prepare/start, actual native worker, resolved default effects/hands off, synthetic blank local video only. No physical camera/person data, recognized fit, activated hair masks, device or speedup acceptance. SDK module is preloaded; cache/GPU/network uncontrolled.",
+  "sdkCandidate": "b87922de3e9c"
+}

@@ -1,0 +1,100 @@
+{
+  "pass": true,
+  "reports": [
+    {
+      "scenario": "fresh-glb",
+      "status": "tracking",
+      "acquisitions": 1,
+      "cleaned": true,
+      "errors": [],
+      "startup": {
+        "cameraPendingMs": 0.8999999761581421,
+        "assetWaitMs": 0.09999990463256836,
+        "trackerReadyMs": 83.10000002384186,
+        "firstFitSubmissionMs": 241.20000004768372
+      },
+      "timing": {
+        "wallMs": 322.5,
+        "cameraPendingMs": 0.8999999761581421,
+        "softwareControlledMs": 321.60000002384186,
+        "assetReadyMs": 142.59999990463257,
+        "trackerReadyMs": 142.69999992847443,
+        "afterCameraMs": 261.8000000715256,
+        "complete": true
+      },
+      "pass": true
+    },
+    {
+      "scenario": "repeat-glb",
+      "status": "tracking",
+      "acquisitions": 1,
+      "cleaned": true,
+      "errors": [],
+      "startup": {
+        "cameraPendingMs": 0.20000004768371582,
+        "assetWaitMs": 0,
+        "trackerReadyMs": 42.199999928474426,
+        "firstFitSubmissionMs": 171.69999992847443
+      },
+      "timing": {
+        "wallMs": 230.70000004768372,
+        "cameraPendingMs": 0.10000002384185791,
+        "softwareControlledMs": 230.60000002384186,
+        "assetReadyMs": 87.20000004768372,
+        "trackerReadyMs": 87.20000004768372,
+        "afterCameraMs": 185.5,
+        "complete": true
+      },
+      "pass": true
+    },
+    {
+      "scenario": "slow-cancel",
+      "status": "idle",
+      "acquisitions": 1,
+      "cleaned": true,
+      "errors": [],
+      "startup": {
+        "cameraPendingMs": null,
+        "assetWaitMs": null,
+        "trackerReadyMs": null,
+        "firstFitSubmissionMs": null
+      },
+      "timing": {
+        "wallMs": null,
+        "cameraPendingMs": 0.20000004768371582,
+        "softwareControlledMs": null,
+        "assetReadyMs": null,
+        "trackerReadyMs": null,
+        "afterCameraMs": null,
+        "complete": false
+      },
+      "pass": true
+    },
+    {
+      "scenario": "failed-glb",
+      "status": "error",
+      "acquisitions": 1,
+      "cleaned": true,
+      "errors": [
+        "fetch for \"http://localhost:5173/glasses.glb?shopper=shared\" responded with 404: Not Found"
+      ],
+      "startup": {
+        "cameraPendingMs": null,
+        "assetWaitMs": null,
+        "trackerReadyMs": null,
+        "firstFitSubmissionMs": null
+      },
+      "timing": {
+        "wallMs": null,
+        "cameraPendingMs": 0.20000004768371582,
+        "softwareControlledMs": null,
+        "assetReadyMs": null,
+        "trackerReadyMs": null,
+        "afterCameraMs": null,
+        "complete": false
+      },
+      "pass": true
+    }
+  ],
+  "scope": "Synthetic video/recognition; real GLB/GPU. Fresh/repeated GLB requests only, not cold/warm MediaPipe. Asset/tracker marks are public-start completion upper bounds; first usable is GPU-observed synthetic eyewear. No camera requested or personal data."
+}

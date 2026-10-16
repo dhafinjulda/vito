@@ -1,0 +1,44 @@
+### Result
+{"pass":true,"results":[{"mode":"cold-runtime","constructorToTrackerMs":7585.899999976158,"startup":{"cameraPendingMs":1.6999999284744263,"assetWaitMs":0.19999992847442627,"trackerReadyMs":7506.800000071526,"firstFitSubmissionMs":null},"delegate":"GPU","results":15,"restarts":0,"errors":[],"calls":1,"workerUrls":["http://localhost:5173/@fs/C:/Projects/VTO/packages/sdk/dist/assets/face-worker-CZkKssiX.js"],"cleaned":true,"pass":true},{"mode":"warm-runtime-1","constructorToTrackerMs":664.8999999761581,"startup":{"cameraPendingMs":0.20000004768371582,"assetWaitMs":0,"trackerReadyMs":617,"firstFitSubmissionMs":null},"delegate":"GPU","results":15,"restarts":0,"errors":[],"calls":1,"workerUrls":["http://localhost:5173/@fs/C:/Projects/VTO/packages/sdk/dist/assets/face-worker-CZkKssiX.js"],"cleaned":true,"pass":true},{"mode":"warm-runtime-2","constructorToTrackerMs":763.7999999523163,"startup":{"cameraPendingMs":0.19999992847442627,"assetWaitMs":0,"trackerReadyMs":713.1999999284744,"firstFitSubmissionMs":null},"delegate":"GPU","results":15,"restarts":0,"errors":[],"calls":1,"workerUrls":["http://localhost:5173/@fs/C:/Projects/VTO/packages/sdk/dist/assets/face-worker-CZkKssiX.js"],"cleaned":true,"pass":true}],"scope":"Actual MediaPipe face worker with blank synthetic video, optional hair/hands/compositing off. Dedicated browser HTTP cache and pinned CacheStorage cleared before first run, retained for two warm runs. Imported SDK module is already loaded; constructor-to-ready includes GLB work. No recognition/first usable fit/device/p95 acceptance. No physical camera or person data."}
+### Ran Playwright code
+```js
+await (async page=>{
+  const cdp=await page.context().newCDPSession(page);
+  await cdp.send('Network.enable');await cdp.send('Network.clearBrowserCache');await cdp.detach();
+  await page.evaluate(()=>caches.delete('vto-mediapipe-runtime-0.10.22-rc.20250304'));
+  const results=[];
+  for(const mode of ['cold-runtime','warm-runtime-1','warm-runtime-2']) {
+    results.push(await page.evaluate(async mode=>{
+      const {createVirtualTryOn}=await import('/@fs/C:/Projects/VTO/packages/sdk/dist/vto-sdk.js');
+      const originalGum=navigator.mediaDevices.getUserMedia,NativeWorker=window.Worker;
+      const workers=[],tracks=[],errors=[];let health,calls=0,terminated=0,session;
+      window.Worker=class extends NativeWorker{constructor(url,opts){super(url,opts);workers.push(String(url));}terminate(){terminated++;super.terminate();}};
+      const source=document.createElement('canvas');source.width=1280;source.height=720;const ctx=source.getContext('2d');
+      ctx.fillStyle='#808080';ctx.fillRect(0,0,1280,720);
+      const pump=setInterval(()=>{ctx.fillStyle='#808080';ctx.fillRect(0,0,1280,720);},33);
+      navigator.mediaDevices.getUserMedia=async options=>{if(options.audio!==false)throw Error('Audio requested');calls++;const stream=source.captureStream(30);tracks.push(...stream.getTracks());return stream;};
+      const host=document.createElement('div');host.style.cssText='width:640px;height:360px';document.body.append(host);
+      const delay=ms=>new Promise(r=>setTimeout(r,ms));let timer;
+      try {
+        const entry=performance.now();
+        session=createVirtualTryOn({container:host,glassesUrl:'/glasses.glb',cacheRuntimeAssets:true,hairOcclusion:false,cameraCompositing:false,onError:e=>errors.push(e.message),onTrackingHealthChange:h=>health=h});
+        await Promise.race([session.start(),new Promise((_,reject)=>{timer=setTimeout(()=>reject(Error('Native startup timeout')),45000);})]);
+        clearTimeout(timer);const constructorToTrackerMs=performance.now()-entry;
+        await delay(1000);const result={mode,constructorToTrackerMs,startup:health.startup,delegate:health.delegate,results:health.resultsReceived,restarts:health.restarts,errors,calls,workerUrls:workers};
+        session.dispose();result.cleaned=tracks.every(t=>t.readyState==='ended')&&terminated===workers.length&&host.children.length===0;
+        result.pass=result.cleaned&&calls===1&&!errors.length&&result.results>0&&result.restarts===0&&result.startup.trackerReadyMs!==null&&result.startup.firstFitSubmissionMs===null;
+        return result;
+      }catch(error){return {mode,pass:false,error:String(error)};}
+      finally{clearTimeout(timer);session?.dispose();clearInterval(pump);tracks.forEach(t=>t.stop());source.width=source.height=0;host.remove();window.Worker=NativeWorker;navigator.mediaDevices.getUserMedia=originalGum;}
+    },mode));
+  }
+  return {pass:results.every(r=>r.pass),results,scope:'Actual MediaPipe face worker with blank synthetic video, optional hair/hands/compositing off. Dedicated browser HTTP cache and pinned CacheStorage cleared before first run, retained for two warm runs. Imported SDK module is already loaded; constructor-to-ready includes GLB work. No recognition/first usable fit/device/p95 acceptance. No physical camera or person data.'};
+}
+)(page);
+```
+### Page
+- Page URL: http://localhost:5173/
+- Page Title: Virtual Try-On · Vanilla SDK Example
+- Console: 3 errors, 6 warnings
+### Events
+- New console entries: .playwright-cli\console-2026-10-14T12-54-15-379Z.log#L1-L15

@@ -6,9 +6,11 @@
  * Initial Developer: Dhafin Julda Riyanto. Provided AS IS, without warranty.
  * Third-party portions retain their licenses; see THIRD_PARTY_NOTICES.md.
  */
-export const TRACKER_PROTOCOL_VERSION = 7;
+export const TRACKER_PROTOCOL_VERSION = 8;
 
+import type {WorkerStartupPerformance} from '../types';
 export type WorkerRequest =
+  | {type:'warmup';inputWidth:number;inputHeight:number}
   | { type: 'init'; modelAssetPath: string; wasmRoot: string; cacheRuntimeAssets?: boolean; handModelAssetPath?: string; delegate?: 'GPU' | 'CPU'; adaptiveQuality?:boolean;hairModelAssetPath?:string;prewarmOptional?:boolean;hairAuto?:boolean;inputWidth?:number;inputHeight?:number }
   | { type: 'frame'; bitmap: ImageBitmap; timestampMs: number }
   | { type: 'enable-hands' }
@@ -19,6 +21,9 @@ export type WorkerRequest =
   | { type: 'dispose' };
 
 export type WorkerResponse =
+  | {type:'warmup-ready'}
+  | {type:'startup-stage';stage:'loading-runtime'|'initializing-tracker'|'warming-tracker'}
+  | {type:'startup-profile';timings:WorkerStartupPerformance}
   | { type:'face-ready' }
   | { type: 'ready'; protocolVersion: number; handTracking?: 'loading' | 'ready' | 'unavailable' | 'disabled';hairTracking?:'ready'|'unavailable'|'disabled'; delegate?: 'GPU' | 'CPU' }
   | { type: 'result'; landmarks: Array<{ x: number; y: number; z: number }> | null; faceMatrix: number[] | null; timestampMs: number; faceInferenceMs?: number; handLandmarks?: Array<{ x: number; y: number; z: number }> | null }

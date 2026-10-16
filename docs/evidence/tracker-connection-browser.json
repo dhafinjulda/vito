@@ -1,0 +1,200 @@
+{
+  "pass": true,
+  "reports": [
+    {
+      "scenario": "fresh-glb",
+      "status": "tracking",
+      "acquisitions": 1,
+      "cleaned": true,
+      "errors": [],
+      "codes": [],
+      "stages": [
+        "requesting-camera",
+        "loading-asset",
+        "loading-runtime",
+        "ready",
+        "cancelled"
+      ],
+      "startup": {
+        "cameraPendingMs": 2.6999999997206032,
+        "assetWaitMs": 0.40000000037252903,
+        "trackerReadyMs": 195.6999999997206,
+        "firstFitSubmissionMs": 2175.7999999998137
+      },
+      "timing": {
+        "wallMs": 2312.2000000001863,
+        "cameraPendingMs": 2.3000000002793968,
+        "softwareControlledMs": 2309.899999999907,
+        "assetReadyMs": 311.10000000009313,
+        "trackerReadyMs": 311.10000000009313,
+        "afterCameraMs": 2193.7999999998137,
+        "complete": true
+      },
+      "pass": true
+    },
+    {
+      "scenario": "repeat-glb",
+      "status": "tracking",
+      "acquisitions": 1,
+      "cleaned": true,
+      "errors": [],
+      "codes": [],
+      "stages": [
+        "requesting-camera",
+        "loading-asset",
+        "loading-runtime",
+        "ready",
+        "cancelled"
+      ],
+      "startup": {
+        "cameraPendingMs": 0.5,
+        "assetWaitMs": 0.10000000009313226,
+        "trackerReadyMs": 98.40000000037253,
+        "firstFitSubmissionMs": 387.10000000009313
+      },
+      "timing": {
+        "wallMs": 545.2000000001863,
+        "cameraPendingMs": 0.39999999990686774,
+        "softwareControlledMs": 544.8000000002794,
+        "assetReadyMs": 200.5,
+        "trackerReadyMs": 200.5,
+        "afterCameraMs": 442.60000000009313,
+        "complete": true
+      },
+      "pass": true
+    },
+    {
+      "scenario": "generated-blob",
+      "status": "tracking",
+      "acquisitions": 1,
+      "cleaned": true,
+      "errors": [],
+      "codes": [],
+      "stages": [
+        "requesting-camera",
+        "loading-asset",
+        "loading-runtime",
+        "ready",
+        "cancelled"
+      ],
+      "startup": {
+        "cameraPendingMs": 0.8000000002793968,
+        "assetWaitMs": 0.20000000018626451,
+        "trackerReadyMs": 126.89999999990687,
+        "firstFitSubmissionMs": 351.60000000009313
+      },
+      "timing": {
+        "wallMs": 513.2999999998137,
+        "cameraPendingMs": 0.5,
+        "softwareControlledMs": 512.7999999998137,
+        "assetReadyMs": 237.39999999990687,
+        "trackerReadyMs": 237.39999999990687,
+        "afterCameraMs": 402.10000000009313,
+        "complete": true
+      },
+      "pass": true
+    },
+    {
+      "scenario": "slow-cancel",
+      "status": "idle",
+      "acquisitions": 1,
+      "cleaned": true,
+      "errors": [],
+      "codes": [],
+      "stages": [
+        "requesting-camera",
+        "cancelled"
+      ],
+      "startup": {
+        "cameraPendingMs": null,
+        "assetWaitMs": null,
+        "trackerReadyMs": null,
+        "firstFitSubmissionMs": null
+      },
+      "timing": {
+        "wallMs": null,
+        "cameraPendingMs": 0.3000000002793968,
+        "softwareControlledMs": null,
+        "assetReadyMs": null,
+        "trackerReadyMs": null,
+        "afterCameraMs": null,
+        "complete": false
+      },
+      "pass": true
+    },
+    {
+      "scenario": "slow-timeout",
+      "status": "searching",
+      "acquisitions": 2,
+      "cleaned": true,
+      "errors": [
+        "Glasses asset loading timed out. Retry or choose another frame."
+      ],
+      "codes": [
+        "asset-timeout"
+      ],
+      "stages": [
+        "requesting-camera",
+        "loading-asset",
+        "error",
+        "requesting-camera",
+        "loading-asset",
+        "loading-runtime",
+        "ready",
+        "cancelled"
+      ],
+      "startup": {
+        "cameraPendingMs": 0.39999999990686774,
+        "assetWaitMs": 0.10000000009313226,
+        "trackerReadyMs": 113.1999999997206,
+        "firstFitSubmissionMs": null
+      },
+      "timing": {
+        "wallMs": null,
+        "cameraPendingMs": 0.39999999990686774,
+        "softwareControlledMs": null,
+        "assetReadyMs": null,
+        "trackerReadyMs": null,
+        "afterCameraMs": null,
+        "complete": false
+      },
+      "pass": true
+    },
+    {
+      "scenario": "failed-glb",
+      "status": "error",
+      "acquisitions": 1,
+      "cleaned": true,
+      "errors": [
+        "Glasses asset request failed (404)."
+      ],
+      "codes": [
+        null
+      ],
+      "stages": [
+        "requesting-camera",
+        "loading-asset",
+        "error",
+        "cancelled"
+      ],
+      "startup": {
+        "cameraPendingMs": null,
+        "assetWaitMs": null,
+        "trackerReadyMs": null,
+        "firstFitSubmissionMs": null
+      },
+      "timing": {
+        "wallMs": null,
+        "cameraPendingMs": 0.3000000002793968,
+        "softwareControlledMs": null,
+        "assetReadyMs": null,
+        "trackerReadyMs": null,
+        "afterCameraMs": null,
+        "complete": false
+      },
+      "pass": true
+    }
+  ],
+  "scope": "Synthetic video/recognition; real GLB/GPU. Fresh/repeated GLB requests only, not cold/warm MediaPipe. Asset/tracker marks are public-start completion upper bounds; first usable is GPU-observed synthetic eyewear. No camera requested or personal data.",
+  "sdkCandidate": "6e75f2da0b5a"
+}

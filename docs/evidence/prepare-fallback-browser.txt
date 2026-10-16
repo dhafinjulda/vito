@@ -1,0 +1,45 @@
+### Result
+{"pass":true,"report":{"blocked":true,"callsBeforeStart":0,"cameraCalls":1,"preparedWorkers":2,"workersAfterStart":2,"delegate":"CPU","restarts":1,"fallback":"optional-startup","hair":"unavailable","preparation":{"durationMs":7871.700000000186,"reused":true},"results":14,"errors":[],"released":true,"pass":true},"scope":"Actual MediaPipe with primed face resources, deliberately stalled hair model request, public prepare then start. Blank synthetic video only; no physical camera/person data, appearance or speedup/device acceptance. Six-second test resource deadline; no raw output persisted."}
+### Ran Playwright code
+```js
+await (async page=>{
+  let release;
+  await page.evaluate(()=>{window.__hairBlocked=false;});
+  await page.route('**/hair_segmenter.tflite',async route=>{
+    await page.evaluate(()=>{window.__hairBlocked=true;});
+    await new Promise(resolve=>{release=resolve;});
+    await route.abort().catch(()=>{});
+  });
+  try{return await page.evaluate(async()=>{
+    const {createVirtualTryOn}=await import('/@fs/C:/Projects/VTO/packages/sdk/dist/vto-sdk.js');
+    const NativeWorker=window.Worker,nativeGum=navigator.mediaDevices.getUserMedia;
+    let workers=0,terminated=0,cameraCalls=0,health,session,prime,track;
+    const errors=[],host=document.createElement('div');host.style.cssText='width:640px;height:360px';document.body.append(host);
+    const source=document.createElement('canvas');source.width=1280;source.height=720;const ctx=source.getContext('2d');
+    const draw=()=>{ctx.fillStyle='#808080';ctx.fillRect(0,0,1280,720);};draw();const pump=setInterval(draw,33);
+    window.Worker=class extends NativeWorker{constructor(...args){super(...args);workers++;}terminate(){terminated++;super.terminate();}};
+    navigator.mediaDevices.getUserMedia=async options=>{if(options.audio!==false)throw Error('Audio requested');cameraCalls++;const stream=source.captureStream(30);track=stream.getTracks()[0];return stream;};
+    try{
+      // Prime face resources/compilation separately; do not mislabel this attempt cold.
+      prime=createVirtualTryOn({container:host,glassesUrl:'/glasses.glb',cacheRuntimeAssets:true,hairOcclusion:false});
+      await prime.prepare();prime.dispose();
+      const before={workers,terminated};
+      session=createVirtualTryOn({container:host,glassesUrl:'/glasses.glb',cacheRuntimeAssets:true,hairOcclusion:{},resourceTimeoutMs:6000,onTrackingHealthChange:h=>health=h,onError:e=>errors.push(e.message)});
+      await session.prepare();const callsBeforeStart=cameraCalls,preparedWorkers=workers-before.workers;
+      await session.start();await new Promise(r=>setTimeout(r,1000));
+      const report={blocked:window.__hairBlocked,callsBeforeStart,cameraCalls,preparedWorkers,workersAfterStart:workers-before.workers,delegate:health.delegate,restarts:health.restarts,fallback:health.featureFallback,hair:health.hairTracking,preparation:health.preparation,results:health.resultsReceived,errors};
+      session.dispose();report.released=terminated-before.terminated===preparedWorkers&&track.readyState==='ended'&&host.children.length===0;
+      report.pass=report.blocked&&callsBeforeStart===0&&cameraCalls===1&&preparedWorkers===2&&report.workersAfterStart===2&&report.restarts===1&&report.fallback==='optional-startup'&&report.hair==='unavailable'&&report.delegate==='CPU'&&report.preparation.reused&&report.results>0&&!errors.length&&report.released;
+      return {pass:report.pass,report,scope:'Actual MediaPipe with primed face resources, deliberately stalled hair model request, public prepare then start. Blank synthetic video only; no physical camera/person data, appearance or speedup/device acceptance. Six-second test resource deadline; no raw output persisted.'};
+    }catch(error){return {pass:false,error:String(error),workers,terminated,cameraCalls,errors};}
+    finally{session?.dispose();prime?.dispose();track?.stop();clearInterval(pump);host.remove();source.width=source.height=0;window.Worker=NativeWorker;navigator.mediaDevices.getUserMedia=nativeGum;}
+  });}finally{release?.();await page.unrouteAll({behavior:'ignoreErrors'});}
+}
+)(page);
+```
+### Page
+- Page URL: http://localhost:5173/
+- Page Title: Virtual Try-On · Vanilla SDK Example
+- Console: 3 errors, 8 warnings
+### Events
+- New console entries: .playwright-cli\console-2026-10-15T08-28-54-579Z.log#L1-L17

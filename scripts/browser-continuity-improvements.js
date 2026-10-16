@@ -17,7 +17,7 @@ async page=>page.evaluate(async()=>{
       postMessage({type:'result',landmarks:f.landmarks,faceMatrix:f.matrix,timestampMs:m.timestampMs,faceInferenceMs:8});
       if(budget){budget=false;postMessage({type:'hand-unavailable',reason:'budget'});}
       m.bitmap.close();postMessage({type:'frame-done',timestampMs:m.timestampMs});}
-    onmessage=({data:m})=>{if(m.type==='init'){postMessage({type:'ready',protocolVersion:7,delegate:'GPU',handTracking:m.handModelAssetPath?'ready':'disabled',hairTracking:'disabled'});}
+    onmessage=({data:m})=>{if(m.type==='init'){postMessage({type:'ready',protocolVersion:8,delegate:'GPU',handTracking:m.handModelAssetPath?'ready':'disabled',hairTracking:'disabled'});}
       if(m.type==='hold')hold=true;
       if(m.type==='budget')budget=true;
       if(m.type==='release'){hold=!!m.keepHolding;if(pending){deliver(pending);pending=null;}}

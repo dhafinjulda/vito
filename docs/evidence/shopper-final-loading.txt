@@ -1,0 +1,53 @@
+### Result
+{"pass":true,"idleRetry":true,"stopDuringLoad":true,"cancelled":true,"cleaned":true,"guidanceChanges":0,"overflow":false,"calls":2,"audioFalse":true,"scope":"Reference UI with synthetic video/recognition, real GLBs/GPU. Desktop/mobile viewport checks only; no physical camera or device acceptance."}
+### Ran Playwright code
+```js
+await (async page=>{
+  await page.route('**/glasses.glb',route=>route.fulfill({status:404,body:'Synthetic missing asset'}));
+  await page.goto('http://localhost:5173/');
+  await page.waitForFunction(()=>document.querySelector('#message').textContent.includes('Pemasangan belum berhasil'));
+  const idleRetry=await page.locator('#resync').isEnabled();
+  await page.unroute('**/glasses.glb');
+  await page.evaluate(async()=>{
+    const {syntheticFrame}=await import('/@fs/C:/Projects/VTO/packages/sdk/test/synthetic-frame.ts');
+    const fixture=syntheticFrame(0,0,0,1280,720,30),OriginalWorker=window.Worker;
+    const state=window.shopperUiCheck={tracks:[],workers:0,terminated:0,calls:0,audioFalse:true};
+    const workerUrl=URL.createObjectURL(new Blob([`const face=${JSON.stringify(fixture)};onmessage=({data:m})=>{if(m.type==='init'){postMessage({type:'startup-stage',stage:'loading-runtime'});setTimeout(()=>postMessage({type:'startup-stage',stage:'initializing-tracker'}),150);setTimeout(()=>postMessage({type:'startup-stage',stage:'warming-tracker'}),550);setTimeout(()=>postMessage({type:'ready',protocolVersion:8,delegate:'CPU',handTracking:'disabled',hairTracking:'disabled'}),800);}if(m.type==='frame'){postMessage({type:'result',landmarks:face.landmarks,faceMatrix:face.matrix,timestampMs:m.timestampMs});m.bitmap.close();postMessage({type:'frame-done',timestampMs:m.timestampMs});}};`],{type:'text/javascript'}));
+    window.Worker=class extends OriginalWorker{constructor(){super(workerUrl);state.workers++;}terminate(){state.terminated++;super.terminate();}};
+    navigator.mediaDevices.getUserMedia=async options=>{
+      state.audioFalse&&=options.audio===false;state.calls++;
+      const canvas=document.createElement('canvas');canvas.width=1280;canvas.height=720;const ctx=canvas.getContext('2d');
+      ctx.fillStyle='#808080';ctx.fillRect(0,0,1280,720);const pump=setInterval(()=>ctx.fillRect(0,0,1280,720),33);
+      const stream=canvas.captureStream(30);state.tracks.push(...stream.getTracks());
+      const stop=stream.getVideoTracks()[0].stop.bind(stream.getVideoTracks()[0]);
+      stream.getVideoTracks()[0].stop=()=>{clearInterval(pump);canvas.width=canvas.height=0;stop();};return stream;
+    };
+    window.addEventListener('pagehide',()=>URL.revokeObjectURL(workerUrl),{once:true});
+  });
+  await page.setViewportSize({width:1360,height:1000});
+  await page.locator('#resync').click();
+  await page.waitForFunction(()=>document.querySelector('#message').textContent.includes('Menyiapkan model pelacakan'));
+  const stopDuringLoad=await page.locator('#stop').isEnabled();
+  await page.screenshot({path:'docs/evidence/shopper-final-loading-desktop.png'});
+  await page.locator('#stop').click();
+  const cancelled=await page.evaluate(()=>document.querySelector('#status').textContent==='Siap dimulai'&&shopperUiCheck.tracks.every(t=>t.readyState==='ended'));
+  await page.locator('#start').click();
+  await page.waitForFunction(()=>document.querySelector('#status').textContent==='Terpasang');
+  await page.setViewportSize({width:390,height:1000});
+  await page.screenshot({path:'docs/evidence/shopper-final-loading-mobile.png'});
+  await page.evaluate(()=>{window.guidanceChanges=0;window.guidanceObserver=new MutationObserver(()=>window.guidanceChanges++);guidanceObserver.observe(document.querySelector('#message'),{childList:true,subtree:true,characterData:true});});
+  await page.waitForTimeout(500);
+  // Read lexical values in Node, and only aggregate synthetic diagnostics in-page.
+  const ui=await page.evaluate(()=>{guidanceObserver.disconnect();return {guidanceChanges,overflow:document.documentElement.scrollWidth>innerWidth,calls:shopperUiCheck.calls,audioFalse:shopperUiCheck.audioFalse};});
+  await page.locator('#stop').click();
+  const cleaned=await page.evaluate(()=>shopperUiCheck.tracks.every(t=>t.readyState==='ended')&&shopperUiCheck.workers===shopperUiCheck.terminated);
+  return {pass:idleRetry&&stopDuringLoad&&cancelled&&cleaned&&ui.audioFalse&&!ui.overflow&&ui.guidanceChanges===0,idleRetry,stopDuringLoad,cancelled,cleaned,...ui,scope:'Reference UI with synthetic video/recognition, real GLBs/GPU. Desktop/mobile viewport checks only; no physical camera or device acceptance.'};
+}
+)(page);
+```
+### Page
+- Page URL: http://localhost:5173/
+- Page Title: Virtual Try-On · Vanilla SDK Example
+- Console: 1 errors, 0 warnings
+### Events
+- New console entries: .playwright-cli\console-2026-10-15T08-39-32-481Z.log#L11-L12

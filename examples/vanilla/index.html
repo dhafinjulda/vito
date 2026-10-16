@@ -27,6 +27,19 @@
         <button id="resync" class="secondary" disabled>Sambungkan ulang</button>
       </section>
       <p id="message" class="message" role="status" aria-live="polite">Akses kamera hanya dimulai setelah tombol ditekan.</p>
+      <section class="collection" aria-label="Pilih bingkai">
+        <div class="section-heading"><h2>Pilih bingkai</h2><span>Dua desain demo + satu aset CC0</span></div>
+        <p id="product-state" class="product-description" role="status" aria-live="polite">Pilihan awal: Contour.</p>
+        <div class="product-options">
+          <button class="product" data-product="0" aria-pressed="true"><span class="swatch acetate" aria-hidden="true"></span><span><strong>Contour</strong><small>Acetate · hijau gelap</small></span><span class="selected-mark" aria-hidden="true">✓</span></button>
+          <button class="product" data-product="1" aria-pressed="false"><span class="swatch titanium" aria-hidden="true"></span><span><strong>Linea</strong><small>Metal · champagne</small></span><span class="selected-mark" aria-hidden="true">✓</span></button>
+          <button class="product" data-product="2" aria-pressed="false"><span class="swatch round" aria-hidden="true"></span><span><strong>Round Spectacles</strong><small>PBR · Poly Haven CC0</small></span><span class="selected-mark" aria-hidden="true">✓</span></button>
+        </div>
+        <p id="product-description" class="product-description">Rim acetate dengan engsel metal dan ujung gagang melengkung.</p>
+      </section>
+      <details id="developer-tools" class="fit-panel">
+        <summary>Pengaturan lanjutan &amp; diagnostik</summary>
+        <div class="advanced-controls">
       <details class="fit-panel"><summary>Diagnostik pelacakan lokal</summary><p id="tracking-health">Kamera belum dimulai.</p><p id="performance-health">Metrik performa belum tersedia.</p><p>Counter dan timing sementara. Submit adalah pengiriman CPU, bukan waktu GPU atau latency kamera-ke-layar fisik. Tidak menyimpan gambar atau koordinat wajah.</p></details>
       <details class="fit-panel"><summary>Realisme &amp; kalibrasi lokal</summary>
         <div class="fit-controls">
@@ -44,15 +57,6 @@
         <div class="actions"><button id="place-face" class="secondary">Pasang di wajah</button><button id="place-head" class="secondary">Letakkan di atas kepala</button></div>
         <p id="interaction-state" role="status" aria-live="polite">Interaksi dan posisi di kepala masih perkiraan. Aktifkan kontrol tangan sebelum memulai kamera.</p>
       </section>
-      <section class="collection" aria-label="Pilih bingkai">
-        <div class="section-heading"><h2>Pilih bingkai</h2><span>Dua desain demo + satu aset CC0</span></div>
-        <div class="product-options">
-          <button class="product" data-product="0" aria-pressed="true"><span class="swatch acetate" aria-hidden="true"></span><span><strong>Contour</strong><small>Acetate · hijau gelap</small></span><span class="selected-mark" aria-hidden="true">✓</span></button>
-          <button class="product" data-product="1" aria-pressed="false"><span class="swatch titanium" aria-hidden="true"></span><span><strong>Linea</strong><small>Metal · champagne</small></span><span class="selected-mark" aria-hidden="true">✓</span></button>
-          <button class="product" data-product="2" aria-pressed="false"><span class="swatch round" aria-hidden="true"></span><span><strong>Round Spectacles</strong><small>PBR · Poly Haven CC0</small></span><span class="selected-mark" aria-hidden="true">✓</span></button>
-        </div>
-        <p id="product-description" class="product-description">Rim acetate dengan engsel metal dan ujung gagang melengkung.</p>
-      </section>
       <details class="fit-panel">
         <summary>Sesuaikan pemasangan <span>Ukuran &amp; posisi</span></summary>
         <div class="fit-controls">
@@ -64,6 +68,8 @@
           <input id="fit-depth" type="range" min="0" max="20" value="6" aria-describedby="fit-note" />
           <button id="reset-fit" class="secondary">Kembalikan pemasangan</button>
           <p id="fit-note">Ukuran mengikuti jarak secara otomatis. Angka jarak merupakan perkiraan berdasarkan ukuran wajah generik, bukan hasil pengukuran. Ukuran fisik dan kenyamanan perlu diperiksa langsung.</p>
+        </div>
+      </details>
         </div>
       </details>
       <p class="footnote">Contour dan Linea adalah desain demo. Round Spectacles adalah model uji CC0 dari <a href="https://polyhaven.com/a/round_spectacles" target="_blank" rel="noreferrer">Poly Haven</a>, bukan SKU retail terukur. <a href="/fit-check.html">Lihat pemeriksaan 3D tanpa kamera</a></p>

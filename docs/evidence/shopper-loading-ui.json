@@ -1,0 +1,12 @@
+{
+  "pass": true,
+  "idleRetry": true,
+  "stopDuringLoad": true,
+  "cancelled": true,
+  "cleaned": true,
+  "guidanceChanges": 0,
+  "overflow": false,
+  "calls": 2,
+  "audioFalse": true,
+  "scope": "Reference UI with synthetic video/recognition, real GLBs/GPU. Desktop/mobile viewport checks only; no physical camera or device acceptance."
+}

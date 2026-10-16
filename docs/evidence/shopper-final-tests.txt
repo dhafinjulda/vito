@@ -1,0 +1,73 @@
+
+> virtual-try-on-sdk-workspace@ test C:\Projects\VTO
+> pnpm --filter vito-sdk test && pnpm --filter vito-asset-generator test && node scripts/test-offline-cache.mjs
+
+
+> vito-sdk@0.1.1 test C:\Projects\VTO\packages\sdk
+> vitest run
+
+
+ RUN  v3.1.4 C:/Projects/VTO/packages/sdk
+
+ ✓ test/asset-readiness.test.ts (9 tests) 29ms
+ ✓ test/hand-identity.test.ts (10 tests) 27ms
+ ✓ test/pose-presentation.test.ts (22 tests) 57ms
+ ✓ test/runtime-assets.test.ts (5 tests) 47ms
+ ✓ test/temple-effects.test.ts (6 tests) 33ms
+ ✓ test/hand-grip.test.ts (10 tests) 42ms
+ ✓ test/worker-hands.test.ts (15 tests) 984ms
+   ✓ optional hands in the shared face worker > warms face, hands and hair at activation geometry before acknowledging  512ms
+ ✓ test/two-hand-interaction.test.ts (15 tests) 77ms
+ ✓ test/premium-rendering.test.ts (4 tests) 60ms
+ ✓ test/interaction.test.ts (11 tests) 140ms
+ ✓ test/tracking-refinement.test.ts (11 tests) 162ms
+ ✓ test/fitting.test.ts (18 tests) 129ms
+ ✓ test/hand-occluder.test.ts (16 tests) 175ms
+ ✓ test/asset-metadata.test.ts (31 tests) 226ms
+ ✓ test/hair-tracker.test.ts (4 tests) 44ms
+ ✓ test/hand-cadence.test.ts (7 tests) 24ms
+ ✓ test/calibration.test.ts (4 tests) 38ms
+ ✓ test/ambient-estimator.test.ts (3 tests) 26ms
+ ✓ test/quality-governor.test.ts (4 tests) 12ms
+ ✓ test/pose.test.ts (3 tests) 16ms
+ ✓ test/runtime-metrics.test.ts (4 tests) 29ms
+ ✓ test/tracker-connection.test.ts (3 tests) 27ms
+ ✓ test/feature-policy.test.ts (3 tests) 18ms
+ ✓ test/tracker-startup.test.ts (4 tests) 38ms
+ ✓ test/tracker-worker-owner.test.ts (2 tests) 24ms
+ ✓ test/resource-wait.test.ts (2 tests) 32ms
+ ✓ test/frame-clock.test.ts (2 tests) 11ms
+ ✓ test/startup-metrics.test.ts (3 tests) 12ms
+ ✓ test/source-geometry.test.ts (3 tests) 16ms
+ ✓ test/coordinates.test.ts (2 tests) 11ms
+ ✓ test/camera-access-error.test.ts (7 tests) 22ms
+ ✓ test/head-occlusion.test.ts (6 tests) 2339ms
+   ✓ rear temple occlusion > covers the full hook surface at yaw -84 / pitch 0 / roll 0  683ms
+   ✓ rear temple occlusion > covers the full hook surface at yaw 84 / pitch 0 / roll 0  494ms
+   ✓ rear temple occlusion > covers the full hook surface at yaw 45 / pitch 0 / roll 0  316ms
+ ✓ test/session.test.ts (70 tests) 2023ms
+
+ Test Files  33 passed (33)
+      Tests  319 passed (319)
+   Start at  15:40:12
+   Duration  9.94s (transform 9.52s, setup 0ms, collect 22.69s, tests 6.95s, environment 4.55s, prepare 22.86s)
+
+
+> vito-asset-generator@0.1.0 test C:\Projects\VTO\packages\asset-generator
+> vitest run
+
+
+ RUN  v3.1.4 C:/Projects/VTO/packages/asset-generator
+
+ ✓ test/generator.test.ts (6 tests) 404ms
+ ✓ test/generation.test.ts (82 tests) 627ms
+ ✓ test/asset-compatibility.test.ts (20 tests) 3330ms
+   ✓ generated assets follow the SDK coordinate and material contract > keeps every rim, endpiece, hinge, temple and metal nose pad connected across styles and boundary dimensions  765ms
+   ✓ generated assets follow the SDK coordinate and material contract > exports the same bytes for the same recipe without timestamps or random node identifiers  1794ms
+
+ Test Files  3 passed (3)
+      Tests  108 passed (108)
+   Start at  15:40:24
+   Duration  5.69s (transform 546ms, setup 0ms, collect 1.76s, tests 4.36s, environment 1ms, prepare 1.63s)
+
+Offline cache policy passed: versioned shell, pinned runtime allowlist, cache reuse, and private/unknown requests excluded.

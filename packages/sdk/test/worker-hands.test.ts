@@ -21,6 +21,24 @@ const frame=(time:number)=>({type:'frame',bitmap:{close:vi.fn()} as unknown as I
 const enableHands=()=>scope.onmessage!({data:{type:'enable-hands'}});
 
 describe('optional hands in the shared face worker',()=>{
+  it('warms face, hands and hair at activation geometry before acknowledging',async()=>{
+    const hair={getLabels:()=>['background','hair'],close:vi.fn(),segmentForVideo:vi.fn()};mocks.hairCreate.mockResolvedValue(hair);
+    await scope.onmessage!({data:{...init(true),prewarmOptional:true,hairModelAssetPath:'/hair.tflite'}});
+    await scope.onmessage!({data:{type:'warmup',inputWidth:640,inputHeight:1138}});
+    for(const detect of [face.detectForVideo,hand.detectForVideo,hair.segmentForVideo])expect(detect).toHaveBeenCalledWith(expect.objectContaining({width:640,height:1138}),1,...(detect===hair.segmentForVideo?[expect.any(Function)]:[]));
+    expect(scope.postMessage).toHaveBeenLastCalledWith({type:'warmup-ready'});
+    const bitmap=face.detectForVideo.mock.calls.at(-1)![0];expect(bitmap.close).toHaveBeenCalledOnce();
+    await scope.onmessage!({data:{type:'warmup',inputWidth:640,inputHeight:1138}});
+    expect(scope.postMessage).toHaveBeenLastCalledWith(expect.objectContaining({type:'error',message:expect.stringContaining('run once')}));
+  });
+  it('rejects oversized warmup input and warmup after live dispatch',async()=>{
+    await scope.onmessage!({data:init(false)});
+    await scope.onmessage!({data:{type:'warmup',inputWidth:641,inputHeight:360}});
+    expect(scope.postMessage).toHaveBeenLastCalledWith(expect.objectContaining({type:'error',message:expect.stringContaining('geometry')}));
+    await scope.onmessage!({data:frame(1000)});
+    await scope.onmessage!({data:{type:'warmup',inputWidth:640,inputHeight:360}});
+    expect(scope.postMessage).toHaveBeenLastCalledWith(expect.objectContaining({type:'error',message:expect.stringContaining('precede live')}));
+  });
   beforeEach(async()=>{
     vi.resetModules(); vi.clearAllMocks();
     scope={onmessage:null,postMessage:vi.fn(),close:vi.fn()}; vi.stubGlobal('self',scope);
@@ -52,7 +70,8 @@ describe('optional hands in the shared face worker',()=>{
   it('prewarms requested graphs before ready and skips hair work for missing faces or held placement',async()=>{
     const hair={getLabels:()=>['background','hair'],close:vi.fn(),segmentForVideo:vi.fn((_image:unknown,_time:number,callback:(result:unknown)=>void)=>callback({confidenceMasks:[{}, {width:2,height:2,getAsFloat32Array:()=>new Float32Array(4)}]}))};mocks.hairCreate.mockResolvedValue(hair);
     await scope.onmessage!({data:{...init(true),prewarmOptional:true,hairModelAssetPath:'/hair.tflite'}});
-    expect(scope.postMessage.mock.calls.map(([m])=>m.type)).toEqual(['face-ready','hand-loading','hand-ready','hair-loading','hair-ready','ready']);
+    expect(scope.postMessage.mock.calls.map(([m])=>m.type)).toEqual(['startup-stage','startup-stage','startup-stage','face-ready','hand-loading','hand-ready','hair-loading','hair-ready','startup-profile','ready']);
+    expect(scope.postMessage).toHaveBeenCalledWith(expect.objectContaining({type:'startup-profile',timings:{filesetMs:expect.any(Number),resourcePreparationMs:expect.any(Number),faceCreationMs:expect.any(Number),faceWarmupMs:expect.any(Number),optionalWarmupMs:expect.any(Number),hairCreationMs:expect.any(Number),hairWarmupMs:expect.any(Number)}}));
     expect(scope.postMessage).toHaveBeenLastCalledWith(expect.objectContaining({type:'ready',handTracking:'ready',hairTracking:'ready'}));
     const warmCalls=hair.segmentForVideo.mock.calls.length;face.detectForVideo.mockReturnValue({faceLandmarks:[]});
     await scope.onmessage!({data:frame(1000)});expect(hair.segmentForVideo).toHaveBeenCalledTimes(warmCalls);

@@ -1,0 +1,142 @@
+### Result
+{"date":"2026-10-15T04:52:53.536Z","url":"http://localhost:5173/","synthetic":true,"cameraRequested":false,"publicSdk":true,"phase":"complete","generation":{"elapsedMs":67.3000000002794,"roundBytes":234104,"rectangleBytes":234148,"round":{"contract":{"version":1,"units":"meters","pivot":"nose-bridge","fit":{"referenceEyeSpan":0.08891718,"scale":1,"offset":[0,0,0.003],"rotation":[0,0,0]},"physicalFit":{"frontWidthMm":146,"modelFrontWidth":0.1459999978542328,"source":"approximation"}},"parts":[{"name":"rim-left","materialTypes":["MeshPhysicalMaterial"]},{"name":"lens-left","materialTypes":["MeshPhysicalMaterial"]},{"name":"endpiece-left","materialTypes":["MeshPhysicalMaterial"]},{"name":"hinge-left","materialTypes":["MeshStandardMaterial"]},{"name":"temple-left","materialTypes":["MeshPhysicalMaterial"]},{"name":"ear-tip-left","materialTypes":["MeshPhysicalMaterial"]},{"name":"rim-right","materialTypes":["MeshPhysicalMaterial"]},{"name":"lens-right","materialTypes":["MeshPhysicalMaterial"]},{"name":"endpiece-right","materialTypes":["MeshPhysicalMaterial"]},{"name":"hinge-right","materialTypes":["MeshStandardMaterial"]},{"name":"temple-right","materialTypes":["MeshPhysicalMaterial"]},{"name":"ear-tip-right","materialTypes":["MeshPhysicalMaterial"]},{"name":"bridge","materialTypes":["MeshPhysicalMaterial"]}]},"rectangle":{"contract":{"version":1,"units":"meters","pivot":"nose-bridge","fit":{"referenceEyeSpan":0.08891718,"scale":1,"offset":[0,0,0.003],"rotation":[0,0,0]},"physicalFit":{"frontWidthMm":170,"modelFrontWidth":0.17000000178813934,"source":"approximation"}},"parts":[{"name":"rim-left","materialTypes":["MeshPhysicalMaterial"]},{"name":"lens-left","materialTypes":["MeshPhysicalMaterial"]},{"name":"endpiece-left","materialTypes":["MeshPhysicalMaterial"]},{"name":"hinge-left","materialTypes":["MeshStandardMaterial"]},{"name":"temple-left","materialTypes":["MeshPhysicalMaterial"]},{"name":"ear-tip-left","materialTypes":["MeshPhysicalMaterial"]},{"name":"rim-right","materialTypes":["MeshPhysicalMaterial"]},{"name":"lens-right","materialTypes":["MeshPhysicalMaterial"]},{"name":"endpiece-right","materialTypes":["MeshPhysicalMaterial"]},{"name":"hinge-right","materialTypes":["MeshStandardMaterial"]},{"name":"temple-right","materialTypes":["MeshPhysicalMaterial"]},{"name":"ear-tip-right","materialTypes":["MeshPhysicalMaterial"]},{"name":"bridge","materialTypes":["MeshPhysicalMaterial"]}]}},"bareUrl":{"status":"tracking","pixels":{"count":6644,"width":176,"height":56,"bounds":[232,173,407,228],"glError":0}},"legacyDefaults":{"status":"tracking","pixels":{"count":37,"width":12,"height":5,"bounds":[314,204,325,208],"glError":0}},"explicitDescriptor":{"status":"tracking","pixels":{"count":6644,"width":176,"height":56,"bounds":[232,173,407,228],"glError":0}},"embeddedScaleRatio":14.666666666666666,"swap":{"status":"tracking","pixels":{"count":7109,"width":206,"height":47,"bounds":[217,178,422,224],"glError":0}},"malformed":{"rejected":"Invalid embedded glasses SDK contract. Expected version 1, meters, nose-bridge pivot, and bounded fit/physicalFit metadata.","status":"tracking","pixels":{"count":7109,"width":206,"height":47,"bounds":[217,178,422,224],"glError":0}},"restartAfterReject":{"status":"tracking","pixels":{"count":7109,"width":206,"height":47,"bounds":[217,178,422,224],"glError":0}},"shaders":{"templeAdaptation":true,"transmission":true,"failures":[],"glError":0,"previewHidden":true},"errors":[],"cleaned":{"tracksEnded":true,"hostEmpty":true},"pass":true,"limitations":"Actual browser export, GLB load, public SDK fitting and WebGL shaders with local synthetic face results/canvas video. No real-person camera, retail SKU, optical prescription, device or hand-contact acceptance.","pageErrors":[],"writeRequests":[]}
+### Ran Playwright code
+```js
+await (/*
+ * Copyright (c) 2026 Dhafin Julda Riyanto.
+ * The contents of this file are subject to CPAL-1.0; use only in compliance
+ * with LICENSE at https://github.com/dhafinjulda/vito/blob/main/LICENSE.
+ * Original Code: Vito browser SDK and optional asset generator.
+ * Initial Developer: Dhafin Julda Riyanto. Provided AS IS, without warranty.
+ * Third-party portions retain their licenses; see THIRD_PARTY_NOTICES.md.
+ */
+async page => {
+  // Dedicated Playwright page on the Vanilla Vite server; no physical camera.
+  // playwright-cli -s=generated-assets run-code --filename=scripts/verify-generated-assets.cjs
+  const pageErrors=[],writeRequests=[];
+  const onError=error=>pageErrors.push(error.message);
+  const onRequest=request=>{if(!['GET','HEAD','OPTIONS'].includes(request.method()))writeRequests.push({method:request.method(),url:request.url()});};
+  page.on('pageerror',onError);page.on('request',onRequest);
+  try {
+    const report=await page.evaluate(async()=>{
+      const {createVirtualTryOn}=await import('/@fs/C:/Projects/VTO/packages/sdk/dist/vto-sdk.js');
+      const {DEFAULT_GLASSES_RECIPE,exportGlassesGlb}=await import('/@fs/C:/Projects/VTO/packages/asset-generator/dist/asset-generator.js');
+      const {GLTFLoader}=await import('/@fs/C:/Projects/VTO/node_modules/three/examples/jsm/loaders/GLTFLoader.js');
+      const {syntheticFrame}=await import('/@fs/C:/Projects/VTO/packages/sdk/test/synthetic-frame.ts');
+      const {TRACKER_PROTOCOL_VERSION}=await import('/@fs/C:/Projects/VTO/packages/sdk/src/tracking/protocol.ts');
+      const delay=ms=>new Promise(resolve=>setTimeout(resolve,ms)),urls=[],sessions=[],tracks=[],workers=[],errors=[];
+      const NativeWorker=window.Worker,originalMedia=navigator.mediaDevices.getUserMedia,originalContext=HTMLCanvasElement.prototype.getContext;
+      const shaderSources=[],shaderFailures=[];
+      const prototypes=[WebGLRenderingContext.prototype,WebGL2RenderingContext.prototype];
+      const originalShaderMethods=prototypes.map(prototype=>({prototype,shaderSource:prototype.shaderSource,compileShader:prototype.compileShader}));
+      const host=document.createElement('div');host.style.cssText='position:fixed;left:0;top:0;width:640px;height:360px;z-index:9999';document.body.append(host);
+      const source=document.createElement('canvas');source.width=1280;source.height=720;const context=source.getContext('2d');
+      let pump;
+      const report={date:new Date().toISOString(),url:location.href,synthetic:true,cameraRequested:false,publicSdk:true};
+
+      const assetUrl=blob=>{const url=URL.createObjectURL(blob);urls.push(url);return url;};
+      function mutateJsonChunk(buffer,mutate) {
+        const input=new DataView(buffer);if(input.getUint32(0,true)!==0x46546c67||input.getUint32(4,true)!==2)throw new Error('Expected binary glTF v2.');
+        const chunks=[];let offset=12;
+        while(offset<buffer.byteLength){const length=input.getUint32(offset,true),type=input.getUint32(offset+4,true);chunks.push({type,bytes:new Uint8Array(buffer,offset+8,length)});offset+=8+length;}
+        const json=chunks.find(chunk=>chunk.type===0x4e4f534a);if(!json)throw new Error('Missing GLB JSON chunk.');
+        const data=JSON.parse(new TextDecoder().decode(json.bytes));mutate(data);
+        const encoded=new TextEncoder().encode(JSON.stringify(data)),padded=new Uint8Array(Math.ceil(encoded.length/4)*4).fill(32);padded.set(encoded);json.bytes=padded;
+        const output=new ArrayBuffer(12+chunks.reduce((sum,chunk)=>sum+8+chunk.bytes.length,0)),header=new DataView(output);header.setUint32(0,0x46546c67,true);header.setUint32(4,2,true);header.setUint32(8,output.byteLength,true);
+        offset=12;for(const chunk of chunks){header.setUint32(offset,chunk.bytes.length,true);header.setUint32(offset+4,chunk.type,true);new Uint8Array(output,offset+8,chunk.bytes.length).set(chunk.bytes);offset+=8+chunk.bytes.length;}
+        return new Blob([output],{type:'model/gltf-binary'});
+      }
+      async function inspect(buffer) {
+        const gltf=await new GLTFLoader().parseAsync(buffer,'');
+        try {
+          const parts=[];gltf.scene.traverse(node=>{if(node.isMesh)parts.push({name:node.name,materialTypes:(Array.isArray(node.material)?node.material:[node.material]).map(material=>material.type)});});
+          return {contract:structuredClone(gltf.scene.userData.vtoGlasses?.sdk),parts};
+        } finally {
+          const geometries=new Set(),materials=new Set();gltf.scene.traverse(node=>{if(node.isMesh){geometries.add(node.geometry);for(const material of Array.isArray(node.material)?node.material:[node.material])materials.add(material);}});
+          for(const geometry of geometries)geometry.dispose();for(const material of materials)material.dispose();gltf.scene.clear();
+        }
+      }
+      function pixels(session) {
+        const gl=session.canvas.getContext('webgl2'),width=gl.drawingBufferWidth,height=gl.drawingBufferHeight,data=new Uint8Array(width*height*4);
+        gl.readPixels(0,0,width,height,gl.RGBA,gl.UNSIGNED_BYTE,data);
+        let count=0,minX=width,minY=height,maxX=-1,maxY=-1;
+        for(let y=0;y<height;y++)for(let x=0;x<width;x++)if(data[(y*width+x)*4+3]>15){count++;minX=Math.min(minX,x);minY=Math.min(minY,y);maxX=Math.max(maxX,x);maxY=Math.max(maxY,y);}
+        return {count,width:count?maxX-minX+1:0,height:count?maxY-minY+1:0,bounds:count?[minX,minY,maxX,maxY]:null,glError:gl.getError()};
+      }
+      async function tracking(session) {
+        const until=performance.now()+6000;while(session.status!=='tracking'&&performance.now()<until)await delay(40);
+        if(session.status!=='tracking')throw new Error(`Generated asset did not track: ${session.status}.`);await delay(220);
+      }
+      function create(url,compositing=false) {
+        const session=createVirtualTryOn({container:host,glassesUrl:url,smoothing:false,presentation:'direct',faceOcclusion:false,adaptiveQuality:false,hairOcclusion:false,cameraCompositing:compositing,ambientLighting:false,onError:error=>errors.push(error.message)});
+        sessions.push(session);return session;
+      }
+      function assert(condition,message) {if(!condition)throw new Error(message);}
+      try {
+        report.phase='export';
+        const round=structuredClone(DEFAULT_GLASSES_RECIPE);round.frameColor='#E60000';
+        const rectangular={...structuredClone(round),productId:'synthetic-rectangle',name:'Synthetic Rectangle',templateId:'rectangle',dimensionsMm:{lensWidth:56,lensHeight:30,bridgeWidth:20,templeLength:135,frameWidth:170}};
+        const started=performance.now(),firstBlob=await exportGlassesGlb(round),secondBlob=await exportGlassesGlb(rectangular);
+        const firstBuffer=await firstBlob.arrayBuffer(),secondBuffer=await secondBlob.arrayBuffer();
+        report.generation={elapsedMs:performance.now()-started,roundBytes:firstBlob.size,rectangleBytes:secondBlob.size,round:await inspect(firstBuffer),rectangle:await inspect(secondBuffer)};
+        assert(report.generation.round.contract?.units==='meters'&&report.generation.rectangle.contract?.pivot==='nose-bridge','GLB scene-root SDK contract did not survive export/load.');
+        const names=['rim-left','rim-right','lens-left','lens-right','temple-left','temple-right','ear-tip-left','ear-tip-right','bridge'];
+        assert(names.every(name=>report.generation.round.parts.some(part=>part.name===name)),'Generated GLB is missing a semantic mesh.');
+        const firstUrl=assetUrl(firstBlob),secondUrl=assetUrl(secondBlob);
+        const ordinaryUrl=assetUrl(mutateJsonChunk(firstBuffer,json=>{delete json.scenes[json.scene??0].extras.vtoGlasses.sdk;}));
+        const badUrl=assetUrl(mutateJsonChunk(firstBuffer,json=>{json.scenes[json.scene??0].extras.vtoGlasses.sdk.units='centimeters';}));
+        const fixture=syntheticFrame(0,0,0,1280,720,30);
+        const workerUrl=assetUrl(new Blob([`const fixture=${JSON.stringify(fixture)};onmessage=({data:m})=>{if(m.type==='init'){postMessage({type:'face-ready'});postMessage({type:'ready',protocolVersion:${TRACKER_PROTOCOL_VERSION},delegate:'GPU',handTracking:'disabled',hairTracking:'disabled'});}if(m.type==='frame'){postMessage({type:'result',landmarks:fixture.landmarks,faceMatrix:fixture.matrix,timestampMs:m.timestampMs,faceInferenceMs:8});m.bitmap.close();postMessage({type:'frame-done',timestampMs:m.timestampMs});}if(m.type==='dispose'){postMessage({type:'disposed'});close();}};`],{type:'text/javascript'}));
+        window.Worker=class extends NativeWorker{constructor(){super(workerUrl);workers.push(this);}};
+        navigator.mediaDevices.getUserMedia=async constraints=>{assert(constraints.audio===false,'SDK requested audio.');const stream=source.captureStream(30);tracks.push(...stream.getTracks());return stream;};
+        HTMLCanvasElement.prototype.getContext=function(type,options){return originalContext.call(this,type,type==='webgl'||type==='webgl2'?{...options,preserveDrawingBuffer:true}:options);};
+        for(const entry of originalShaderMethods){entry.prototype.shaderSource=function(shader,code){shaderSources.push(code);return entry.shaderSource.call(this,shader,code);};entry.prototype.compileShader=function(shader){entry.compileShader.call(this,shader);if(!this.getShaderParameter(shader,this.COMPILE_STATUS))shaderFailures.push(this.getShaderInfoLog(shader));};}
+        context.fillStyle='#808080';context.fillRect(0,0,1280,720);pump=setInterval(()=>{context.fillRect(0,0,1280,720);},33);
+
+        report.phase='bare-url';const session=create(firstUrl);await session.start();await tracking(session);
+        report.bareUrl={status:session.status,pixels:pixels(session)};
+        assert(report.bareUrl.pixels.count>300&&report.bareUrl.pixels.width>100&&report.bareUrl.pixels.glError===0,'Bare generated URL did not render a wearable-scale frame.');
+        const bare=report.bareUrl.pixels;session.stop();
+        report.phase='calibration-comparison';const legacy=create(ordinaryUrl);await legacy.start();await tracking(legacy);report.legacyDefaults={status:legacy.status,pixels:pixels(legacy)};
+        const {fit,physicalFit}=report.generation.round.contract;
+        await legacy.setGlasses({url:ordinaryUrl,fit,physicalFit});await tracking(legacy);report.explicitDescriptor={status:legacy.status,pixels:pixels(legacy)};
+        report.embeddedScaleRatio=bare.width/Math.max(1,report.legacyDefaults.pixels.width);
+        assert(report.embeddedScaleRatio>8,'Embedded metre fit was not differentiated from ordinary GLB default model units.');
+        assert(Math.abs(bare.width-report.explicitDescriptor.pixels.width)<=2&&Math.abs(bare.count-report.explicitDescriptor.pixels.count)<=Math.max(20,bare.count*.03),'Bare generated URL differs from explicit matching descriptor calibration.');legacy.dispose();
+
+        report.phase='asset-swap';await session.start();await tracking(session);await session.setGlasses(secondUrl);await tracking(session);
+        report.swap={status:session.status,pixels:pixels(session)};
+        assert(report.swap.pixels.width>bare.width*1.05&&report.swap.pixels.glError===0,'Second generation did not adopt its own width calibration.');
+        report.phase='malformed-contract';let rejected=null;try{await session.setGlasses(badUrl);}catch(error){rejected=error.message;}await tracking(session);
+        report.malformed={rejected,status:session.status,pixels:pixels(session)};
+        assert(rejected?.includes('embedded glasses SDK contract')&&Math.abs(report.malformed.pixels.width-report.swap.pixels.width)<=2&&report.malformed.pixels.count>300,'Malformed metadata did not preserve the previous good model.');
+        session.stop();await session.start();await tracking(session);report.restartAfterReject={status:session.status,pixels:pixels(session)};
+        assert(report.restartAfterReject.pixels.count>300,'Restart after rejected asset did not retain good model readiness.');session.dispose();
+
+        report.phase='shaders';const optics=create(firstUrl,true);await optics.start();await tracking(optics);const gl=optics.canvas.getContext('webgl2');
+        report.shaders={templeAdaptation:shaderSources.some(code=>code.includes('uVtoEffectsEnabled')&&code.includes('uVtoBendAngle')),transmission:shaderSources.some(code=>/^#define USE_TRANSMISSION$/m.test(code)),failures:shaderFailures,glError:gl.getError(),previewHidden:optics.video.style.opacity==='0'};
+        assert(report.shaders.templeAdaptation&&report.shaders.transmission&&!shaderFailures.length&&report.shaders.glError===0&&report.shaders.previewHidden,'Generated GLB effects/optics did not compile and draw with default camera compositing.');optics.dispose();
+        report.errors=errors;assert(!errors.length,'Public SDK emitted unexpected asset errors.');
+        report.cleaned={tracksEnded:tracks.every(track=>track.readyState==='ended'),hostEmpty:host.children.length===0};
+        assert(report.cleaned.tracksEnded&&report.cleaned.hostEmpty,'Generated asset sessions leaked media tracks or DOM elements.');
+        report.phase='complete';report.pass=true;report.limitations='Actual browser export, GLB load, public SDK fitting and WebGL shaders with local synthetic face results/canvas video. No real-person camera, retail SKU, optical prescription, device or hand-contact acceptance.';
+        return report;
+      } catch(error) {
+        report.pass=false;report.error=error instanceof Error?error.message:String(error);return report;
+      } finally {
+        for(const session of sessions)session.dispose();for(const worker of workers)worker.terminate();for(const track of tracks)track.stop();
+        if(pump)clearInterval(pump);window.Worker=NativeWorker;navigator.mediaDevices.getUserMedia=originalMedia;HTMLCanvasElement.prototype.getContext=originalContext;
+        for(const entry of originalShaderMethods){entry.prototype.shaderSource=entry.shaderSource;entry.prototype.compileShader=entry.compileShader;}
+        for(const url of urls)URL.revokeObjectURL(url);host.remove();source.width=source.height=0;
+      }
+    });
+    report.pageErrors=pageErrors;report.writeRequests=writeRequests;report.pass=report.pass&&!pageErrors.length&&!writeRequests.length;return report;
+  } finally {page.off('pageerror',onError);page.off('request',onRequest);}
+}
+)(page);
+```
+### Page
+- Page URL: http://localhost:5173/
+- Page Title: Virtual Try-On · Vanilla SDK Example
+### Events
+- New console entries: .playwright-cli\console-2026-10-15T04-49-12-627Z.log#L17

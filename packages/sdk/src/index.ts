@@ -8,21 +8,28 @@
  */
 import type { VirtualTryOn, VirtualTryOnOptions, SessionStatus, TrackingHealth } from './types';
 import type { WorkerRequest, WorkerResponse } from './tracking/protocol';
-import { TRACKER_PROTOCOL_VERSION } from './tracking/protocol';
 import { GlassesRenderer } from './rendering/GlassesRenderer';
 import faceWorkerUrl from './tracking/face.worker.ts?worker&url';
 import { GlassesInteraction } from './interaction/GlassesInteraction';
 import { RuntimeMetrics } from './diagnostics/RuntimeMetrics';
+import { StartupMetrics } from './diagnostics/StartupMetrics';
+import {waitForResource,ResourceTimeoutError} from './assets/waitForResource';
+export {ResourceTimeoutError} from './assets/waitForResource';
+import type {ReadinessStage,WorkerStartupPerformance} from './types';
 import { QualityGovernor } from './diagnostics/QualityGovernor';
 import {FrameClock} from './tracking/FrameClock';
 import {SourceGeometry,type CaptureGeometry} from './tracking/SourceGeometry';
+import {TrackerWorkerOwner} from './tracking/TrackerWorkerOwner';
+import {CameraAccessError} from './camera/CameraAccessError';
+export {CameraAccessError} from './camera/CameraAccessError';
+export type {CameraErrorCode} from './camera/CameraAccessError';
 import {AssetReadiness} from './assets/AssetReadiness';
 import {CameraBrandmark} from './branding/CameraBrandmark';
 import {validateLensOptics} from './rendering/LensOptics';
 import {validateCameraCalibration} from './glasses/calibration';
 import {automaticHairEligible,eyeSpanPixels,RenderingBudget} from './diagnostics/FeaturePolicy';
 
-export type { VirtualTryOn, VirtualTryOnOptions, SessionStatus, GlassesAsset, GlassesFit, FitState, GlassesPlacement, GlassesInteractionState, TrackingHealth, RuntimePerformance, RuntimeTimingName, TimingDistribution,CameraCalibration } from './types';
+export type { VirtualTryOn, VirtualTryOnOptions, SessionStatus, GlassesAsset, GlassesFit, FitState, GlassesPlacement, GlassesInteractionState, TrackingHealth, RuntimePerformance, RuntimeTimingName, TimingDistribution,CameraCalibration,StartupPerformance,WorkerStartupPerformance,ReadinessStage } from './types';
 export {cameraCalibrationFromReference} from './glasses/calibration';
 export { mapCoverPoint } from './glasses/coordinates';
 export { deriveGlassesPose } from './glasses/pose';
@@ -46,6 +53,7 @@ export function createVirtualTryOn(input: VirtualTryOnOptions): VirtualTryOn {
   const options={...input,presentation:input.presentation??'auto',adaptiveQuality:input.adaptiveQuality??true,cameraCompositing:input.cameraCompositing??true,
     lensOptics:input.lensOptics??(input.cameraCompositing===false?false:{})};
   if (!options.container) throw new Error('A container element is required.');
+  if(options.resourceTimeoutMs!==undefined&&(!Number.isFinite(options.resourceTimeoutMs)||options.resourceTimeoutMs<100||options.resourceTimeoutMs>120000))throw new Error('resourceTimeoutMs must be between 100 and 120000 ms.');
   if(options.lensOptics&&!options.cameraCompositing)throw new Error('lensOptics requires cameraCompositing.');
   if(options.lensOptics)validateLensOptics(options.lensOptics);
   if(options.cameraCalibration)validateCameraCalibration(options.cameraCalibration);
@@ -71,9 +79,16 @@ export function createVirtualTryOn(input: VirtualTryOnOptions): VirtualTryOn {
   const brandmark = new CameraBrandmark(options.container);
 
   let status: SessionStatus = 'idle';
+  let readiness:ReadinessStage='idle';
+  const setReadiness=(stage:ReadinessStage)=>{if(stage!==readiness){readiness=stage;options.onReadinessChange?.(stage);}};
   let stream: MediaStream | null = null;
-  let worker: Worker | null = null;
+  const workerOwner=new TrackerWorkerOwner(()=>new Worker(faceWorkerUrl,{name:'vto-face-landmarker'}));
   let renderer: GlassesRenderer | null = null;
+  type Prepared={worker:Worker;ready:Extract<WorkerResponse,{type:'ready'}>;revision:number;hair:boolean;optionalSuppressed:boolean;restarts:number;durationMs:number;profile?:WorkerStartupPerformance};
+  type Preparation={promise:Promise<void>;abort:AbortController};
+  let prepared:Prepared|null=null;
+  let preparation:Preparation|null=null;
+  const hairEligible=()=>options.hairOcclusion!==false&&(options.hairOcclusion!==undefined||automaticHairEligible(renderer?.templeEffectMeshCount??0,navigator.hardwareConcurrency,(navigator as Navigator&{deviceMemory?:number}).deviceMemory));
   let disposed = false;
   let startAbort:AbortController|null=null;
   let generation = 0;
@@ -100,13 +115,13 @@ export function createVirtualTryOn(input: VirtualTryOnOptions): VirtualTryOn {
     return fallbackMediaTime??decodedMediaTime;
   };
   let lastCaptureAt = -Infinity;
-  let readyResolve: (() => void) | null = null;
-  let readyReject: ((error: Error) => void) | null = null;
   const assets=new AssetReadiness();
+  let assetRevision=0;
   let renderCallback = 0;
   let lastFitNotification = 0;
   let lastFaceResultAt: number | null = null;
   const metrics=new RuntimeMetrics(Boolean(options.onTrackingHealthChange));
+  const startupMetrics=new StartupMetrics(Boolean(options.onTrackingHealthChange));
   const quality=new QualityGovernor(true);
   const renderingBudget=new RenderingBudget();
   let compositingActive=false,hairEnabledForRun=false,optionalSuppressed=false;
@@ -126,7 +141,7 @@ export function createVirtualTryOn(input: VirtualTryOnOptions): VirtualTryOn {
     const now = performance.now();
     if (!force && now - lastHealthNotification < 500) return;
     lastHealthNotification = now;
-    options.onTrackingHealthChange?.({...health,pixelRatio:renderer?.pixelRatio,performance:metrics.snapshot(now)});
+    options.onTrackingHealthChange?.({...health,pixelRatio:renderer?.pixelRatio,performance:metrics.snapshot(now),startup:startupMetrics.snapshot(),workerStartup:health.workerStartup?{...health.workerStartup}:undefined});
   };
   const interaction = new GlassesInteraction(Boolean(options.handInteraction));
   let lastInteraction = '';
@@ -138,8 +153,8 @@ export function createVirtualTryOn(input: VirtualTryOnOptions): VirtualTryOn {
     const key = `${state.availability}/${state.phase}/${state.placement}/${Math.round(state.progress * 100)}/${state.handVisible}/${state.grippingHands}/${state.contactFingers}/${state.feedback}`;
     if (key === lastInteraction) return;
     lastInteraction = key;
-    if(options.adaptiveQuality&&options.handInteraction&&worker)worker.postMessage({type:'hand-activity',active:state.handVisible||state.phase!=='idle'} satisfies WorkerRequest);
-    if(hairEnabledForRun&&worker)worker.postMessage({type:'hair-activity',active:state.placement==='face'&&state.phase!=='dragging'&&state.phase!=='settling'} satisfies WorkerRequest);
+    if(options.adaptiveQuality&&options.handInteraction&&workerOwner.current)workerOwner.current.postMessage({type:'hand-activity',active:state.handVisible||state.phase!=='idle'} satisfies WorkerRequest);
+    if(hairEnabledForRun&&workerOwner.current)workerOwner.current.postMessage({type:'hair-activity',active:state.placement==='face'&&state.phase!=='dragging'&&state.phase!=='settling'} satisfies WorkerRequest);
     options.onInteractionChange?.(state);
   };
   const applyInteraction=()=>{
@@ -171,6 +186,7 @@ export function createVirtualTryOn(input: VirtualTryOnOptions): VirtualTryOn {
   const stopCamera = () => {
     brandmark.setVisible(false);
     generation++;
+    prepared=null;preparation?.abort.abort();preparation=null;
     const cancellation=new Error('Camera startup cancelled.');cancellation.name='AbortError';
     startAbort?.abort(cancellation);startAbort=null;
     if (frameCallback) {
@@ -201,19 +217,15 @@ export function createVirtualTryOn(input: VirtualTryOnOptions): VirtualTryOn {
     decodedMediaTime=undefined;
     lastFaceResultAt = null;
     renderer?.clearLocalAmbientSample();
-    if (worker) {
-      readyReject?.(new Error('Camera session stopped while the tracker was starting.'));
-      readyResolve = null;
-      readyReject = null;
-      worker.terminate();
-      worker = null;
+    if (workerOwner.current) {
+      workerOwner.release();
     }
-    readyResolve = null;
-    readyReject = null;
     interaction.reset();
     interaction.setAvailability(options.handInteraction ? 'loading' : 'disabled');
     applyInteraction();renderer?.setPose(null, video.videoWidth, video.videoHeight);
     compositingActive=false;hairEnabledForRun=false;
+    startupMetrics.reset();
+    health.workerStartup=undefined;health.preparation=undefined;
     health.phase='stopped';health.cameraCompositing='disabled';health.hairTracking='disabled';notifyHealth(true);
     metrics.reset(performance.now());
     quality.reset();renderer?.setPixelRatioCap(quality.pixelRatioCap);
@@ -222,6 +234,7 @@ export function createVirtualTryOn(input: VirtualTryOnOptions): VirtualTryOn {
     stopCamera();
     health.phase='failed';notifyHealth(true);
     setStatus('error', error.message);
+    setReadiness('error');
     options.onError?.(error);
   };
   const fallbackRendering=(reason:'render-failure'|'render-budget')=>{
@@ -255,7 +268,7 @@ export function createVirtualTryOn(input: VirtualTryOnOptions): VirtualTryOn {
       if(drawn&&(renderer?.hasShaderFailure||renderer?.hasVideoUploadFailure))throw new Error('Optional rendering shader/video upload failed.');
     } catch(error) {
       if(compositingActive||hairEnabledForRun) {
-        hairEnabledForRun=false;renderer?.disableHairOcclusion();worker?.postMessage({type:'disable-hair'} satisfies WorkerRequest);health.hairTracking='unavailable';
+        hairEnabledForRun=false;renderer?.disableHairOcclusion();workerOwner.current?.postMessage({type:'disable-hair'} satisfies WorkerRequest);health.hairTracking='unavailable';
         if(compositingActive)fallbackRendering('render-failure');else {health.featureFallback='render-failure';notifyHealth(true);}
       }
       else {fail(error instanceof Error?error:new Error('Rendering failed.'));}
@@ -263,6 +276,7 @@ export function createVirtualTryOn(input: VirtualTryOnOptions): VirtualTryOn {
     if(drawn&&compositingActive&&renderer?.cameraBackgroundReady){video.style.opacity='0';health.cameraCompositing='active';}
     if(drawn&&trackerReady) {
       const submittedAt=performance.now();
+      if(lastFaceResultAt!==null&&pendingSubmissionCaptureAt!==null&&!renderer?.hasShaderFailure&&!renderer?.hasVideoUploadFailure)startupMetrics.fitSubmitted(submittedAt);
       metrics.timing('renderSubmission',submittedAt-renderStartedAt,submittedAt);metrics.event('render',submittedAt);
       if(options.adaptiveQuality){quality.observeRender(submittedAt-renderStartedAt,submittedAt);renderer?.setPixelRatioCap(quality.pixelRatioCap);}
       if(compositingActive&&renderingBudget.observe(submittedAt-renderStartedAt,submittedAt,renderer?.pixelRatio??1))fallbackRendering('render-budget');
@@ -278,17 +292,79 @@ export function createVirtualTryOn(input: VirtualTryOnOptions): VirtualTryOn {
     video,
     canvas,
     get status() { return status; },
+    prepare() {
+      if(disposed)return Promise.reject(new Error('This SDK instance has been disposed.'));
+      if(starting?.generation===generation)return starting.promise;
+      if(stream)return Promise.resolve();
+      if(prepared?.revision===assetRevision&&prepared.worker===workerOwner.current)return Promise.resolve();
+      if(preparation)return preparation.promise;
+      const operation:Preparation={promise:Promise.resolve(),abort:new AbortController()};
+      preparation=operation;
+      operation.promise=Promise.resolve().then(async()=>{
+        const began=performance.now();
+        const check=()=>{if(disposed||operation.abort.signal.aborted||preparation!==operation){const e=new Error('Preparation cancelled.');e.name='AbortError';throw e;}};
+        let owned:Worker|null=null;
+        try {
+          check();setReadiness('loading-asset');check();
+          await waitForResource(assets.wait(operation.abort.signal),options.resourceTimeoutMs??20000,'asset',operation.abort.signal);check();
+          const revision=assetRevision,hair=hairEligible();
+          renderer?.resetFeatureFallbacks?.();renderer?.warmup?.();check();
+          setReadiness('loading-runtime');check();
+          let suppressOptional=false,restarts=0;
+          const initialize=async():Promise<void>=>{
+          check();
+          owned=workerOwner.acquire();const target=owned;
+          const startup=workerOwner.beginStartup(target,options.resourceTimeoutMs??(!suppressOptional&&(hair||options.handInteraction)?40000:20000),HAND_INITIALIZATION_TIMEOUT_MS);
+          const connection=workerOwner.connect(target,startup);
+          let ready:Prepared['ready']|undefined,profile:WorkerStartupPerformance|undefined;
+          let facePrepared=false,protocolMismatch=false;
+          connection.setHandlers({onMessage:({data})=>{
+            if(operation.abort.signal.aborted||workerOwner.current!==target)return;
+            if(data.type==='startup-stage'&&!starting&&!stream)setReadiness(data.stage);
+            if(data.type==='startup-profile')profile={...data.timings};
+            if(data.type==='face-ready')facePrepared=true;
+            if(data.type==='hand-loading')startup.armOptional('hand');
+            if(data.type==='hair-loading')startup.armOptional('hair');
+            if(data.type==='hand-ready'||data.type==='hand-unavailable'||data.type==='hair-ready'||data.type==='hair-unavailable')startup.clearOptional();
+            if(data.type==='error'){
+              startup.fail(new Error(data.message));
+              if(prepared?.worker===target){prepared=null;workerOwner.release(target);}
+            }
+            if(data.type==='ready'){if(startup.validateReady(data.protocolVersion)){ready=data;startup.complete();}else protocolMismatch=true;}
+          },onError:error=>{startup.fail(error);if(prepared?.worker===target){prepared=null;workerOwner.release(target);}}});
+          try {await connection.start({type:'init',delegate:suppressOptional?'CPU':'GPU',prewarmOptional:true,inputWidth:640,inputHeight:360,hairAuto:options.hairOcclusion===undefined,adaptiveQuality:options.adaptiveQuality,wasmRoot:options.wasmRoot??DEFAULT_WASM_ROOT,modelAssetPath:options.modelAssetPath??DEFAULT_MODEL,cacheRuntimeAssets:options.cacheRuntimeAssets??false,handModelAssetPath:!suppressOptional&&options.handInteraction?(options.handInteraction.modelAssetPath??DEFAULT_HAND_MODEL):undefined,hairModelAssetPath:!suppressOptional&&hair?(options.hairOcclusion||{}).modelAssetPath??DEFAULT_HAIR_MODEL:undefined});}
+          catch(error){
+            workerOwner.release(target);check();
+            if(facePrepared&&!protocolMismatch&&!suppressOptional&&(hair||options.handInteraction)&&revision===assetRevision){
+              suppressOptional=true;restarts++;return initialize();
+            }
+            throw error;
+          }
+          check();if(revision!==assetRevision)throw new Error('Glasses changed during preparation. Retry preparation.');
+          prepared={worker:target,ready:ready!,revision,hair,optionalSuppressed:suppressOptional,restarts,durationMs:performance.now()-began,profile};
+          };
+          await initialize();
+          if(!starting&&!stream){setStatus('idle');setReadiness('prepared');}check();
+        }catch(error){
+          if(owned)workerOwner.release(owned);
+          if(!disposed&&!operation.abort.signal.aborted&&!starting&&preparation===operation)fail(error instanceof Error?error:new Error('Preparation failed.'));
+          throw error;
+        }finally{if(preparation===operation)preparation=null;}
+      });
+      return operation.promise;
+    },
     async start() {
       if (disposed) throw new Error('This SDK instance has been disposed.');
       if (stream) return;
       if (!navigator.mediaDevices?.getUserMedia) {
-        const error = new Error('Camera access requires HTTPS or localhost and a supported browser.');
+        const error = new CameraAccessError('camera-unsupported');
         fail(error);
         throw error;
       }
       const run = ++generation;
       const abort=new AbortController();startAbort=abort;
       startedAt=performance.now();metrics.reset(startedAt);
+      startupMetrics.reset(startedAt);
       quality.reset();pendingInferenceCost=null;
       renderingBudget.reset();optionalSuppressed=false;
       frameClock.reset();
@@ -297,30 +373,41 @@ export function createVirtualTryOn(input: VirtualTryOnOptions): VirtualTryOn {
       cameraStalled=false;
       health={phase:'starting',delegate:null,framesSent:0,resultsReceived:0,restarts:0,lastLatencyMs:null,inputWidth:0,inputHeight:0,hairTracking:options.hairOcclusion?'loading':'disabled'};notifyHealth(true);
       setStatus('requesting-camera');
+      setReadiness('requesting-camera');
+      if(disposed||run!==generation)return;
       try {
-        const acquired = await navigator.mediaDevices.getUserMedia({ audio: false, video: { facingMode: 'user', width: { ideal: 1280 }, height: { ideal: 720 }, frameRate: { ideal: 30 } } });
+        startupMetrics.cameraRequested(performance.now());
+        let acquired:MediaStream;
+        try {acquired=await navigator.mediaDevices.getUserMedia({ audio: false, video: { facingMode: 'user', width: { ideal: 1280 }, height: { ideal: 720 }, frameRate: { ideal: 30 } } });}
+        catch(error){throw CameraAccessError.from(error);}
         if (disposed || run !== generation) {
           acquired.getTracks().forEach((track) => track.stop());
           return;
         }
         stream = acquired;
+        startupMetrics.cameraAcquired(performance.now());
         for (const track of acquired.getTracks()) track.addEventListener('ended', () => {
           if (run === generation && !disposed) fail(new Error('The camera stream ended.'));
         }, { once: true });
         video.srcObject = acquired;
-        await video.play();
+        try {await waitForResource(video.play(),options.resourceTimeoutMs??20000,'tracker',abort.signal);}
+        catch(error) {if(disposed||run!==generation)return;throw error;}
         if (disposed || run !== generation) return;
         brandmark.setVisible(true);
         sourceGeometry.observe(video.videoWidth,video.videoHeight);
-        await assets.wait(abort.signal);
+        startupMetrics.assetWaiting(performance.now());
+        setReadiness('loading-asset');
+        await waitForResource(assets.wait(abort.signal),options.resourceTimeoutMs??20000,'asset',abort.signal);
         if (disposed || run !== generation) return;
+        startupMetrics.assetReady(performance.now());
         renderer?.resetFeatureFallbacks?.();
         compositingActive=options.cameraCompositing;
         if(compositingActive)renderer?.setCameraVideo(video);
-        hairEnabledForRun=options.hairOcclusion!==false&&(options.hairOcclusion!==undefined||automaticHairEligible(renderer?.templeEffectMeshCount??0,navigator.hardwareConcurrency,(navigator as Navigator&{deviceMemory?:number}).deviceMemory));
+        hairEnabledForRun=hairEligible();
         health.hairTracking=hairEnabledForRun?'loading':'disabled';health.cameraCompositing=compositingActive?'active':'disabled';
         if(!hairEnabledForRun){renderer?.disableHairOcclusion?.();if(options.hairOcclusion!==false)health.featureFallback='device-or-asset';}
         setStatus('loading-tracker');
+        setReadiness('loading-runtime');
         try {renderer?.warmup?.();}
         catch {hairEnabledForRun=false;renderer?.disableHairOcclusion?.();fallbackRendering('render-failure');}
         if(disposed||run!==generation)return;
@@ -337,42 +424,50 @@ export function createVirtualTryOn(input: VirtualTryOnOptions): VirtualTryOn {
           if (disposed || run !== generation) throw new Error('The camera session ended while the tracker was restarting.');
           // MediaPipe's WASM loader uses importScripts, which module workers disable.
           // Vite bundles this worker to a self-contained classic-worker asset.
-          const activeWorker = new Worker(faceWorkerUrl, { name: 'vto-face-landmarker' });
-          worker = activeWorker;
+          const pendingPreparation=preparation?.promise;
+          if(pendingPreparation){try{await pendingPreparation;}catch{/* Explicit start can retry a failed preparation. */}}
+          if(disposed||run!==generation)throw new Error('Camera session stopped during preparation.');
+          const adopted=prepared?.worker===workerOwner.current&&prepared.revision===assetRevision&&prepared.hair===hairEnabledForRun&&recoveries===0?prepared:null;
+          prepared=null;
+          const activeWorker = adopted?.worker??workerOwner.acquire();
+          if(adopted){health.preparation={durationMs:adopted.durationMs,reused:true};health.workerStartup=adopted.profile?{...adopted.profile}:undefined;}
+          if(adopted?.optionalSuppressed){
+            optionalSuppressed=true;recoveries=adopted.restarts;health.restarts=recoveries;health.featureFallback='optional-startup';
+            renderer?.disableHairOcclusion?.();health.hairTracking=hairEnabledForRun?'unavailable':'disabled';
+          }
           trackerReady = false;
           handLoadingUntil=0;
           let initializing = true;
-          let facePrepared=false;
-          let optionalInitTimeout:number|null=null;
-          const warmedStages=new Set<'hand'|'hair'>();
-          const clearOptionalDeadline=()=>{if(optionalInitTimeout!==null)window.clearTimeout(optionalInitTimeout);optionalInitTimeout=null;};
-          const armOptionalDeadline=(stage:'hand'|'hair')=>{
-            if(!initializing||warmedStages.has(stage))return;
-            warmedStages.add(stage);clearOptionalDeadline();
-            optionalInitTimeout=window.setTimeout(()=>readyReject?.(new Error(`Optional ${stage} startup timed out.`)),HAND_INITIALIZATION_TIMEOUT_MS);
-          };
+          let facePrepared=Boolean(adopted);
+          let activationWarmupStarted:number|null=null;
+          const startup=workerOwner.beginStartup(activeWorker,options.resourceTimeoutMs??(!optionalSuppressed&&(options.handInteraction||hairEnabledForRun)?40_000:20_000),HAND_INITIALIZATION_TIMEOUT_MS);
+          const clearOptionalDeadline=()=>startup.clearOptional();
+          const armOptionalDeadline=(stage:'hand'|'hair')=>startup.armOptional(stage);
           let handsRequested = false;
           let hairRequested=false,firstFaceRendered=false;
           const requestHair=()=>{
-            if(!hairEnabledForRun||optionalSuppressed||hairRequested||!firstFaceRendered||disposed||worker!==activeWorker||run!==generation)return;
+            if(!hairEnabledForRun||optionalSuppressed||hairRequested||!firstFaceRendered||disposed||workerOwner.current!==activeWorker||run!==generation)return;
             hairRequested=true;activeWorker.postMessage({type:'enable-hair'} satisfies WorkerRequest);
           };
-          const ready = new Promise<void>((resolve, reject) => { readyResolve = resolve; readyReject = reject; });
-          const initTimeout = window.setTimeout(() => readyReject?.(new Error('Tracker startup timed out.')), !optionalSuppressed&&(options.handInteraction||hairEnabledForRun)?40_000:20_000);
-          activeWorker.onmessage = (event: MessageEvent<WorkerResponse>) => {
-            if (run !== generation || disposed || worker !== activeWorker) return;
+          const connection=workerOwner.connect(activeWorker,startup);
+          const onTrackerMessage = (event: MessageEvent<WorkerResponse>) => {
+            if (run !== generation || disposed || workerOwner.current !== activeWorker) return;
             const message = event.data;
             let captureMatches=true;
             if(message.type==='result'||message.type==='hand-result'||message.type==='hair-result') {
               observeSourceGeometry();
               captureMatches=!latestCapture||message.timestampMs===latestCapture.timestampMs&&sourceGeometry.matches(latestCapture.geometry);
             }
-            if(message.type==='face-ready'){facePrepared=true;}
+            if(message.type==='warmup-ready'&&adopted&&activationWarmupStarted!==null){
+              if(health.preparation)health.preparation.activationWarmupMs=performance.now()-activationWarmupStarted;
+              activationWarmupStarted=null;
+              onTrackerMessage({data:adopted.ready} as MessageEvent<WorkerResponse>);
+            }
+            else if(message.type==='startup-stage'){setReadiness(message.stage);}
+            else if(message.type==='startup-profile'){health.workerStartup={...message.timings};notifyHealth(true);}
+            else if(message.type==='face-ready'){facePrepared=true;}
             else if (message.type === 'ready') {
-              if (message.protocolVersion !== TRACKER_PROTOCOL_VERSION) {
-                readyReject?.(new Error('Tracker runtime version does not match the SDK. Reload the page to load the current worker.'));
-                readyResolve=null;readyReject=null;return;
-              }
+              if(!startup.validateReady(message.protocolVersion))return;
               initializing = false;
               handsRequested=message.handTracking==='ready'||message.handTracking==='unavailable'||optionalSuppressed;
               hairRequested=message.hairTracking!==undefined||optionalSuppressed;
@@ -381,11 +476,13 @@ export function createVirtualTryOn(input: VirtualTryOnOptions): VirtualTryOn {
               metrics.reset(performance.now());
               quality.reset();pendingInferenceCost=null;renderer?.setPixelRatioCap(quality.pixelRatioCap);
               health.startupMs=performance.now()-startedAt;
+              startupMetrics.trackerReady(performance.now());
               health.phase='running';health.delegate=message.delegate??null;notifyHealth(true);
-              readyResolve?.(); readyResolve = null; readyReject = null;
+              startup.complete();
               setStatus('searching', recoveries ? 'Pelacakan lokal tersambung kembali.' : undefined);
               interaction.setAvailability(optionalSuppressed&&options.handInteraction?'unavailable':message.handTracking ?? (options.handInteraction ? 'unavailable' : 'disabled'));
               notifyInteraction();
+              if(run===generation&&!disposed)setReadiness('ready');
             } else if (message.type === 'result') {
               const age = performance.now() - message.timestampMs;
               const receivedAt=performance.now();
@@ -422,11 +519,11 @@ export function createVirtualTryOn(input: VirtualTryOnOptions): VirtualTryOn {
               if (fitState?.visible && options.handInteraction && !handsRequested) {
                 handsRequested = true;
                 requestAnimationFrame(() => {
-                  if (!disposed && run === generation && worker === activeWorker) activeWorker.postMessage({type:'enable-hands'} satisfies WorkerRequest);
+                  if (!disposed && run === generation && workerOwner.current === activeWorker) activeWorker.postMessage({type:'enable-hands'} satisfies WorkerRequest);
                 });
               }
               if(hairEnabledForRun&&fitState?.visible&&!firstFaceRendered)requestAnimationFrame(()=>{
-                if(disposed||run!==generation||worker!==activeWorker)return;
+                if(disposed||run!==generation||workerOwner.current!==activeWorker)return;
                 firstFaceRendered=true;
                 if(!options.handInteraction||interaction.snapshot().availability==='unavailable'||interaction.snapshot().availability==='ready')requestHair();
               });
@@ -490,34 +587,43 @@ export function createVirtualTryOn(input: VirtualTryOnOptions): VirtualTryOn {
             } else if (message.type === 'error') {
               const failure = new Error(message.message);
               if (initializing) {
-                readyReject?.(failure); readyResolve = null; readyReject = null;
+                startup.fail(failure);
               } else {
                 recoverTracker(failure, run, activeWorker);
               }
             }
           };
-          activeWorker.onerror = () => {
-            const failure = new Error('Face tracking worker failed.');
+          connection.setHandlers({onMessage:onTrackerMessage,onError: failure => {
             if (initializing) {
-              readyReject?.(failure); readyResolve = null; readyReject = null;
+              startup.fail(failure);
             } else {
               recoverTracker(failure, run, activeWorker);
             }
-          };
-          activeWorker.postMessage({ type: 'init', delegate:recoveries?'CPU':'GPU',adaptiveQuality:options.adaptiveQuality,prewarmOptional:true,inputWidth:Math.min(640,video.videoWidth||640),inputHeight:Math.round((video.videoHeight||360)*Math.min(640,video.videoWidth||640)/(video.videoWidth||640)),hairAuto:options.hairOcclusion===undefined, wasmRoot: options.wasmRoot ?? DEFAULT_WASM_ROOT, modelAssetPath: options.modelAssetPath ?? DEFAULT_MODEL, cacheRuntimeAssets: options.cacheRuntimeAssets ?? false, handModelAssetPath: !optionalSuppressed&&options.handInteraction ? options.handInteraction.modelAssetPath ?? DEFAULT_HAND_MODEL : undefined,hairModelAssetPath:!optionalSuppressed&&hairEnabledForRun?(options.hairOcclusion||{}).modelAssetPath??DEFAULT_HAIR_MODEL:undefined } satisfies WorkerRequest);
-          try { await ready; }
+          }});
+          try {
+          if(adopted){
+            const width=Math.min(640,video.videoWidth||640),height=Math.min(1600,Math.round((video.videoHeight||360)*width/(video.videoWidth||640)));
+            if(width!==640||height!==360){
+              activationWarmupStarted=performance.now();setReadiness('warming-tracker');
+              if(disposed||run!==generation)return;
+              activeWorker.postMessage({type:'warmup',inputWidth:width,inputHeight:height} satisfies WorkerRequest);
+            }else onTrackerMessage({data:adopted.ready} as MessageEvent<WorkerResponse>);
+            await startup.ready;
+          }
+          else await connection.start({ type: 'init', delegate:recoveries?'CPU':'GPU',adaptiveQuality:options.adaptiveQuality,prewarmOptional:true,inputWidth:Math.min(640,video.videoWidth||640),inputHeight:Math.round((video.videoHeight||360)*Math.min(640,video.videoWidth||640)/(video.videoWidth||640)),hairAuto:options.hairOcclusion===undefined, wasmRoot: options.wasmRoot ?? DEFAULT_WASM_ROOT, modelAssetPath: options.modelAssetPath ?? DEFAULT_MODEL, cacheRuntimeAssets: options.cacheRuntimeAssets ?? false, handModelAssetPath: !optionalSuppressed&&options.handInteraction ? options.handInteraction.modelAssetPath ?? DEFAULT_HAND_MODEL : undefined,hairModelAssetPath:!optionalSuppressed&&hairEnabledForRun?(options.hairOcclusion||{}).modelAssetPath??DEFAULT_HAIR_MODEL:undefined } satisfies WorkerRequest);
+          }
           catch (error) {
-            if (worker === activeWorker) { activeWorker.terminate(); worker = null; }
+            workerOwner.release(activeWorker);
             if(facePrepared&&!optionalSuppressed&&(options.handInteraction||hairEnabledForRun)&&!disposed&&run===generation) {
               optionalSuppressed=true;recoveries++;health.restarts=recoveries;health.featureFallback='optional-startup';health.hairTracking='unavailable';
               renderer?.disableHairOcclusion?.();interaction.setAvailability(options.handInteraction?'unavailable':'disabled');notifyHealth(true);
-              window.clearTimeout(initTimeout);clearOptionalDeadline();return initializeTracker();
+              return initializeTracker();
             }
             throw error;
-          } finally { window.clearTimeout(initTimeout);clearOptionalDeadline(); }
+          }
         };
         recoverTracker = (failure, runId, failedWorker) => {
-          if (disposed || runId !== generation || worker !== failedWorker || recoveryTask) return;
+          if (disposed || runId !== generation || workerOwner.current !== failedWorker || recoveryTask) return;
           if (frameTimeout !== null) window.clearTimeout(frameTimeout);
           frameTimeout = null;
           if (captureTimeout !== null) window.clearTimeout(captureTimeout);
@@ -537,19 +643,19 @@ export function createVirtualTryOn(input: VirtualTryOnOptions): VirtualTryOn {
           optionalSuppressed=true;health.featureFallback='worker-recovery';renderer?.disableHairOcclusion?.();
           health.phase='recovering';health.restarts=recoveries;health.hairTracking=options.hairOcclusion?'loading':'disabled';notifyHealth(true);
           setStatus('loading-tracker', `Pelacakan macet. Menyambungkan ulang dengan CPU (${recoveries}/${MAX_WORKER_RECOVERIES})…`);
-          failedWorker.terminate();
-          worker = null;
+          workerOwner.release(failedWorker);
           recoveryTask = initializeTracker().catch((error: unknown) => {
             if (!disposed && runId === generation) fail(error instanceof Error ? error : new Error('Could not restart face tracking.'));
           }).finally(() => { recoveryTask = null; });
         };
         await initializeTracker();
+        if(disposed||run!==generation)return;
         const submitFrame = (now: number) => {
           if (disposed || run !== generation) return;
           observeSourceGeometry();
           if(frameClock.observe(mediaTime(),performance.now()))cameraStalled=false;
           renderer?.updateAmbientFromVideo(video, now);
-          if (!framePending && trackerReady && worker && video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA && (decodedMediaTime!==undefined||now-lastCaptureAt>=30)) {
+          if (!framePending && trackerReady && workerOwner.current && video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA && (decodedMediaTime!==undefined||now-lastCaptureAt>=30)) {
             if(!frameClock.canSubmit(mediaTime()))return;
             if (!processingContext) {fail(new Error('Local camera processing canvas is unavailable.'));return;}
             const width = Math.min(options.adaptiveQuality?quality.inputWidth:MAX_TRACKING_INPUT_WIDTH,video.videoWidth);
@@ -565,14 +671,14 @@ export function createVirtualTryOn(input: VirtualTryOnOptions): VirtualTryOn {
             frameClock.markSubmitted(captureMediaTime);
             metrics.timing('captureDraw',performance.now()-captureStartedAt,performance.now());
             lastCaptureAt = now;
-            const targetWorker = worker;
+            const targetWorker = workerOwner.current;
             // Capture and inference have distinct watchdogs. A capture failure
             // must not be misreported as a MediaPipe inference timeout.
             captureTimeout = window.setTimeout(() => recoverTracker(new Error('Local camera frame capture timed out.'), run, targetWorker), CAPTURE_TIMEOUT_MS);
             const timestampMs=performance.now();
             const bitmapStartedAt=performance.now();
             createImageBitmap(processingCanvas).then((bitmap) => {
-              if (disposed || run !== generation || worker !== targetWorker) { bitmap.close(); return; }
+              if (disposed || run !== generation || workerOwner.current !== targetWorker) { bitmap.close(); return; }
               if(captureTimeout!==null)window.clearTimeout(captureTimeout);captureTimeout=null;
               observeSourceGeometry();
               if(!sourceGeometry.matches(captureGeometry)) {bitmap.close();framePending=false;return;}
@@ -593,7 +699,7 @@ export function createVirtualTryOn(input: VirtualTryOnOptions): VirtualTryOn {
                 framePending = false;
                 fail(error instanceof Error ? error : new Error('Could not transfer the local camera frame to the worker.'));
               }
-            }).catch((error: unknown) => { if (disposed || run !== generation || worker !== targetWorker) return; framePending = false; fail(error instanceof Error ? error : new Error('Could not read the local camera frame.')); });
+            }).catch((error: unknown) => { if (disposed || run !== generation || workerOwner.current !== targetWorker) return; framePending = false; fail(error instanceof Error ? error : new Error('Could not read the local camera frame.')); });
           }
         };
         const schedule = (now: number,metadata?:VideoFrameCallbackMetadata) => {
@@ -628,17 +734,23 @@ export function createVirtualTryOn(input: VirtualTryOnOptions): VirtualTryOn {
     stop() {
       if (disposed) return;
       stopCamera();
+      setReadiness('cancelled');
       setStatus('idle');
     },
     async setGlasses(asset) {
       if (disposed) throw new Error('This SDK instance has been disposed.');
+      const revision=++assetRevision;
       interaction.reset();applyInteraction();
       let load:Promise<void>;
       try {
         renderer ??= new GlassesRenderer(canvas, { fit: options.fit, cameraFov: options.cameraFov, faceOcclusion: options.faceOcclusion, smoothing: options.smoothing, ambientLighting: options.ambientLighting, presentation:options.presentation,cameraCalibration:options.cameraCalibration,faceReferenceEyeSpanCm:options.faceReferenceEyeSpanCm,lensOptics:options.lensOptics,hairOcclusion:options.hairOcclusion!==false });
         load=renderer.load(asset);
       } catch(error) {load=Promise.reject(error);}
-      await assets.track(load);
+      const bounded=waitForResource(load,options.resourceTimeoutMs??20000,'asset').catch(error=>{
+        if(revision===assetRevision&&error instanceof Error&&error.name==='ResourceTimeoutError')renderer?.cancelPendingLoad?.();
+        throw error;
+      });
+      await assets.track(bounded);
     },
     setFit(fit) { if (disposed) throw new Error('This SDK instance has been disposed.'); renderer?.setFit(fit); },
     setPlacement(placement) {
@@ -655,6 +767,7 @@ export function createVirtualTryOn(input: VirtualTryOnOptions): VirtualTryOn {
       renderer = null;
       resizeObserver.disconnect();
       video.remove(); canvas.remove(); brandmark.dispose();
+      setReadiness('cancelled');
       setStatus('disposed');
     },
   };
@@ -686,9 +799,12 @@ export function createVirtualTryOn(input: VirtualTryOnOptions): VirtualTryOn {
     dispose();
   };
   const initialAsset = instance.setGlasses(options.glassesUrl);
+  const initialAssetRevision=assetRevision;
   void initialAsset.catch((error: unknown) => {
     const failure = error instanceof Error ? error : new Error('Could not load the glasses asset.');
-    options.onError?.(failure);
+    // An active start owns reporting its asset failure and camera cleanup.
+    // Idle authoring still reports the initial load; disposed consumers do not.
+    if (!disposed && !starting && !preparation && assetRevision===initialAssetRevision) options.onError?.(failure);
   });
   return instance;
 }

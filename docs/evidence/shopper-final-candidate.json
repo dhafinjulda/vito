@@ -1,0 +1,198 @@
+{
+  "recordedDate": "2026-10-15",
+  "sdkEntrySha256": "4f2e1ff673a8168adea1b2527050164298f21b0c20b1c756f218435fb84de83b",
+  "sdkModulePath": ".benchmarks/sdk-4f2e1ff673a8/vto-sdk.js",
+  "worker": [
+    {
+      "path": "packages/sdk/dist/assets/face-worker-ARxBZejM.js",
+      "sha256": "f75761dc67309eaf81c696a706a464ac294505c6d28e2b88a1f22399a7252807"
+    }
+  ],
+  "source": [
+    {
+      "path": "examples/vanilla/index.html",
+      "sha256": "5a019aeef590a1edc7e7739fd528280961f92f5aa28e3353c6d5974d8b015f89"
+    },
+    {
+      "path": "examples/vanilla/src/main.ts",
+      "sha256": "7a131e8a4a479570283edff4f8445f873e5b275896f1452ceec1ffb1e920d783"
+    },
+    {
+      "path": "examples/vanilla/src/style.css",
+      "sha256": "4fac92ef7941a75f339986b0a36f78516f9a2d7baa0cbb81020d06594681164a"
+    },
+    {
+      "path": "examples/vanilla/src/glasses-manifest.json",
+      "sha256": "1bd19814ff7c99b815b119689ecc327ff67a382d879bbe80967bd0c8e80ce85c"
+    },
+    {
+      "path": "THIRD_PARTY_NOTICES.md",
+      "sha256": "44ab48438bbf3d209da12ae26eba5e0eb641b409f9b0df9829ba7a57f75fa5c9"
+    }
+  ],
+  "assets": [
+    {
+      "id": "contour-acetate-demo",
+      "path": "examples/vanilla/public/glasses.glb",
+      "bytes": 256740,
+      "sha256": "c7b167a928186414dbe555da86995880abdf58d8ae8d394fcb9aec469626c12c",
+      "underProposed2MB": true,
+      "meshDefinitionTriangleCount": 10076,
+      "underProposed30000Triangles": true,
+      "images": 0,
+      "estimatedDecodedTextureBytes": 0,
+      "provenance": "Original procedural demonstration geometry. Dimensions and fit are authoring values, not measurements of a retail product.",
+      "license": "Original repository procedural demonstration; see THIRD_PARTY_NOTICES.md",
+      "nominalDimensionsMm": {
+        "frameWidth": 146,
+        "templeLength": 136
+      },
+      "dimensionsAreSupplierMeasured": false,
+      "fit": {
+        "referenceEyeSpan": 1.45,
+        "scale": 1,
+        "offset": [
+          0,
+          0,
+          0.087
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ]
+      },
+      "partNames": {
+        "rims": [
+          "rim-left",
+          "rim-right"
+        ],
+        "lenses": [
+          "clear-lens-left",
+          "clear-lens-right"
+        ],
+        "temples": [
+          "temple-left",
+          "temple-right"
+        ],
+        "rearTips": [
+          "ear-tip-left",
+          "ear-tip-right"
+        ],
+        "bridge": [
+          "bridge"
+        ]
+      }
+    },
+    {
+      "id": "linea-metal-demo",
+      "path": "examples/vanilla/public/glasses-alt.glb",
+      "bytes": 274468,
+      "sha256": "b9b3ed8cc0a7db73182ef266f23d6b71e0b8ed97bc8b220a3039315adbe3de25",
+      "underProposed2MB": true,
+      "meshDefinitionTriangleCount": 10652,
+      "underProposed30000Triangles": true,
+      "images": 0,
+      "estimatedDecodedTextureBytes": 0,
+      "provenance": "Original procedural demonstration geometry. Dimensions and fit are authoring values, not measurements of a retail product.",
+      "license": "Original repository procedural demonstration; see THIRD_PARTY_NOTICES.md",
+      "nominalDimensionsMm": {
+        "frameWidth": 146,
+        "templeLength": 136
+      },
+      "dimensionsAreSupplierMeasured": false,
+      "fit": {
+        "referenceEyeSpan": 1.45,
+        "scale": 1,
+        "offset": [
+          0,
+          0,
+          0.087
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ]
+      },
+      "partNames": {
+        "rims": [
+          "rim-left",
+          "rim-right"
+        ],
+        "lenses": [
+          "clear-lens-left",
+          "clear-lens-right"
+        ],
+        "temples": [
+          "temple-left",
+          "temple-right"
+        ],
+        "rearTips": [
+          "ear-tip-left",
+          "ear-tip-right"
+        ],
+        "bridge": [
+          "bridge"
+        ]
+      }
+    },
+    {
+      "id": "round-spectacles-cc0",
+      "path": "examples/vanilla/public/round-spectacles.glb",
+      "bytes": 3292684,
+      "sha256": "50838ff11a90973b3016d599a21df7b3806127f924c64b5016dccc2ce0402977",
+      "underProposed2MB": false,
+      "meshDefinitionTriangleCount": 11810,
+      "underProposed30000Triangles": true,
+      "images": 4,
+      "estimatedDecodedTextureBytes": null,
+      "provenance": "Poly Haven Round Spectacles; CC0. Bounds are derived from the downloadable glTF mesh and are for test fitting only, not a retail product specification.",
+      "license": "CC0",
+      "nominalDimensionsMm": {
+        "frameWidth": 158,
+        "templeLength": 149
+      },
+      "dimensionsAreSupplierMeasured": false,
+      "fit": {
+        "referenceEyeSpan": 0.0889,
+        "scale": 1,
+        "offset": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ]
+      },
+      "partNames": {
+        "rims": [],
+        "lenses": [],
+        "temples": [],
+        "rearTips": [],
+        "bridge": []
+      }
+    }
+  ],
+  "defaults": {
+    "presentation": "auto",
+    "adaptiveQuality": true,
+    "cameraCompositing": true,
+    "hair": "guarded automatic",
+    "hands": "opt-in disabled",
+    "runtimeCache": "reference example explicitly opts into pinned static cache",
+    "camera": "explicit start only; audio false",
+    "preparation": "explicit public prepare only; no camera"
+  },
+  "coordinateSystem": {
+    "pivot": "nose-bridge-contact",
+    "x": "toward-wearer's-left from front view",
+    "y": "up",
+    "z": "toward camera",
+    "units": "model units; referenceEyeSpan defines visual scale"
+  },
+  "scope": "Local candidate inventory only. No camera/person data, supplier measurement, retail asset or physical-device qualification. Candidate SDK built before snapshot; example/source hashes capture local reviewed reference integration."
+}

@@ -1,0 +1,24 @@
+{
+  "pass": true,
+  "report": {
+    "blocked": true,
+    "callsBeforeStart": 0,
+    "cameraCalls": 1,
+    "preparedWorkers": 2,
+    "workersAfterStart": 2,
+    "delegate": "CPU",
+    "restarts": 1,
+    "fallback": "optional-startup",
+    "hair": "unavailable",
+    "preparation": {
+      "durationMs": 7871.700000000186,
+      "reused": true
+    },
+    "results": 14,
+    "errors": [],
+    "released": true,
+    "pass": true
+  },
+  "scope": "Actual MediaPipe with primed face resources, deliberately stalled hair model request, public prepare then start. Blank synthetic video only; no physical camera/person data, appearance or speedup/device acceptance. Six-second test resource deadline; no raw output persisted.",
+  "sdkCandidate": "b87922de3e9c"
+}

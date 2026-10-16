@@ -1,0 +1,76 @@
+{
+  "pass": true,
+  "reports": [
+    {
+      "scenario": "fresh-glb",
+      "status": "tracking",
+      "acquisitions": 1,
+      "cleaned": true,
+      "errors": [],
+      "timing": {
+        "wallMs": 1122.2000000476837,
+        "cameraPendingMs": 0.9000000953674316,
+        "softwareControlledMs": 1121.2999999523163,
+        "assetReadyMs": 161.10000002384186,
+        "trackerReadyMs": 161.10000002384186,
+        "afterCameraMs": 1074.3999999761581,
+        "complete": true
+      },
+      "pass": true
+    },
+    {
+      "scenario": "repeat-glb",
+      "status": "tracking",
+      "acquisitions": 1,
+      "cleaned": true,
+      "errors": [],
+      "timing": {
+        "wallMs": 250.60000002384186,
+        "cameraPendingMs": 0.20000004768371582,
+        "softwareControlledMs": 250.39999997615814,
+        "assetReadyMs": 103.89999997615814,
+        "trackerReadyMs": 103.89999997615814,
+        "afterCameraMs": 211.20000004768372,
+        "complete": true
+      },
+      "pass": true
+    },
+    {
+      "scenario": "slow-cancel",
+      "status": "idle",
+      "acquisitions": 1,
+      "cleaned": true,
+      "errors": [],
+      "timing": {
+        "wallMs": null,
+        "cameraPendingMs": 0.10000002384185791,
+        "softwareControlledMs": null,
+        "assetReadyMs": null,
+        "trackerReadyMs": null,
+        "afterCameraMs": null,
+        "complete": false
+      },
+      "pass": true
+    },
+    {
+      "scenario": "failed-glb",
+      "status": "error",
+      "acquisitions": 1,
+      "cleaned": true,
+      "errors": [
+        "fetch for \"http://localhost:5173/glasses.glb?shopper=shared\" responded with 404: Not Found"
+      ],
+      "timing": {
+        "wallMs": null,
+        "cameraPendingMs": 0.20000004768371582,
+        "softwareControlledMs": null,
+        "assetReadyMs": null,
+        "trackerReadyMs": null,
+        "afterCameraMs": null,
+        "complete": false
+      },
+      "pass": true
+    }
+  ],
+  "scope": "Synthetic video/recognition; real GLB/GPU. Fresh/repeated GLB requests only, not cold/warm MediaPipe. Asset/tracker marks are public-start completion upper bounds; first usable is GPU-observed synthetic eyewear. No camera requested or personal data."
+}

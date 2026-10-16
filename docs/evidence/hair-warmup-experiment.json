@@ -1,0 +1,255 @@
+{
+  "pass": true,
+  "recordedDate": "2026-10-15",
+  "normalFirst": {
+    "pass": true,
+    "results": [
+      {
+        "pass": true,
+        "width": 640,
+        "height": 360,
+        "startup": {
+          "creationMs": 1960.7999999999302,
+          "warmupMs": 4764.100000000093
+        },
+        "samples": [
+          {
+            "wallMs": 50.59999999997672,
+            "inferenceMs": 50.59999999997672,
+            "width": 640,
+            "height": 360
+          },
+          {
+            "wallMs": 17.899999999906868,
+            "inferenceMs": 17.899999999906868,
+            "width": 640,
+            "height": 360
+          },
+          {
+            "wallMs": 18.900000000023283,
+            "inferenceMs": 18.900000000023283,
+            "width": 640,
+            "height": 360
+          }
+        ]
+      },
+      {
+        "pass": true,
+        "width": 256,
+        "height": 256,
+        "startup": {
+          "creationMs": 181.10000000009313,
+          "warmupMs": 384.5
+        },
+        "samples": [
+          {
+            "wallMs": 56.800000000046566,
+            "inferenceMs": 56.59999999997672,
+            "width": 640,
+            "height": 360
+          },
+          {
+            "wallMs": 25.100000000093132,
+            "inferenceMs": 25.100000000093132,
+            "width": 640,
+            "height": 360
+          },
+          {
+            "wallMs": 23.900000000023283,
+            "inferenceMs": 23.900000000023283,
+            "width": 640,
+            "height": 360
+          }
+        ]
+      },
+      {
+        "pass": true,
+        "width": 256,
+        "height": 256,
+        "startup": {
+          "creationMs": 238.70000000006985,
+          "warmupMs": 397.5
+        },
+        "samples": [
+          {
+            "wallMs": 54.90000000002328,
+            "inferenceMs": 54.70000000006985,
+            "width": 640,
+            "height": 360
+          },
+          {
+            "wallMs": 24.800000000046566,
+            "inferenceMs": 24.800000000046566,
+            "width": 640,
+            "height": 360
+          },
+          {
+            "wallMs": 22.400000000023283,
+            "inferenceMs": 22.199999999953434,
+            "width": 640,
+            "height": 360
+          }
+        ]
+      },
+      {
+        "pass": true,
+        "width": 640,
+        "height": 360,
+        "startup": {
+          "creationMs": 222.70000000006985,
+          "warmupMs": 400.69999999995343
+        },
+        "samples": [
+          {
+            "wallMs": 49.29999999993015,
+            "inferenceMs": 49.09999999997672,
+            "width": 640,
+            "height": 360
+          },
+          {
+            "wallMs": 27.900000000023283,
+            "inferenceMs": 27.900000000023283,
+            "width": 640,
+            "height": 360
+          },
+          {
+            "wallMs": 23.5,
+            "inferenceMs": 23.5,
+            "width": 640,
+            "height": 360
+          }
+        ]
+      }
+    ],
+    "scope": "Source-level HairTracker experiment; alternating normal/small/small/normal warmup with three 640x360 synthetic blank inferences each. Retained browser HTTP/GPU caches, uncontrolled network, GPU requested with existing CPU fallback. No face/camera, appearance acceptance or production change. Wall timings include mask copy, not GPU completion."
+  },
+  "smallFirst": {
+    "pass": true,
+    "reverse": true,
+    "results": [
+      {
+        "pass": true,
+        "width": 256,
+        "height": 256,
+        "startup": {
+          "creationMs": 1475,
+          "warmupMs": 4969.099999999977
+        },
+        "samples": [
+          {
+            "wallMs": 52.300000000046566,
+            "inferenceMs": 52.20000000006985,
+            "width": 640,
+            "height": 360
+          },
+          {
+            "wallMs": 19.20000000006985,
+            "inferenceMs": 19.20000000006985,
+            "width": 640,
+            "height": 360
+          },
+          {
+            "wallMs": 18.599999999976717,
+            "inferenceMs": 18.599999999976717,
+            "width": 640,
+            "height": 360
+          }
+        ]
+      },
+      {
+        "pass": true,
+        "width": 640,
+        "height": 360,
+        "startup": {
+          "creationMs": 190.40000000002328,
+          "warmupMs": 445.70000000006985
+        },
+        "samples": [
+          {
+            "wallMs": 57.90000000002328,
+            "inferenceMs": 57.800000000046566,
+            "width": 640,
+            "height": 360
+          },
+          {
+            "wallMs": 25.400000000023283,
+            "inferenceMs": 25.400000000023283,
+            "width": 640,
+            "height": 360
+          },
+          {
+            "wallMs": 26.099999999976717,
+            "inferenceMs": 26.099999999976717,
+            "width": 640,
+            "height": 360
+          }
+        ]
+      },
+      {
+        "pass": true,
+        "width": 640,
+        "height": 360,
+        "startup": {
+          "creationMs": 243.40000000002328,
+          "warmupMs": 406.30000000004657
+        },
+        "samples": [
+          {
+            "wallMs": 61.40000000002328,
+            "inferenceMs": 61.40000000002328,
+            "width": 640,
+            "height": 360
+          },
+          {
+            "wallMs": 26.199999999953434,
+            "inferenceMs": 26.199999999953434,
+            "width": 640,
+            "height": 360
+          },
+          {
+            "wallMs": 28.900000000023283,
+            "inferenceMs": 28.900000000023283,
+            "width": 640,
+            "height": 360
+          }
+        ]
+      },
+      {
+        "pass": true,
+        "width": 256,
+        "height": 256,
+        "startup": {
+          "creationMs": 248.20000000006985,
+          "warmupMs": 416.80000000004657
+        },
+        "samples": [
+          {
+            "wallMs": 53.300000000046566,
+            "inferenceMs": 53.10000000009313,
+            "width": 640,
+            "height": 360
+          },
+          {
+            "wallMs": 25.70000000006985,
+            "inferenceMs": 25.70000000006985,
+            "width": 640,
+            "height": 360
+          },
+          {
+            "wallMs": 21.099999999976717,
+            "inferenceMs": 21,
+            "width": 640,
+            "height": 360
+          }
+        ]
+      }
+    ],
+    "scope": "Source-level HairTracker experiment; ABBA warmup order, reversed via ?reverse, with three 640x360 synthetic blank inferences each. Retained browser HTTP/GPU caches within each browser, uncontrolled network and shared driver caches, GPU requested with existing CPU fallback. No face/camera, appearance acceptance or production change. Wall timings include mask copy, not GPU completion."
+  },
+  "decision": "Keep production warmup dimensions. First-in-browser cost persists with smaller scratch input; no size-based speedup established.",
+  "hashes": {
+    "scripts/benchmark-hair-warmup.worker.ts": "be8d71c3876aedcdfd3d988ee193d85ea649aeebae3614458c71b7d1d99cd6a9",
+    "packages/sdk/src/tracking/HairTracker.ts": "3eee794388ef6d5cb58b37d280c3ab2376e61bc15f65aa8f8de77c2e302b60e5",
+    ".benchmarks/hair-warmup/worker.js": "e48b37130a8a8930edbe5d5240b4e308c93a481551d346043bafadd056f4135d"
+  }
+}

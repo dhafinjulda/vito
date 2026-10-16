@@ -1,0 +1,333 @@
+{
+  "date": "2026-10-15T04:52:53.536Z",
+  "url": "http://localhost:5173/",
+  "synthetic": true,
+  "cameraRequested": false,
+  "publicSdk": true,
+  "phase": "complete",
+  "generation": {
+    "elapsedMs": 67.3000000002794,
+    "roundBytes": 234104,
+    "rectangleBytes": 234148,
+    "round": {
+      "contract": {
+        "version": 1,
+        "units": "meters",
+        "pivot": "nose-bridge",
+        "fit": {
+          "referenceEyeSpan": 0.08891718,
+          "scale": 1,
+          "offset": [
+            0,
+            0,
+            0.003
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ]
+        },
+        "physicalFit": {
+          "frontWidthMm": 146,
+          "modelFrontWidth": 0.1459999978542328,
+          "source": "approximation"
+        }
+      },
+      "parts": [
+        {
+          "name": "rim-left",
+          "materialTypes": [
+            "MeshPhysicalMaterial"
+          ]
+        },
+        {
+          "name": "lens-left",
+          "materialTypes": [
+            "MeshPhysicalMaterial"
+          ]
+        },
+        {
+          "name": "endpiece-left",
+          "materialTypes": [
+            "MeshPhysicalMaterial"
+          ]
+        },
+        {
+          "name": "hinge-left",
+          "materialTypes": [
+            "MeshStandardMaterial"
+          ]
+        },
+        {
+          "name": "temple-left",
+          "materialTypes": [
+            "MeshPhysicalMaterial"
+          ]
+        },
+        {
+          "name": "ear-tip-left",
+          "materialTypes": [
+            "MeshPhysicalMaterial"
+          ]
+        },
+        {
+          "name": "rim-right",
+          "materialTypes": [
+            "MeshPhysicalMaterial"
+          ]
+        },
+        {
+          "name": "lens-right",
+          "materialTypes": [
+            "MeshPhysicalMaterial"
+          ]
+        },
+        {
+          "name": "endpiece-right",
+          "materialTypes": [
+            "MeshPhysicalMaterial"
+          ]
+        },
+        {
+          "name": "hinge-right",
+          "materialTypes": [
+            "MeshStandardMaterial"
+          ]
+        },
+        {
+          "name": "temple-right",
+          "materialTypes": [
+            "MeshPhysicalMaterial"
+          ]
+        },
+        {
+          "name": "ear-tip-right",
+          "materialTypes": [
+            "MeshPhysicalMaterial"
+          ]
+        },
+        {
+          "name": "bridge",
+          "materialTypes": [
+            "MeshPhysicalMaterial"
+          ]
+        }
+      ]
+    },
+    "rectangle": {
+      "contract": {
+        "version": 1,
+        "units": "meters",
+        "pivot": "nose-bridge",
+        "fit": {
+          "referenceEyeSpan": 0.08891718,
+          "scale": 1,
+          "offset": [
+            0,
+            0,
+            0.003
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ]
+        },
+        "physicalFit": {
+          "frontWidthMm": 170,
+          "modelFrontWidth": 0.17000000178813934,
+          "source": "approximation"
+        }
+      },
+      "parts": [
+        {
+          "name": "rim-left",
+          "materialTypes": [
+            "MeshPhysicalMaterial"
+          ]
+        },
+        {
+          "name": "lens-left",
+          "materialTypes": [
+            "MeshPhysicalMaterial"
+          ]
+        },
+        {
+          "name": "endpiece-left",
+          "materialTypes": [
+            "MeshPhysicalMaterial"
+          ]
+        },
+        {
+          "name": "hinge-left",
+          "materialTypes": [
+            "MeshStandardMaterial"
+          ]
+        },
+        {
+          "name": "temple-left",
+          "materialTypes": [
+            "MeshPhysicalMaterial"
+          ]
+        },
+        {
+          "name": "ear-tip-left",
+          "materialTypes": [
+            "MeshPhysicalMaterial"
+          ]
+        },
+        {
+          "name": "rim-right",
+          "materialTypes": [
+            "MeshPhysicalMaterial"
+          ]
+        },
+        {
+          "name": "lens-right",
+          "materialTypes": [
+            "MeshPhysicalMaterial"
+          ]
+        },
+        {
+          "name": "endpiece-right",
+          "materialTypes": [
+            "MeshPhysicalMaterial"
+          ]
+        },
+        {
+          "name": "hinge-right",
+          "materialTypes": [
+            "MeshStandardMaterial"
+          ]
+        },
+        {
+          "name": "temple-right",
+          "materialTypes": [
+            "MeshPhysicalMaterial"
+          ]
+        },
+        {
+          "name": "ear-tip-right",
+          "materialTypes": [
+            "MeshPhysicalMaterial"
+          ]
+        },
+        {
+          "name": "bridge",
+          "materialTypes": [
+            "MeshPhysicalMaterial"
+          ]
+        }
+      ]
+    }
+  },
+  "bareUrl": {
+    "status": "tracking",
+    "pixels": {
+      "count": 6644,
+      "width": 176,
+      "height": 56,
+      "bounds": [
+        232,
+        173,
+        407,
+        228
+      ],
+      "glError": 0
+    }
+  },
+  "legacyDefaults": {
+    "status": "tracking",
+    "pixels": {
+      "count": 37,
+      "width": 12,
+      "height": 5,
+      "bounds": [
+        314,
+        204,
+        325,
+        208
+      ],
+      "glError": 0
+    }
+  },
+  "explicitDescriptor": {
+    "status": "tracking",
+    "pixels": {
+      "count": 6644,
+      "width": 176,
+      "height": 56,
+      "bounds": [
+        232,
+        173,
+        407,
+        228
+      ],
+      "glError": 0
+    }
+  },
+  "embeddedScaleRatio": 14.666666666666666,
+  "swap": {
+    "status": "tracking",
+    "pixels": {
+      "count": 7109,
+      "width": 206,
+      "height": 47,
+      "bounds": [
+        217,
+        178,
+        422,
+        224
+      ],
+      "glError": 0
+    }
+  },
+  "malformed": {
+    "rejected": "Invalid embedded glasses SDK contract. Expected version 1, meters, nose-bridge pivot, and bounded fit/physicalFit metadata.",
+    "status": "tracking",
+    "pixels": {
+      "count": 7109,
+      "width": 206,
+      "height": 47,
+      "bounds": [
+        217,
+        178,
+        422,
+        224
+      ],
+      "glError": 0
+    }
+  },
+  "restartAfterReject": {
+    "status": "tracking",
+    "pixels": {
+      "count": 7109,
+      "width": 206,
+      "height": 47,
+      "bounds": [
+        217,
+        178,
+        422,
+        224
+      ],
+      "glError": 0
+    }
+  },
+  "shaders": {
+    "templeAdaptation": true,
+    "transmission": true,
+    "failures": [],
+    "glError": 0,
+    "previewHidden": true
+  },
+  "errors": [],
+  "cleaned": {
+    "tracksEnded": true,
+    "hostEmpty": true
+  },
+  "pass": true,
+  "limitations": "Actual browser export, GLB load, public SDK fitting and WebGL shaders with local synthetic face results/canvas video. No real-person camera, retail SKU, optical prescription, device or hand-contact acceptance.",
+  "pageErrors": [],
+  "writeRequests": []
+}

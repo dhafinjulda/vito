@@ -1,0 +1,41 @@
+
+> vito-sdk@0.1.1 test C:\Projects\VTO\packages\sdk
+> vitest run "--" "test/session.test.ts"
+
+
+ RUN  v3.1.4 C:/Projects/VTO/packages/sdk
+
+ ✓ test/asset-readiness.test.ts (9 tests) 25ms
+ ✓ test/runtime-assets.test.ts (5 tests) 34ms
+ ✓ test/hand-identity.test.ts (10 tests) 21ms
+ ✓ test/temple-effects.test.ts (6 tests) 30ms
+ ✓ test/pose-presentation.test.ts (22 tests) 57ms
+ ✓ test/hand-grip.test.ts (10 tests) 34ms
+ ✓ test/two-hand-interaction.test.ts (15 tests) 70ms
+ ✓ test/premium-rendering.test.ts (4 tests) 44ms
+ ✓ test/tracking-refinement.test.ts (11 tests) 70ms
+ ✓ test/interaction.test.ts (11 tests) 53ms
+ ✓ test/worker-hands.test.ts (13 tests) 792ms
+   ✓ optional hands in the shared face worker > does not initialize a hand task in the default path and closes each shared bitmap once  444ms
+ ✓ test/fitting.test.ts (18 tests) 119ms
+ ✓ test/asset-metadata.test.ts (29 tests) 73ms
+ ✓ test/hand-cadence.test.ts (7 tests) 22ms
+ ✓ test/hand-occluder.test.ts (16 tests) 134ms
+ ✓ test/hair-tracker.test.ts (3 tests) 36ms
+ ✓ test/calibration.test.ts (4 tests) 30ms
+ ✓ test/ambient-estimator.test.ts (3 tests) 24ms
+ ✓ test/quality-governor.test.ts (4 tests) 12ms
+ ✓ test/source-geometry.test.ts (3 tests) 13ms
+ ✓ test/runtime-metrics.test.ts (4 tests) 24ms
+ ✓ test/feature-policy.test.ts (3 tests) 18ms
+ ✓ test/pose.test.ts (3 tests) 13ms
+ ✓ test/coordinates.test.ts (2 tests) 12ms
+ ✓ test/frame-clock.test.ts (2 tests) 10ms
+ ✓ test/head-occlusion.test.ts (6 tests) 1467ms
+   ✓ rear temple occlusion > covers the full hook surface at yaw -84 / pitch 0 / roll 0  478ms
+ ✓ test/session.test.ts (42 tests) 419ms
+
+ Test Files  27 passed (27)
+      Tests  265 passed (265)
+   Start at  19:32:41
+   Duration  6.11s (transform 5.23s, setup 0ms, collect 15.60s, tests 3.66s, environment 3.95s, prepare 12.02s)

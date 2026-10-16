@@ -27,8 +27,9 @@ let cadence:HandCadence|null=null;
 const hair=new HairTracker();
 let hairPath:string|undefined,hairStarting=false,hairAvailable=false,hairActive=true;
 let warmWidth=640,warmHeight=360;
+let activationWarmed=false,hasLiveFrame=false;
 
-async function warmTask(task: FaceLandmarker | HandLandmarker) {
+async function warmTask(task: FaceLandmarker | HandLandmarker,timestampMs=0) {
   const blank = new OffscreenCanvas(warmWidth, warmHeight);
   let bitmap:ImageBitmap|undefined;
   try {
@@ -36,7 +37,7 @@ async function warmTask(task: FaceLandmarker | HandLandmarker) {
     if (!context) throw new Error('Tracker warmup canvas unavailable.');
     context.fillStyle = '#808080'; context.fillRect(0, 0, warmWidth, warmHeight);
     bitmap=await createImageBitmap(blank);
-    task.detectForVideo(bitmap, 0);
+    task.detectForVideo(bitmap, timestampMs);
   } finally {bitmap?.close();blank.width = blank.height = 0; }
 }
 
@@ -61,6 +62,7 @@ self.onmessage = async (event: MessageEvent<WorkerRequest>) => {
   const message = event.data;
   try {
     if (message.type === 'init') {
+      activationWarmed=false;hasLiveFrame=false;
       revision++;handStarting=false;handFiles=undefined;handModelPath=message.handModelAssetPath;
       warmWidth=Number.isInteger(message.inputWidth)&&message.inputWidth!>0?Math.min(640,message.inputWidth!):640;
       warmHeight=Number.isInteger(message.inputHeight)&&message.inputHeight!>0?Math.min(1600,message.inputHeight!):360;
@@ -69,8 +71,13 @@ self.onmessage = async (event: MessageEvent<WorkerRequest>) => {
       landmarker?.close(); handLandmarker?.close(); handLandmarker = undefined; lastHandAt = -Infinity;
       // Optional hand safety applies even when quality adaptation is disabled.
       cadence=new HandCadence(message.adaptiveQuality??false);
+      self.postMessage({type:'startup-stage',stage:'loading-runtime'} satisfies WorkerResponse);
+      let phaseStarted=performance.now();
       const files = await FilesetResolver.forVisionTasks(message.wasmRoot);
+      const filesetMs=performance.now()-phaseStarted;phaseStarted=performance.now();
       const runtime = await prepareRuntimeAssets(files, message.modelAssetPath, message.cacheRuntimeAssets ?? false);
+      const resourcePreparationMs=performance.now()-phaseStarted;phaseStarted=performance.now();
+      self.postMessage({type:'startup-stage',stage:'initializing-tracker'} satisfies WorkerResponse);
       try {
         const modelOptions = (delegate: 'GPU' | 'CPU') => runtime.modelAssetBuffer
           ? { modelAssetBuffer: runtime.modelAssetBuffer.slice(), delegate }
@@ -99,7 +106,10 @@ self.onmessage = async (event: MessageEvent<WorkerRequest>) => {
       }
       // Compile the face graph in the default path as well. This blank scratch
       // frame avoids charging first-use compilation to live-result freshness.
+      const faceCreationMs=performance.now()-phaseStarted;phaseStarted=performance.now();
+      self.postMessage({type:'startup-stage',stage:'warming-tracker'} satisfies WorkerResponse);
       try { await warmTask(landmarker!); } catch { /* Actual camera inference can retry. */ }
+      const faceWarmupMs=performance.now()-phaseStarted;phaseStarted=performance.now();
       handFiles=files;
       if(message.prewarmOptional) {
         const initializingRevision=revision;
@@ -114,7 +124,23 @@ self.onmessage = async (event: MessageEvent<WorkerRequest>) => {
         }
         if(initializingRevision!==revision)return;
       }
+      self.postMessage({type:'startup-profile',timings:{filesetMs,resourcePreparationMs,faceCreationMs,faceWarmupMs,optionalWarmupMs:performance.now()-phaseStarted,...(message.prewarmOptional&&message.hairModelAssetPath?{hairCreationMs:hair.startupTimings.creationMs,hairWarmupMs:hair.startupTimings.warmupMs}:{})}} satisfies WorkerResponse);
       self.postMessage({ type: 'ready', protocolVersion:TRACKER_PROTOCOL_VERSION, delegate:activeDelegate, handTracking: handModelPath ? message.prewarmOptional?handLandmarker?'ready':'unavailable':'loading' : 'disabled',...(message.prewarmOptional?{hairTracking:hairAvailable?'ready':message.hairModelAssetPath?'unavailable':'disabled'}:{} ) } satisfies WorkerResponse);
+    } else if(message.type==='warmup') {
+      if(activationWarmed||hasLiveFrame)throw new Error('Activation warmup must precede live frames and run once.');
+      if(!landmarker||!Number.isInteger(message.inputWidth)||!Number.isInteger(message.inputHeight)||message.inputWidth<1||message.inputWidth>640||message.inputHeight<1||message.inputHeight>1600)throw new Error('Invalid tracker warmup geometry.');
+      activationWarmed=true;
+      warmWidth=message.inputWidth;warmHeight=message.inputHeight;
+      const warmingRevision=revision;
+      // Only the camera-free-to-active handoff uses timestamp 1. Initial blank
+      // inference used 0; live frames have later performance-clock timestamps.
+      await warmTask(landmarker,1);
+      if(warmingRevision!==revision)return;
+      if(handLandmarker)await warmTask(handLandmarker,1);
+      if(warmingRevision!==revision)return;
+      if(hairAvailable)await hair.warmup(warmWidth,warmHeight,1);
+      if(warmingRevision!==revision)return;
+      self.postMessage({type:'warmup-ready'} satisfies WorkerResponse);
     } else if (message.type === 'enable-hands') {
       if (!handModelPath || !handFiles || handStarting || handLandmarker) return;
       handStarting=true;
@@ -144,6 +170,7 @@ self.onmessage = async (event: MessageEvent<WorkerRequest>) => {
     } else if(message.type==='hand-activity') {
       cadence?.setActive(message.active);
     } else if (message.type === 'frame') {
+      hasLiveFrame=true;
       try {
         const faceStartedAt=performance.now();
         const result = landmarker?.detectForVideo(message.bitmap, message.timestampMs);

@@ -9,6 +9,7 @@
 import {ImageSegmenter,type FilesetResolver} from '@mediapipe/tasks-vision';
 type Files=Awaited<ReturnType<typeof FilesetResolver.forVisionTasks>>;
 export class HairTracker {
+  startupTimings:{creationMs:number|null;warmupMs:number|null}={creationMs:null,warmupMs:null};
   private task:ImageSegmenter|null=null;
   private revision=0;
   private hairIndex=-1;
@@ -17,6 +18,8 @@ export class HairTracker {
   private cost=0;
   private samples=0;
   async initialize(files:Files,path:string,delegate:'GPU'|'CPU',width=640,height=360):Promise<boolean> {
+    this.startupTimings={creationMs:null,warmupMs:null};
+    const started=performance.now();
     const revision=++this.revision;let expired=false,timer:ReturnType<typeof setTimeout>;
     const create=(async()=>{
       try{return await ImageSegmenter.createFromOptions(files,{baseOptions:{modelAssetPath:path,delegate},runningMode:'VIDEO',outputConfidenceMasks:true,outputCategoryMask:false});}
@@ -24,16 +27,23 @@ export class HairTracker {
     })().then(task=>{if(expired||revision!==this.revision){task?.close();return null;}return task;});
     try {
       const task=await Promise.race([create,new Promise<null>(resolve=>{timer=setTimeout(()=>{expired=true;resolve(null);},8000);})]);
+      this.startupTimings.creationMs=performance.now()-started;
       if(!task||revision!==this.revision){task?.close();return false;}
       const index=task.getLabels().findIndex(label=>label.toLowerCase()==='hair');
       if(index<0){task.close();return false;}
       this.task=task;this.hairIndex=index;this.lastAt=-Infinity;this.interval=300;this.cost=0;this.samples=0;
-      const canvas=new OffscreenCanvas(width,height),context=canvas.getContext('2d');let bitmap:ImageBitmap|undefined;
-      try {if(!context)throw new Error('Hair warmup canvas unavailable.');context.fillStyle='#808080';context.fillRect(0,0,width,height);bitmap=await createImageBitmap(canvas);task.segmentForVideo(bitmap,0,()=>{});}
-      finally {bitmap?.close();canvas.width=canvas.height=0;}
+      const warmStarted=performance.now();
+      await this.warmup(width,height);
+      this.startupTimings.warmupMs=performance.now()-warmStarted;
       return true;
     } catch {this.close();return false;}
     finally {clearTimeout(timer!);}
+  }
+  async warmup(width:number,height:number,timestampMs=0):Promise<void> {
+    const task=this.task;if(!task)return;
+    const canvas=new OffscreenCanvas(width,height),context=canvas.getContext('2d');let bitmap:ImageBitmap|undefined;
+    try {if(!context)throw new Error('Hair warmup canvas unavailable.');context.fillStyle='#808080';context.fillRect(0,0,width,height);bitmap=await createImageBitmap(canvas);task.segmentForVideo(bitmap,timestampMs,()=>{});}
+    finally {bitmap?.close();canvas.width=canvas.height=0;}
   }
   sample(bitmap:ImageBitmap,timestampMs:number):{data:Uint8Array;width:number;height:number;inferenceMs:number}|null {
     if(!this.task||timestampMs-this.lastAt<this.interval)return null;

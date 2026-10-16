@@ -64,6 +64,7 @@ export class GlassesRenderer {
   private readonly hairMask:HairMask|null;
   private readonly drawingSize=new THREE.Vector2();
   private readonly loader = new GLTFLoader();
+  private assetAbort:AbortController|null=null;
   private readonly smoother = new PoseSmoother();
   private readonly presentation:PosePresentation;
   private readonly referenceHead=new THREE.Matrix4();
@@ -143,7 +144,18 @@ export class GlassesRenderer {
     const descriptorFit = descriptor.fit ? resolveFit(descriptor.fit) : null;
     const descriptorAssetScale=physicalAssetScale(descriptor.physicalFit);
     const revision = ++this.loadRevision;
-    const gltf = await this.loader.loadAsync(descriptor.url);
+    this.assetAbort?.abort();
+    const abort=new AbortController();this.assetAbort=abort;
+    let gltf;
+    try {
+      const response=await fetch(descriptor.url,{signal:abort.signal});
+      if(!response.ok)throw new Error(`Glasses asset request failed (${response.status}).`);
+      const bytes=await response.arrayBuffer();
+      const absolute=new URL(descriptor.url,document.baseURI);
+      const base=absolute.protocol==='blob:'||absolute.protocol==='data:'?'':new URL('.',absolute).href;
+      gltf=await this.loader.parseAsync(bytes,base);
+    } catch(error) {if(this.disposed||revision!==this.loadRevision)return;throw error;}
+    finally {if(this.assetAbort===abort)this.assetAbort=null;}
     if (this.disposed || revision !== this.loadRevision) { this.disposeObject(gltf.scene); return; }
     let nextFit:GlassesFit,nextAssetScale:number|null;
     try {
@@ -442,10 +454,13 @@ export class GlassesRenderer {
     return false;
   }
 
+  cancelPendingLoad():void {this.loadRevision++;this.assetAbort?.abort();this.assetAbort=null;}
+
   dispose(): void {
     if (this.disposed) return;
     this.disposed = true;
     this.loadRevision++;
+    this.assetAbort?.abort();this.assetAbort=null;
     this.hide();
     this.hairMask?.uninstall();this.optics?.restore();
     if (this.current) { this.scene.remove(this.current); this.disposeObject(this.current); this.current = null; }

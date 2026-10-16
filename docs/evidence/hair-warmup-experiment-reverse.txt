@@ -1,0 +1,26 @@
+### Result
+{"pass":true,"reverse":true,"results":[{"pass":true,"width":256,"height":256,"startup":{"creationMs":1475,"warmupMs":4969.099999999977},"samples":[{"wallMs":52.300000000046566,"inferenceMs":52.20000000006985,"width":640,"height":360},{"wallMs":19.20000000006985,"inferenceMs":19.20000000006985,"width":640,"height":360},{"wallMs":18.599999999976717,"inferenceMs":18.599999999976717,"width":640,"height":360}]},{"pass":true,"width":640,"height":360,"startup":{"creationMs":190.40000000002328,"warmupMs":445.70000000006985},"samples":[{"wallMs":57.90000000002328,"inferenceMs":57.800000000046566,"width":640,"height":360},{"wallMs":25.400000000023283,"inferenceMs":25.400000000023283,"width":640,"height":360},{"wallMs":26.099999999976717,"inferenceMs":26.099999999976717,"width":640,"height":360}]},{"pass":true,"width":640,"height":360,"startup":{"creationMs":243.40000000002328,"warmupMs":406.30000000004657},"samples":[{"wallMs":61.40000000002328,"inferenceMs":61.40000000002328,"width":640,"height":360},{"wallMs":26.199999999953434,"inferenceMs":26.199999999953434,"width":640,"height":360},{"wallMs":28.900000000023283,"inferenceMs":28.900000000023283,"width":640,"height":360}]},{"pass":true,"width":256,"height":256,"startup":{"creationMs":248.20000000006985,"warmupMs":416.80000000004657},"samples":[{"wallMs":53.300000000046566,"inferenceMs":53.10000000009313,"width":640,"height":360},{"wallMs":25.70000000006985,"inferenceMs":25.70000000006985,"width":640,"height":360},{"wallMs":21.099999999976717,"inferenceMs":21,"width":640,"height":360}]}],"scope":"Source-level HairTracker experiment; ABBA warmup order, reversed via ?reverse, with three 640x360 synthetic blank inferences each. Retained browser HTTP/GPU caches within each browser, uncontrolled network and shared driver caches, GPU requested with existing CPU fallback. No face/camera, appearance acceptance or production change. Wall timings include mask copy, not GPU completion."}
+### Ran Playwright code
+```js
+await (async page=>{
+  const results=[];
+  const reverse=new URL(page.url()).searchParams.has('reverse');
+  for(const [width,height] of reverse?[[256,256],[640,360],[640,360],[256,256]]:[[640,360],[256,256],[256,256],[640,360]]){
+    results.push(await page.evaluate(({width,height})=>new Promise(resolve=>{
+      const worker=new Worker('/@fs/C:/Projects/VTO/.benchmarks/hair-warmup/worker.js');
+      const finish=value=>{clearTimeout(timer);worker.terminate();resolve(value);};
+      const timer=setTimeout(()=>finish({pass:false,width,height,error:'Experiment deadline'}),45000);
+      worker.onmessage=e=>finish(e.data);worker.onerror=e=>finish({pass:false,width,height,error:e.message});
+      worker.postMessage({width,height});
+    }),{width,height}));
+  }
+  return {pass:results.every(r=>r.pass&&r.samples.length===3&&r.samples.every(s=>s.width===640&&s.height===360&&Number.isFinite(s.inferenceMs))),reverse,results,scope:'Source-level HairTracker experiment; ABBA warmup order, reversed via ?reverse, with three 640x360 synthetic blank inferences each. Retained browser HTTP/GPU caches within each browser, uncontrolled network and shared driver caches, GPU requested with existing CPU fallback. No face/camera, appearance acceptance or production change. Wall timings include mask copy, not GPU completion.'};
+}
+)(page);
+```
+### Page
+- Page URL: http://localhost:5173/?reverse
+- Page Title: Virtual Try-On · Vanilla SDK Example
+- Console: 0 errors, 8 warnings
+### Events
+- New console entries: .playwright-cli\console-2026-10-15T06-30-37-622Z.log#L1-L28

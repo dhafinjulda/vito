@@ -1,0 +1,20 @@
+{
+  "scope": "Bundled demonstration GLBs only; no supplier qualification",
+  "assets": [
+    {
+      "path": "examples/vanilla/public/glasses-alt.glb",
+      "bytes": 274468,
+      "sha256": "b9b3ed8cc0a7db73182ef266f23d6b71e0b8ed97bc8b220a3039315adbe3de25"
+    },
+    {
+      "path": "examples/vanilla/public/glasses.glb",
+      "bytes": 256740,
+      "sha256": "c7b167a928186414dbe555da86995880abdf58d8ae8d394fcb9aec469626c12c"
+    },
+    {
+      "path": "examples/vanilla/public/round-spectacles.glb",
+      "bytes": 3292684,
+      "sha256": "50838ff11a90973b3016d599a21df7b3806127f924c64b5016dccc2ce0402977"
+    }
+  ]
+}

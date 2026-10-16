@@ -1,0 +1,57 @@
+name: Publish npm packages
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: npm-${{ github.event.release.tag_name }}
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    if: startsWith(github.event.release.tag_name, 'vito-sdk-v') || startsWith(github.event.release.tag_name, 'vito-asset-generator-v')
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.release.tag_name }}
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.11.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          registry-url: https://registry.npmjs.org
+          cache: pnpm
+      - name: Install trusted-publishing compatible npm
+        run: npm install --global npm@11
+      - name: Validate release identity and unused npm version
+        id: release
+        env:
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+        run: node scripts/npm-release-plan.mjs "$RELEASE_TAG" --check-registry
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm build
+      - run: pnpm typecheck
+      - run: pnpm test
+      - name: Pack the validated build
+        working-directory: ${{ steps.release.outputs.directory }}
+        run: npm pack --ignore-scripts --pack-destination "$RUNNER_TEMP"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.release.outputs.name }}-${{ steps.release.outputs.version }}
+          path: ${{ runner.temp }}/${{ steps.release.outputs.tarball }}
+          if-no-files-found: error
+      - name: Publish using npm trusted publishing
+        working-directory: ${{ steps.release.outputs.directory }}
+        env:
+          TARBALL: ${{ steps.release.outputs.tarball }}
+        run: npm publish "$RUNNER_TEMP/$TARBALL" --access public --provenance --ignore-scripts

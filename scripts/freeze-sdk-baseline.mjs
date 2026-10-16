@@ -29,7 +29,9 @@ await inspect(resolve(sdk,'src'));
 await inspect(resolve(sdk,'dist/assets'));
 let exists=false;try {await access(resolve(destination,'vto-sdk.js'));exists=true;}catch{}
 if(!exists){await mkdir(destination,{recursive:true});await cp(resolve(sdk,'dist'),destination,{recursive:true,errorOnExist:true,force:false});}
-const manifest={recordedDate:'2026-10-13',label:process.argv[2]??'baseline',entrySha256:sha(entry),sdkModulePath:relative(root,resolve(destination,'vto-sdk.js')).replaceAll('\\','/'),files,
+const label=process.argv[2]??'baseline';
+if(!/^[a-z0-9-]+$/.test(label))throw new Error('Baseline label must contain lowercase letters, digits or hyphens');
+const manifest={recordedDate:new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Jakarta',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date()),label,entrySha256:sha(entry),sdkModulePath:relative(root,resolve(destination,'vto-sdk.js')).replaceAll('\\','/'),files,
   scope:'Source hashes at snapshot time and built entry/worker hashes. Source/build parity requires an immediately preceding successful build; this script does not establish it. No camera/person data. Frozen dist is local and ignored.',
   package:JSON.parse(await readFile(resolve(sdk,'package.json'),'utf8'))};
 await writeFile(resolve(destination,'baseline-manifest.json'),JSON.stringify(manifest,null,2)+'\n');

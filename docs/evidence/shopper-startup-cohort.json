@@ -1,0 +1,295 @@
+{
+  "pass": true,
+  "summaries": [
+    {
+      "group": "cold-runtime",
+      "attempts": 3,
+      "failures": 0,
+      "successfulSamples": 3,
+      "p50Ms": 1914.2999999998137,
+      "p95Ms": 7042.4000000003725
+    },
+    {
+      "group": "warm-runtime",
+      "attempts": 5,
+      "failures": 0,
+      "successfulSamples": 5,
+      "p50Ms": 1262.2000000001863,
+      "p95Ms": 1317.7999999998137
+    },
+    {
+      "group": "default-policy",
+      "attempts": 1,
+      "failures": 0,
+      "successfulSamples": 1,
+      "p50Ms": 12319.100000000559,
+      "p95Ms": 12319.100000000559
+    }
+  ],
+  "results": [
+    {
+      "mode": "cold-runtime-0",
+      "constructorToTrackerMs": 7042.4000000003725,
+      "startup": {
+        "cameraPendingMs": 3.2000000001862645,
+        "assetWaitMs": 0.09999999962747097,
+        "trackerReadyMs": 6977.100000000559,
+        "firstFitSubmissionMs": null
+      },
+      "workerStartup": {
+        "filesetMs": 3.2999999998137355,
+        "resourcePreparationMs": 1002.2999999998137,
+        "faceCreationMs": 644.6000000005588,
+        "faceWarmupMs": 5181.0999999996275,
+        "optionalWarmupMs": 0.09999999962747097
+      },
+      "delegate": "GPU",
+      "hairTracking": "disabled",
+      "cameraCompositing": "disabled",
+      "results": 29,
+      "restarts": 0,
+      "errors": [],
+      "calls": 1,
+      "workerUrls": [
+        "http://localhost:5173/@fs/C:/Projects/VTO/packages/sdk/dist/assets/face-worker-BbvdxtH-.js"
+      ],
+      "cleaned": true,
+      "pass": true
+    },
+    {
+      "mode": "cold-runtime-1",
+      "constructorToTrackerMs": 1700.7999999998137,
+      "startup": {
+        "cameraPendingMs": 0.2999999998137355,
+        "assetWaitMs": 0,
+        "trackerReadyMs": 1632.5,
+        "firstFitSubmissionMs": null
+      },
+      "workerStartup": {
+        "filesetMs": 0.599999999627471,
+        "resourcePreparationMs": 869.7000000001863,
+        "faceCreationMs": 238.5,
+        "faceWarmupMs": 460.79999999981374,
+        "optionalWarmupMs": 0.20000000018626451
+      },
+      "delegate": "GPU",
+      "hairTracking": "disabled",
+      "cameraCompositing": "disabled",
+      "results": 29,
+      "restarts": 0,
+      "errors": [],
+      "calls": 1,
+      "workerUrls": [
+        "http://localhost:5173/@fs/C:/Projects/VTO/packages/sdk/dist/assets/face-worker-BbvdxtH-.js"
+      ],
+      "cleaned": true,
+      "pass": true
+    },
+    {
+      "mode": "cold-runtime-2",
+      "constructorToTrackerMs": 1914.2999999998137,
+      "startup": {
+        "cameraPendingMs": 0.40000000037252903,
+        "assetWaitMs": 0,
+        "trackerReadyMs": 1842.0999999996275,
+        "firstFitSubmissionMs": null
+      },
+      "workerStartup": {
+        "filesetMs": 0.599999999627471,
+        "resourcePreparationMs": 1058.0999999996275,
+        "faceCreationMs": 249.70000000018626,
+        "faceWarmupMs": 470,
+        "optionalWarmupMs": 0.10000000055879354
+      },
+      "delegate": "GPU",
+      "hairTracking": "disabled",
+      "cameraCompositing": "disabled",
+      "results": 13,
+      "restarts": 0,
+      "errors": [],
+      "calls": 1,
+      "workerUrls": [
+        "http://localhost:5173/@fs/C:/Projects/VTO/packages/sdk/dist/assets/face-worker-BbvdxtH-.js"
+      ],
+      "cleaned": true,
+      "pass": true
+    },
+    {
+      "mode": "warm-runtime-0",
+      "constructorToTrackerMs": 925.7999999998137,
+      "startup": {
+        "cameraPendingMs": 0.19999999925494194,
+        "assetWaitMs": 0.09999999962747097,
+        "trackerReadyMs": 857.2000000001863,
+        "firstFitSubmissionMs": null
+      },
+      "workerStartup": {
+        "filesetMs": 0.6999999992549419,
+        "resourcePreparationMs": 8,
+        "faceCreationMs": 261.5,
+        "faceWarmupMs": 515.2000000001863,
+        "optionalWarmupMs": 0.10000000055879354
+      },
+      "delegate": "GPU",
+      "hairTracking": "disabled",
+      "cameraCompositing": "disabled",
+      "results": 27,
+      "restarts": 0,
+      "errors": [],
+      "calls": 1,
+      "workerUrls": [
+        "http://localhost:5173/@fs/C:/Projects/VTO/packages/sdk/dist/assets/face-worker-BbvdxtH-.js"
+      ],
+      "cleaned": true,
+      "pass": true
+    },
+    {
+      "mode": "warm-runtime-1",
+      "constructorToTrackerMs": 818.5999999996275,
+      "startup": {
+        "cameraPendingMs": 0.19999999925494194,
+        "assetWaitMs": 0,
+        "trackerReadyMs": 753.5,
+        "firstFitSubmissionMs": null
+      },
+      "workerStartup": {
+        "filesetMs": 0.6999999992549419,
+        "resourcePreparationMs": 7.1000000005587935,
+        "faceCreationMs": 228.59999999962747,
+        "faceWarmupMs": 466.20000000018626,
+        "optionalWarmupMs": 0
+      },
+      "delegate": "GPU",
+      "hairTracking": "disabled",
+      "cameraCompositing": "disabled",
+      "results": 13,
+      "restarts": 0,
+      "errors": [],
+      "calls": 1,
+      "workerUrls": [
+        "http://localhost:5173/@fs/C:/Projects/VTO/packages/sdk/dist/assets/face-worker-BbvdxtH-.js"
+      ],
+      "cleaned": true,
+      "pass": true
+    },
+    {
+      "mode": "warm-runtime-2",
+      "constructorToTrackerMs": 1293.2000000001863,
+      "startup": {
+        "cameraPendingMs": 0.39999999944120646,
+        "assetWaitMs": 0.10000000055879354,
+        "trackerReadyMs": 1184.2000000001863,
+        "firstFitSubmissionMs": null
+      },
+      "workerStartup": {
+        "filesetMs": 1.099999999627471,
+        "resourcePreparationMs": 14.400000000372529,
+        "faceCreationMs": 338.8999999994412,
+        "faceWarmupMs": 708.7999999998137,
+        "optionalWarmupMs": 0.09999999962747097
+      },
+      "delegate": "GPU",
+      "hairTracking": "disabled",
+      "cameraCompositing": "disabled",
+      "results": 22,
+      "restarts": 0,
+      "errors": [],
+      "calls": 1,
+      "workerUrls": [
+        "http://localhost:5173/@fs/C:/Projects/VTO/packages/sdk/dist/assets/face-worker-BbvdxtH-.js"
+      ],
+      "cleaned": true,
+      "pass": true
+    },
+    {
+      "mode": "warm-runtime-3",
+      "constructorToTrackerMs": 1262.2000000001863,
+      "startup": {
+        "cameraPendingMs": 0.2999999998137355,
+        "assetWaitMs": 0.09999999962747097,
+        "trackerReadyMs": 1169.2000000001863,
+        "firstFitSubmissionMs": null
+      },
+      "workerStartup": {
+        "filesetMs": 0.7999999998137355,
+        "resourcePreparationMs": 8.799999999813735,
+        "faceCreationMs": 334.29999999981374,
+        "faceWarmupMs": 734.4000000003725,
+        "optionalWarmupMs": 0
+      },
+      "delegate": "GPU",
+      "hairTracking": "disabled",
+      "cameraCompositing": "disabled",
+      "results": 21,
+      "restarts": 0,
+      "errors": [],
+      "calls": 1,
+      "workerUrls": [
+        "http://localhost:5173/@fs/C:/Projects/VTO/packages/sdk/dist/assets/face-worker-BbvdxtH-.js"
+      ],
+      "cleaned": true,
+      "pass": true
+    },
+    {
+      "mode": "warm-runtime-4",
+      "constructorToTrackerMs": 1317.7999999998137,
+      "startup": {
+        "cameraPendingMs": 0.39999999944120646,
+        "assetWaitMs": 0,
+        "trackerReadyMs": 1205.0999999996275,
+        "firstFitSubmissionMs": null
+      },
+      "workerStartup": {
+        "filesetMs": 0.8000000007450581,
+        "resourcePreparationMs": 10.899999999441206,
+        "faceCreationMs": 349.79999999981374,
+        "faceWarmupMs": 730.5,
+        "optionalWarmupMs": 0.10000000055879354
+      },
+      "delegate": "GPU",
+      "hairTracking": "disabled",
+      "cameraCompositing": "disabled",
+      "results": 10,
+      "restarts": 0,
+      "errors": [],
+      "calls": 1,
+      "workerUrls": [
+        "http://localhost:5173/@fs/C:/Projects/VTO/packages/sdk/dist/assets/face-worker-BbvdxtH-.js"
+      ],
+      "cleaned": true,
+      "pass": true
+    },
+    {
+      "mode": "default-policy",
+      "constructorToTrackerMs": 12319.100000000559,
+      "startup": {
+        "cameraPendingMs": 0.30000000074505806,
+        "assetWaitMs": 0.09999999962747097,
+        "trackerReadyMs": 12214.799999999814,
+        "firstFitSubmissionMs": null
+      },
+      "workerStartup": {
+        "filesetMs": 0.8000000007450581,
+        "resourcePreparationMs": 10.399999999441206,
+        "faceCreationMs": 441.79999999981374,
+        "faceWarmupMs": 896.3000000007451,
+        "optionalWarmupMs": 10702
+      },
+      "delegate": "GPU",
+      "hairTracking": "ready",
+      "cameraCompositing": "active",
+      "results": 23,
+      "restarts": 0,
+      "errors": [],
+      "calls": 1,
+      "workerUrls": [
+        "http://localhost:5173/@fs/C:/Projects/VTO/packages/sdk/dist/assets/face-worker-BbvdxtH-.js"
+      ],
+      "cleaned": true,
+      "pass": true
+    }
+  ],
+  "scope": "Actual MediaPipe worker with blank synthetic video; cold/warm groups are face-only, final run resolves public default policy with hands off. Cohort mode uses three cleared-cache and five retained-cache attempts; small-sample successful-attempt quantiles describe these attempts only, with failures reported separately. Dedicated browser HTTP cache and pinned CacheStorage cleared before each cold attempt, retained for warm/default attempts. GPU/driver/shader caches and remote network conditions are not reset or controlled. Imported SDK module is already loaded; constructor-to-ready includes GLB work. No recognition/first usable fit/device/p95 acceptance. No physical camera or person data.",
+  "sdkCandidate": "e18a506cf45d",
+  "scopeNote": "Scope wording clarified after run; raw CLI log retains original wording. Execution code and samples unchanged."
+}

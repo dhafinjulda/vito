@@ -1,0 +1,47 @@
+
+> vito-sdk@0.1.1 test C:\Projects\VTO\packages\sdk
+> vitest run
+
+
+ RUN  v3.1.4 C:/Projects/VTO/packages/sdk
+
+ ✓ test/pose-presentation.test.ts (22 tests) 54ms
+ ✓ test/asset-readiness.test.ts (9 tests) 25ms
+ ✓ test/hand-identity.test.ts (10 tests) 28ms
+ ✓ test/runtime-assets.test.ts (5 tests) 39ms
+ ✓ test/temple-effects.test.ts (6 tests) 25ms
+ ✓ test/hand-grip.test.ts (10 tests) 33ms
+ ✓ test/two-hand-interaction.test.ts (15 tests) 69ms
+ ✓ test/premium-rendering.test.ts (4 tests) 55ms
+ ✓ test/interaction.test.ts (11 tests) 58ms
+ ✓ test/tracking-refinement.test.ts (11 tests) 91ms
+ ✓ test/fitting.test.ts (18 tests) 123ms
+ ✓ test/worker-hands.test.ts (13 tests) 861ms
+   ✓ optional hands in the shared face worker > does not initialize a hand task in the default path and closes each shared bitmap once  315ms
+ ✓ test/hand-occluder.test.ts (16 tests) 119ms
+ ✓ test/asset-metadata.test.ts (31 tests) 173ms
+ ✓ test/hand-cadence.test.ts (7 tests) 23ms
+ ✓ test/hair-tracker.test.ts (4 tests) 34ms
+ ✓ test/calibration.test.ts (4 tests) 34ms
+ ✓ test/ambient-estimator.test.ts (3 tests) 24ms
+ ✓ test/quality-governor.test.ts (4 tests) 14ms
+ ✓ test/pose.test.ts (3 tests) 14ms
+ ✓ test/source-geometry.test.ts (3 tests) 15ms
+ ✓ test/feature-policy.test.ts (3 tests) 21ms
+ ✓ test/frame-clock.test.ts (2 tests) 10ms
+ ✓ test/startup-metrics.test.ts (3 tests) 12ms
+ ✓ test/runtime-metrics.test.ts (4 tests) 24ms
+ ✓ test/resource-wait.test.ts (2 tests) 29ms
+ ✓ test/coordinates.test.ts (2 tests) 10ms
+ ✓ test/tracker-worker-owner.test.ts (2 tests) 16ms
+ ✓ test/tracker-startup.test.ts (4 tests) 36ms
+ ✓ test/head-occlusion.test.ts (6 tests) 2043ms
+   ✓ rear temple occlusion > covers the full hook surface at yaw -84 / pitch 0 / roll 0  534ms
+   ✓ rear temple occlusion > covers the full hook surface at yaw 84 / pitch 0 / roll 0  349ms
+   ✓ rear temple occlusion > covers the full hook surface at yaw -84 / pitch -20 / roll -15  374ms
+ ✓ test/session.test.ts (51 tests) 887ms
+
+ Test Files  31 passed (31)
+      Tests  288 passed (288)
+   Start at  14:10:51
+   Duration  7.47s (transform 9.90s, setup 0ms, collect 21.10s, tests 5.00s, environment 3.81s, prepare 20.45s)

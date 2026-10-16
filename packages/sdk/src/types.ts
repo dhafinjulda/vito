@@ -10,6 +10,35 @@ export type SessionStatus = 'idle' | 'requesting-camera' | 'loading-tracker' | '
 export type GlassesPlacement = 'face' | 'head';
 export type RuntimeTimingName='captureDraw'|'bitmap'|'faceInference'|'handInference'|'hairInference'|'fit'|'renderSubmission'|'captureToSubmission'|'resultAge'|'renderInterval';
 export interface TimingDistribution {samples:number;meanMs:number|null;p50Ms:number|null;p95Ms:number|null}
+/** Local software durations for one start attempt. Null means not reached.
+ * These are not GPU completion, physical display latency or fit accuracy. */
+export interface StartupPerformance {
+  /** getUserMedia request to acquisition; includes permission and hardware wait. */
+  cameraPendingMs:number|null;
+  /** Time spent awaiting the latest asset after video playback, not total download/parse. */
+  assetWaitMs:number|null;
+  /** start() entry to initial worker readiness, including camera waiting. */
+  trackerReadyMs:number|null;
+  /** start() entry to first successful CPU render submission with a fresh visible fit. */
+  firstFitSubmissionMs:number|null;
+}
+export interface WorkerStartupPerformance {
+  /** Resolve pinned WASM file locations/capabilities. */
+  filesetMs:number;
+  /** Cache lookup/download/model-byte preparation when runtime caching is enabled. */
+  resourcePreparationMs:number;
+  /** Native creation plus WASM/model downloads not prepared by the cache path. */
+  faceCreationMs:number;
+  /** Blank first inference; includes native compilation, not isolated GPU time. */
+  faceWarmupMs:number;
+  /** Combined optional model preparation/creation/warmup. */
+  optionalWarmupMs:number;
+  /** Hair creation includes model download and delegate fallback; null if unreached. */
+  hairCreationMs?:number|null;
+  /** Blank hair inference including first-use compilation; null if unreached. */
+  hairWarmupMs?:number|null;
+}
+export type ReadinessStage='idle'|'requesting-camera'|'loading-asset'|'loading-runtime'|'initializing-tracker'|'warming-tracker'|'prepared'|'ready'|'cancelled'|'error';
 /** Software timing/count aggregates only; GPU execution and physical sensor/display latency are not measured. */
 export interface RuntimePerformance {
   windowMs:number;
@@ -32,6 +61,12 @@ export interface TrackingHealth {
   pixelRatio?: number;
   /** Start-to-tracker-ready including camera permission, playback and model loading. */
   startupMs?: number;
+  /** Opt-in timing snapshot, reset on stop/dispose; contains no face measurements. */
+  startup?:StartupPerformance;
+  /** Worker-clock phases; creation includes native WASM/graph setup. */
+  workerStartup?:WorkerStartupPerformance;
+  /** Explicit pre-start work, separate from start timing; reset on stop/dispose. */
+  preparation?:{durationMs:number;reused:boolean;activationWarmupMs?:number};
   /** Optional hand graph download/initialization/warmup in the worker clock. */
   handStartupMs?:number;
   hairTracking?:'disabled'|'loading'|'ready'|'unavailable';
@@ -96,6 +131,11 @@ export interface VirtualTryOnOptions {
   modelAssetPath?: string;
   /** Cache only the SDK's pinned MediaPipe model/WASM assets in CacheStorage for warm offline starts. Defaults to false. */
   cacheRuntimeAssets?: boolean;
+  /** Resource wait deadline in ms, 100..120000. Camera permission has no deadline.
+   * Default asset wait 20000; tracker wait 20000 or 40000 with optional graphs. */
+  resourceTimeoutMs?:number;
+  /** Local startup stage transitions; indeterminate, no invented percentages. */
+  onReadinessChange?:(stage:ReadinessStage)=>void;
   /** Mirror the preview for a front-facing camera. Defaults to true. */
   mirror?: boolean;
   fit?: Partial<GlassesFit>;
@@ -140,6 +180,8 @@ export interface VirtualTryOn {
   readonly video: HTMLVideoElement;
   readonly canvas: HTMLCanvasElement;
   readonly status: SessionStatus;
+  /** Explicitly downloads/warms assets and trackers without camera access. Stop/dispose releases preparation. */
+  prepare(): Promise<void>;
   /** Requests camera permission and starts local face tracking. Must follow a user gesture. */
   start(): Promise<void>;
   /** Stops camera tracks and frame processing; safe to call more than once. */

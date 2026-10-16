@@ -1,0 +1,25 @@
+{
+  "pass": true,
+  "responsive": true,
+  "latest": true,
+  "retained": true,
+  "keyboard": true,
+  "recreated": true,
+  "stable": true,
+  "cameraCalls": 0,
+  "views": [
+    {
+      "width": 1360,
+      "overflow": false,
+      "advancedCollapsed": true,
+      "collectionFirst": true
+    },
+    {
+      "width": 390,
+      "overflow": false,
+      "advancedCollapsed": true,
+      "collectionFirst": true
+    }
+  ],
+  "scope": "Reference integration with real GLBs and deliberately blocked/failed swaps, keyboard focus and desktop/mobile viewports. No camera or recognition, no person data. Selection/description state only; no physical visual-fit or screen-reader acceptance."
+}

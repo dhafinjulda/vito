@@ -29,6 +29,43 @@ The package is ESM and includes TypeScript declarations and the tracking worker.
 
 ## Quick start
 
+Opt-in `onTrackingHealthChange` also receives `health.startup`: camera API waiting,
+post-playback asset waiting, initial tracker readiness, and first fresh fitted CPU
+render submission, in milliseconds. Unreached stages are `null`; stop/dispose clear
+the snapshot. Camera waiting includes permission and hardware acquisition. Asset
+waiting excludes any constructor loading already completed. These software timings
+do not measure GPU completion, physical display latency or visual fit quality.
+Keep diagnostics transient and local; do not persist camera or face-derived data.
+
+`health.workerStartup` separates worker-clock WASM file resolution, runtime cache
+preparation, native face creation, blank first-inference warmup, and combined
+optional graph preparation. With caching off or custom URLs, creation may include
+model/WASM downloads; warmup includes native compilation. These durations are
+not isolated GPU timings and are never added to main-thread timestamps.
+
+`onReadinessChange(stage)` provides local, indeterminate startup transitions:
+`requesting-camera`, `loading-asset`, `loading-runtime`, `initializing-tracker`,
+`warming-tracker`, `ready`, `cancelled`, and `error`. `ready` means the tracker is
+prepared, not that a face or fitted frame has been found. Hosts own translated
+copy; the Vanilla example demonstrates cancellation and retry.
+
+`resourceTimeoutMs` accepts 100–120000 ms. Defaults are 20000 ms for a GLB load
+and 20000 ms for tracker startup (40000 ms with optional graphs). It does not time
+out an unanswered camera permission request. Timed-out or superseded GLB fetches
+are aborted; parsed scenes arriving after invalidation are disposed without
+installation. GLB-embedded resources are recommended: parsing may fetch referenced
+textures separately, whose loader does not expose abort support. Those scenes
+still cannot install after cancellation. Keep caller-owned blob URLs valid until
+loading finishes and revoke them after releasing the asset.
+
+Import `ResourceTimeoutError` to inspect typed `stage`, `code` (`asset-timeout` or
+`tracker-timeout`) and `retryable`. On asset failure, choose/reload with
+`await tryOn.setGlasses(asset)` before `await tryOn.start()`, or dispose/recreate
+the instance; retrying a failed descriptor requires an explicit reload. A failed
+replacement preserves the current valid model. `stop()` cancels startup waiting
+and camera processing; an independent GLB authoring load retains its own bounded
+lifetime. `dispose()` aborts its owned fetch and invalidates pending installation.
+
 Give the camera host an explicit size. Serve a compatible glasses GLB at `/assets/glasses.glb` (see [Assets and fitting](#assets-and-fitting)); the SDK does not bundle a retail glasses catalog.
 
 ```html
@@ -226,3 +263,81 @@ Original Vito code is licensed under **[CPAL-1.0](https://github.com/dhafinjulda
 The SDK shows a small **vito** wordmark at the bottom-right of the camera host while the camera is active. No branding-disable option is provided. The mark is a local DOM element and makes no branding network request.
 
 Third-party code/models retain their licenses. Notices and bundled license texts are included in `dist/THIRD_PARTY_NOTICES.md` and `dist/licenses/`; see the [project notices](https://github.com/dhafinjulda/vito/blob/main/THIRD_PARTY_NOTICES.md).
+
+### Hair startup phase diagnostics
+
+`TrackingHealth.workerStartup` optionally includes `hairCreationMs` (native creation, including model download and delegate fallback) and `hairWarmupMs` (first blank inference, including compilation). Fields are present when optional hair prewarming is requested; null means that phase was not reached/completed. They overlap the aggregate `optionalWarmupMs` and must not be added to it. These local software durations do not measure GPU completion or recognized-face readiness and retain no image or mask data.
+
+### Explicit camera-free preparation
+
+`await session.prepare()` downloads/waits for the selected GLB and initializes and
+warms one local tracker worker using blank scratch images. It never requests the
+camera. Call it deliberately when a shopper expresses try-on intent: it consumes
+network, GPU work and memory. Construction does not invoke it automatically.
+
+```ts
+// Optional preparation: display loading feedback and handle rejection.
+await session.prepare();
+// Later, from the shopper's Start button:
+await session.start();
+// On close/page teardown:
+session.dispose();
+```
+
+Repeated preparation calls share the in-flight promise. Concurrent explicit
+`start()` requests media immediately, then shares pending preparation. A valid
+prepared worker is reused without sending init again. Normal `start()` still works
+without preparation. `prepare()` during startup shares that start promise; during
+an active session it is a no-op. The camera is always acquired only by `start()`,
+with audio disabled. Permission waiting remains untimed.
+
+`onReadinessChange('prepared')` means camera-free warmup finished, not a visible
+fit. Session status stays `idle` while prepared. `stop()`, page hide and `dispose()`
+release prepared workers and cancel pending preparation; cancellation rejects the
+preparation promise. Handle that rejection when closing a preparing view. Replacing
+the asset invalidates reuse; an asset change during preparation rejects that
+attempt. Retry with `prepare()` or explicit `start()` after correcting a failure.
+Normal start can retry failed preparation and retains its bounded optional-feature
+fallback. Failed/disposed instances never retain a usable prepared worker.
+
+If optional startup fails after face readiness, preparation releases that worker
+and makes one bounded face-only CPU attempt with hands/hair suppressed. Start
+reuses this fallback and reports `featureFallback: 'optional-startup'` plus the
+restart count. Successful fallback does not emit `onError`; a failed face-only
+attempt rejects once. Cancellation and protocol mismatch do not trigger this
+fallback. Models and camera-derived data are not uploaded by recovery.
+
+Opt-in health reports `preparation: {durationMs, reused: true}` when start adopts
+preparation, separately from start-to-ready/fit metrics. Count both the earlier
+preparation and start when assessing total latency. Initial blank warmup uses
+640×360 without camera geometry. If Start finds a different normalized input shape,
+the same worker warms face and enabled optional graphs at that shape before live
+frame dispatch. This bounded activation step is included in start-to-ready and
+reported separately as `preparation.activationWarmupMs`; it uses no camera pixels.
+Physical portrait appearance and first actual hair-mask cost still need device
+qualification. Preparation moves compilation earlier and does
+not guarantee a reduction in total work or recognized-fit time. No frames, masks
+or face outputs are persisted or uploaded by this API.
+
+### Camera error recovery
+
+`start()` rejects with `CameraAccessError` when media acquisition fails. The same
+error reaches `onError` once. It extends `Error` and provides `stage: 'camera'`,
+typed `code` and `retryable`. Native name/message are preserved; `cause` holds the
+original rejection. Existing native-name checks still work, but identity checks
+against the original browser error must use `error.cause`.
+
+| Code | Meaning and next action |
+|---|---|
+| `camera-access-blocked` | Permission or browser/security policy blocked acquisition. Check site permissions and embedding policy; this does not prove the shopper denied a prompt. |
+| `camera-not-found` | No matching camera found. Connect/enable a camera and retry explicitly. |
+| `camera-unreadable` | Browser could not read the camera. Check hardware/system access and other applications; another app is not a proven cause. |
+| `camera-unsupported` | Media acquisition API unavailable in this context. Use HTTPS/localhost and a supported browser. |
+| `camera-unavailable` | Other acquisition failure; inspect native cause and offer explicit retry or a static catalog. |
+
+`retryable` means another explicit start may succeed after the issue is corrected,
+not that the SDK retries permission automatically. Unsupported acquisition reports
+false because the context must change. Unanswered camera prompts remain untimed;
+`prepare()` never requests media. Asset, playback and worker failures do not get
+misclassified as camera acquisition failures. The reference integration supplies
+localized shopper instructions and keeps the static catalog available.

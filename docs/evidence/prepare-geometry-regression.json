@@ -1,0 +1,234 @@
+{
+  "pass": true,
+  "reports": [
+    {
+      "scenario": "fresh-glb",
+      "status": "tracking",
+      "acquisitions": 1,
+      "cleaned": true,
+      "errors": [],
+      "codes": [],
+      "stages": [
+        "requesting-camera",
+        "loading-asset",
+        "loading-runtime",
+        "ready",
+        "cancelled"
+      ],
+      "startup": {
+        "cameraPendingMs": 0.30000000074505806,
+        "assetWaitMs": 0,
+        "trackerReadyMs": 49,
+        "firstFitSubmissionMs": 1670.7999999998137
+      },
+      "timing": {
+        "wallMs": 1780,
+        "cameraPendingMs": 0.30000000074505806,
+        "softwareControlledMs": 1779.699999999255,
+        "assetReadyMs": 105.09999999962747,
+        "trackerReadyMs": 105.09999999962747,
+        "afterCameraMs": 1723.5,
+        "complete": true
+      },
+      "pass": true
+    },
+    {
+      "scenario": "repeat-glb",
+      "status": "tracking",
+      "acquisitions": 1,
+      "cleaned": true,
+      "errors": [],
+      "codes": [],
+      "stages": [
+        "requesting-camera",
+        "loading-asset",
+        "loading-runtime",
+        "ready",
+        "cancelled"
+      ],
+      "startup": {
+        "cameraPendingMs": 0.5,
+        "assetWaitMs": 0.10000000055879354,
+        "trackerReadyMs": 119.5,
+        "firstFitSubmissionMs": 397.29999999981374
+      },
+      "timing": {
+        "wallMs": 569.0999999996275,
+        "cameraPendingMs": 0.39999999944120646,
+        "softwareControlledMs": 568.7000000001863,
+        "assetReadyMs": 226.5,
+        "trackerReadyMs": 226.59999999962747,
+        "afterCameraMs": 461.5,
+        "complete": true
+      },
+      "pass": true
+    },
+    {
+      "scenario": "prepared-glb",
+      "status": "tracking",
+      "acquisitions": 1,
+      "cleaned": true,
+      "errors": [],
+      "codes": [],
+      "stages": [
+        "loading-asset",
+        "loading-runtime",
+        "prepared",
+        "requesting-camera",
+        "loading-asset",
+        "loading-runtime",
+        "ready",
+        "cancelled"
+      ],
+      "startup": {
+        "cameraPendingMs": 1.099999999627471,
+        "assetWaitMs": 0.09999999962747097,
+        "trackerReadyMs": 60,
+        "firstFitSubmissionMs": 318.79999999981374
+      },
+      "timing": {
+        "wallMs": 515.7999999998137,
+        "cameraPendingMs": 1,
+        "softwareControlledMs": 514.7999999998137,
+        "assetReadyMs": 230.29999999981374,
+        "trackerReadyMs": 230.40000000037253,
+        "afterCameraMs": 344.3999999994412,
+        "complete": true
+      },
+      "pass": true
+    },
+    {
+      "scenario": "generated-blob",
+      "status": "tracking",
+      "acquisitions": 1,
+      "cleaned": true,
+      "errors": [],
+      "codes": [],
+      "stages": [
+        "requesting-camera",
+        "loading-asset",
+        "loading-runtime",
+        "ready",
+        "cancelled"
+      ],
+      "startup": {
+        "cameraPendingMs": 0.5,
+        "assetWaitMs": 0,
+        "trackerReadyMs": 86.20000000018626,
+        "firstFitSubmissionMs": 236.70000000018626
+      },
+      "timing": {
+        "wallMs": 373.90000000037253,
+        "cameraPendingMs": 0.40000000037252903,
+        "softwareControlledMs": 373.5,
+        "assetReadyMs": 191.90000000037253,
+        "trackerReadyMs": 191.90000000037253,
+        "afterCameraMs": 267.90000000037253,
+        "complete": true
+      },
+      "pass": true
+    },
+    {
+      "scenario": "slow-cancel",
+      "status": "idle",
+      "acquisitions": 1,
+      "cleaned": true,
+      "errors": [],
+      "codes": [],
+      "stages": [
+        "requesting-camera",
+        "cancelled"
+      ],
+      "startup": {
+        "cameraPendingMs": null,
+        "assetWaitMs": null,
+        "trackerReadyMs": null,
+        "firstFitSubmissionMs": null
+      },
+      "timing": {
+        "wallMs": null,
+        "cameraPendingMs": 0.19999999925494194,
+        "softwareControlledMs": null,
+        "assetReadyMs": null,
+        "trackerReadyMs": null,
+        "afterCameraMs": null,
+        "complete": false
+      },
+      "pass": true
+    },
+    {
+      "scenario": "slow-timeout",
+      "status": "searching",
+      "acquisitions": 2,
+      "cleaned": true,
+      "errors": [
+        "Glasses asset loading timed out. Retry or choose another frame."
+      ],
+      "codes": [
+        "asset-timeout"
+      ],
+      "stages": [
+        "requesting-camera",
+        "loading-asset",
+        "error",
+        "requesting-camera",
+        "loading-asset",
+        "loading-runtime",
+        "ready",
+        "cancelled"
+      ],
+      "startup": {
+        "cameraPendingMs": 0.20000000018626451,
+        "assetWaitMs": 0,
+        "trackerReadyMs": 49.09999999962747,
+        "firstFitSubmissionMs": null
+      },
+      "timing": {
+        "wallMs": null,
+        "cameraPendingMs": 0.10000000055879354,
+        "softwareControlledMs": null,
+        "assetReadyMs": null,
+        "trackerReadyMs": null,
+        "afterCameraMs": null,
+        "complete": false
+      },
+      "pass": true
+    },
+    {
+      "scenario": "failed-glb",
+      "status": "error",
+      "acquisitions": 1,
+      "cleaned": true,
+      "errors": [
+        "Glasses asset request failed (404)."
+      ],
+      "codes": [
+        null
+      ],
+      "stages": [
+        "requesting-camera",
+        "loading-asset",
+        "error",
+        "cancelled"
+      ],
+      "startup": {
+        "cameraPendingMs": null,
+        "assetWaitMs": null,
+        "trackerReadyMs": null,
+        "firstFitSubmissionMs": null
+      },
+      "timing": {
+        "wallMs": null,
+        "cameraPendingMs": 0.30000000074505806,
+        "softwareControlledMs": null,
+        "assetReadyMs": null,
+        "trackerReadyMs": null,
+        "afterCameraMs": null,
+        "complete": false
+      },
+      "pass": true
+    }
+  ],
+  "scope": "Synthetic video/recognition; real GLB/GPU. Fresh/repeated GLB requests only, not cold/warm MediaPipe. Asset/tracker marks are public-start completion upper bounds; first usable is GPU-observed synthetic eyewear. No camera requested or personal data.",
+  "sdkCandidate": "96bd701bde40"
+}
